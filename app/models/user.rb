@@ -1,0 +1,21 @@
+class User < ApplicationRecord
+  belongs_to :tenant
+
+  has_many :submitted_requests,
+           class_name: "Request",
+           foreign_key: :requester_id,
+           dependent: :destroy
+
+  has_many :approved_requests,
+           class_name: "Approval",
+           foreign_key: :approver_id
+
+  has_secure_password
+
+  ROLES = %w[admin approver user].freeze
+
+  validates :email, presence: true, uniqueness: true
+  validates :name, presence: true
+  validates :role, inclusion: { in: ROLES }
+  validates :grade, inclusion: { in: [ 1, 2, 3 ] }
+end
