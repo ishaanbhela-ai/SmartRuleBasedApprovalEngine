@@ -7,9 +7,13 @@ Rails.application.routes.draw do
     namespace :v1 do
       post "login", to: "auth#login"
       resources :users, only: [ :create, :index, :destroy ]
-      resources :request_types, only: [ :create, :index ]
-      resources :rules, only: [ :create, :index ]
-      resources :requests, only: [ :create, :index, :show ]
+      resources :request_types, only: [ :create, :index, :destroy ]
+      resources :rules, only: [ :create, :index, :destroy ]
+      resources :requests, only: [ :create, :index, :show ] do
+        collection do
+          get :balance
+        end
+      end
 
       namespace :approver do
         resources :requests, only: [ :index, :update ]

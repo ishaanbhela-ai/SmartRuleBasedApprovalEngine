@@ -1,10 +1,10 @@
 class User < ApplicationRecord
+  include SoftDeletable
   belongs_to :tenant
 
   has_many :submitted_requests,
            class_name: "Request",
-           foreign_key: :requester_id,
-           dependent: :destroy
+           foreign_key: :requester_id
 
   has_many :approved_requests,
            class_name: "Approval",

@@ -43,6 +43,15 @@ module Api
                  status: :unprocessable_entity
         end
       end
+
+      def destroy
+        request_type = current_user.tenant.request_types.find(params[:id])
+        authorize! :destroy, request_type
+
+        request_type.destroy
+
+        render json: { message: "Request type deleted successfully" }
+      end
     end
   end
 end

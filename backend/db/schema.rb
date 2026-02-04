@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_02_083944) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_04_065114) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,9 +32,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_083944) do
   create_table "request_types", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "approver_id", null: false
     t.datetime "created_at", null: false
+    t.datetime "deleted_at"
     t.string "name", null: false
     t.uuid "tenant_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_request_types_on_deleted_at"
     t.index ["tenant_id", "name"], name: "index_request_types_on_tenant_id_and_name", unique: true
     t.index ["tenant_id"], name: "index_request_types_on_tenant_id"
   end
@@ -54,11 +56,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_083944) do
   create_table "rules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "definition", null: false
+    t.datetime "deleted_at"
     t.integer "grade", null: false
-    t.boolean "is_active", default: true, null: false
     t.uuid "request_type_id", null: false
     t.uuid "tenant_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_rules_on_deleted_at"
     t.index ["request_type_id", "grade"], name: "index_rules_on_request_type_id_and_grade", unique: true
     t.index ["request_type_id"], name: "index_rules_on_request_type_id"
     t.index ["tenant_id"], name: "index_rules_on_tenant_id"
@@ -66,21 +69,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_083944) do
 
   create_table "tenants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.boolean "is_active", default: true
+    t.datetime "deleted_at"
     t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_tenants_on_deleted_at"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.datetime "deleted_at"
     t.string "email", null: false
     t.integer "grade", null: false
-    t.boolean "is_active", default: true
     t.string "name", null: false
     t.string "password_digest", null: false
     t.string "role", null: false
     t.uuid "tenant_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["tenant_id"], name: "index_users_on_tenant_id"
   end
