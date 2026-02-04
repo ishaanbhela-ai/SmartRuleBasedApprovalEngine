@@ -6,6 +6,7 @@ module Api
           requests = Request
             .accessible_by(current_ability)
             .where(status: "pending_approval")
+            .includes(:request_type, :requester)
 
           render json: requests.map { |req| serialize_request(req) }
         end
@@ -48,16 +49,31 @@ module Api
         end
 
         def serialize_request(req)
+          quota = QuotaCalculator.new(
+            user: req.requester,
+            request_type: req.request_type,
+            tenant: req.tenant
+          )
+
           {
             id: req.id,
-            type: req.request_type.name,
+            status: req.status,
             requested_value: req.requested_value,
+            request_type: {
+              id: req.request_type.id,
+              name: req.request_type.name
+            },
             requester: {
               id: req.requester.id,
               name: req.requester.name,
-              email: req.requester.email,
               grade: req.requester.grade
-            }
+            },
+            quota: {
+              limit: quota.limit,
+              used: quota.used,
+              remaining: quota.remaining
+            },
+            created_at: req.created_at
           }
         end
       end

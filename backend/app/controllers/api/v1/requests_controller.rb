@@ -33,6 +33,28 @@ module Api
         render json: { error: e.message }, status: :unprocessable_entity
       end
 
+      def balance
+        authorize! :read, :balance
+
+        request_type = current_user
+          .tenant
+          .request_types
+          .find(params[:request_type_id])
+
+        quota = QuotaCalculator.new(
+          user: current_user,
+          request_type: request_type,
+          tenant: current_user.tenant
+        )
+
+        render json: {
+          request_type: request_type.name,
+          limit: quota.limit,
+          used: quota.used,
+          remaining: quota.remaining
+        }
+      end
+
       private
 
       def serialize_request(request)

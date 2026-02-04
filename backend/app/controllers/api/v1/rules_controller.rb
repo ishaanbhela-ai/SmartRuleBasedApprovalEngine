@@ -10,8 +10,7 @@ module Api
             id: rule.id,
             request_type: rule.request_type.name,
             grade: rule.grade,
-            definition: rule.definition,
-            is_active: rule.is_active
+            definition: rule.definition
           }
         }
       end
@@ -24,8 +23,7 @@ module Api
           tenant: current_user.tenant,
           request_type: request_type,
           grade: params[:grade],
-          definition: params[:definition],
-          is_active: true
+          definition: params[:definition]
         )
 
         if rule.save
@@ -39,6 +37,13 @@ module Api
           render json: { errors: rule.errors.full_messages },
                  status: :unprocessable_entity
         end
+      end
+
+      def destroy
+        rule = current_user.tenant.rules.find(params[:id])
+        authorize! :destroy, rule
+        rule.destroy
+        render json: { message: "Rule deleted successfully" }
       end
     end
   end

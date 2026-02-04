@@ -3,7 +3,7 @@ class Request < ApplicationRecord
   belongs_to :request_type
   belongs_to :requester, class_name: "User"
 
-  has_one :approval, dependent: :destroy
+  has_one :approval
 
   STATUSES = %w[
     submitted

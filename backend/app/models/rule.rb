@@ -1,4 +1,5 @@
 class Rule < ApplicationRecord
+  include SoftDeletable
   belongs_to :tenant
   belongs_to :request_type
 
