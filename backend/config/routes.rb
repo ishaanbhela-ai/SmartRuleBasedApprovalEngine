@@ -16,7 +16,7 @@ Rails.application.routes.draw do
       end
 
       namespace :approver do
-        resources :requests, only: [ :index, :update ]
+        resources :requests, only: [ :index, :update, :show ]
       end
 
       namespace :admin do

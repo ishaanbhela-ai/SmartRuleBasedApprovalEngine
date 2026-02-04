@@ -8,6 +8,6 @@ class CreateRequestTypes < ActiveRecord::Migration[8.1]
       t.timestamps
     end
     add_foreign_key :request_types, :users, column: :approver_id
-    add_index :request_types, [:tenant_id, :name], unique: true
+    add_index :request_types, [ :tenant_id, :name ], unique: true
   end
 end

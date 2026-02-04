@@ -2489,3 +2489,74 @@ Processing by Api::V1::Approver::RequestsController#index as */*
 Completed 200 OK in 173ms (Views: 0.3ms | ActiveRecord: 32.1ms (16 queries, 8 cached) | GC: 23.3ms)
 
 
+Started POST "/api/v1/login" for ::1 at 2026-02-04 16:15:28 +0530
+Processing by Api::V1::AuthController#login as */*
+  Parameters: {"email"=>"[FILTERED]", "password"=>"[FILTERED]", "auth"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."email" = 'admin@example.com' LIMIT 1 /*action='login',application='ApprovalEngine',controller='auth'*/[0m
+  ↳ app/controllers/api/v1/auth_controller.rb:7:in `login'
+Completed 200 OK in 403ms (Views: 0.2ms | ActiveRecord: 8.2ms (1 query, 0 cached) | GC: 0.7ms)
+
+
+Started GET "/api/v1/approver/requests" for ::1 at 2026-02-04 16:15:44 +0530
+Processing by Api::V1::Approver::RequestsController#index as */*
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mRequest Load (0.9ms)[0m  [1m[34mSELECT "requests".* FROM "requests" WHERE "requests"."status" = 'pending_approval' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:11:in `map'
+  [1m[36mRequestType Load (0.7ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:11:in `map'
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" IN ('0b0d12a0-5028-4d30-ac12-93a5a472fd12', '83001a5e-a295-476b-b35f-96003cfd4a64') /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:11:in `map'
+  [1m[36mTenant Load (0.9ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:55:in `serialize_request'
+  [1m[36mRule Load (0.9ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "rules"."request_type_id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' AND "rules"."grade" = 1 LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/services/quota_calculator.rb:31:in `rule'
+  [1m[36mRequest Sum (1.0ms)[0m  [1m[34mSELECT SUM("requests"."requested_value") FROM "requests" WHERE "requests"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "requests"."requester_id" = '0b0d12a0-5028-4d30-ac12-93a5a472fd12' AND "requests"."request_type_id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' AND "requests"."status" IN ('approved', 'auto_approved') AND (created_at >= '2026-01-01 00:00:00') /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/services/quota_calculator.rb:21:in `used'
+  [1m[36mCACHE Request Sum (0.0ms)[0m  [1m[34mSELECT SUM("requests"."requested_value") FROM "requests" WHERE "requests"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "requests"."requester_id" = '0b0d12a0-5028-4d30-ac12-93a5a472fd12' AND "requests"."request_type_id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' AND "requests"."status" IN ('approved', 'auto_approved') AND (created_at >= '2026-01-01 00:00:00')[0m
+  ↳ app/services/quota_calculator.rb:21:in `used'
+  [1m[36mCACHE Tenant Load (0.0ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:55:in `serialize_request'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "rules"."request_type_id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' AND "rules"."grade" = 1 LIMIT 1[0m
+  ↳ app/services/quota_calculator.rb:31:in `rule'
+  [1m[36mCACHE Request Sum (0.0ms)[0m  [1m[34mSELECT SUM("requests"."requested_value") FROM "requests" WHERE "requests"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "requests"."requester_id" = '0b0d12a0-5028-4d30-ac12-93a5a472fd12' AND "requests"."request_type_id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' AND "requests"."status" IN ('approved', 'auto_approved') AND (created_at >= '2026-01-01 00:00:00')[0m
+  ↳ app/services/quota_calculator.rb:21:in `used'
+  [1m[36mCACHE Request Sum (0.0ms)[0m  [1m[34mSELECT SUM("requests"."requested_value") FROM "requests" WHERE "requests"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "requests"."requester_id" = '0b0d12a0-5028-4d30-ac12-93a5a472fd12' AND "requests"."request_type_id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' AND "requests"."status" IN ('approved', 'auto_approved') AND (created_at >= '2026-01-01 00:00:00')[0m
+  ↳ app/services/quota_calculator.rb:21:in `used'
+  [1m[36mCACHE Tenant Load (0.0ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:55:in `serialize_request'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "rules"."request_type_id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' AND "rules"."grade" = 1 LIMIT 1[0m
+  ↳ app/services/quota_calculator.rb:31:in `rule'
+  [1m[36mRequest Sum (0.7ms)[0m  [1m[34mSELECT SUM("requests"."requested_value") FROM "requests" WHERE "requests"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "requests"."requester_id" = '83001a5e-a295-476b-b35f-96003cfd4a64' AND "requests"."request_type_id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' AND "requests"."status" IN ('approved', 'auto_approved') AND (created_at >= '2026-01-01 00:00:00') /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/services/quota_calculator.rb:21:in `used'
+  [1m[36mCACHE Request Sum (0.0ms)[0m  [1m[34mSELECT SUM("requests"."requested_value") FROM "requests" WHERE "requests"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "requests"."requester_id" = '83001a5e-a295-476b-b35f-96003cfd4a64' AND "requests"."request_type_id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' AND "requests"."status" IN ('approved', 'auto_approved') AND (created_at >= '2026-01-01 00:00:00')[0m
+  ↳ app/services/quota_calculator.rb:21:in `used'
+Completed 200 OK in 41ms (Views: 0.2ms | ActiveRecord: 7.7ms (16 queries, 8 cached) | GC: 1.5ms)
+
+
+Started GET "/api/v1/admin/reports/summary" for ::1 at 2026-02-04 16:30:51 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+Processing by Api::V1::Admin::ReportsController#summary as */*
+Filter chain halted as :authenticate_user rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/admin/reports/summary" for ::1 at 2026-02-04 16:31:09 +0530
+Processing by Api::V1::Admin::ReportsController#summary as */*
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.9ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:8:in `summary'
+  [1m[36mRequest Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:22:in `total_requests'
+  [1m[36mRequest Count (1.2ms)[0m  [1m[34mSELECT COUNT(*) AS "count_all", "requests"."status" AS "requests_status" FROM "requests" WHERE "requests"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' GROUP BY "requests"."status" /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:26:in `status_breakdown'
+  [1m[36mRequest Count (1.5ms)[0m  [1m[34mSELECT COUNT(*) AS "count_all", "request_types"."name" AS "request_types_name" FROM "requests" INNER JOIN "request_types" ON "request_types"."deleted_at" IS NULL AND "request_types"."id" = "requests"."request_type_id" WHERE "requests"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' GROUP BY "request_types"."name" /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:33:in `request_type_breakdown'
+  [1m[36mApproval Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) AS "count_all", "approvals"."action" AS "approvals_action" FROM "approvals" WHERE "approvals"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' GROUP BY "approvals"."action" /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:37:in `decision_breakdown'
+  [1m[36mApproval Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) AS "count_all", "approvals"."rule_id" AS "approvals_rule_id" FROM "approvals" WHERE "approvals"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "approvals"."rule_id" IS NOT NULL GROUP BY "approvals"."rule_id" /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:44:in `rule_hit_counts'
+Completed 200 OK in 71ms (Views: 0.2ms | ActiveRecord: 21.0ms (7 queries, 0 cached) | GC: 1.3ms)
+
+
