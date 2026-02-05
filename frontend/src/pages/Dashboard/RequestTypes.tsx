@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { DashboardHeader } from '../../components/ui/Header/DashboardHeader';
 import { Card, CardContent } from '../../components/ui/Card/Card';
 import { requestTypesService } from '../../services/requestTypes';
-import type { RequestType, CreateRequestTypeInput } from '../../models/RequestType';
+import type { RequestType } from '../../models/RequestType';
 import { CreateRequestTypeForm } from '../../components/requestTypes/CreateRequestTypeForm';
 import { Modal } from '../../components/ui/Modal/Modal';
 import { FileText, User as UserIcon, Edit, Trash2 } from 'lucide-react';

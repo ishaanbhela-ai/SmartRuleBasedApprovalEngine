@@ -1,5 +1,5 @@
 import api from '../lib/axios';
-import type { ReportSummary } from '../models/Report';
+import type { ReportSummary, ReportData } from '../models/Report';
 
 export const reportsService = {
     getSummary: async (): Promise<ReportSummary> => {
@@ -20,5 +20,25 @@ export const reportsService = {
 
         const response = await api.get<ReportSummary>('/admin/reports/summary');
         return response.data;
+    },
+    getMyReport: async (): Promise<ReportData> => {
+        // Switch between mock and real based on env
+        if (import.meta.env.VITE_USE_MOCK_API === 'true') {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        role: 'user',
+                        total_requests: 125,
+                        approved: 60,
+                        pending: 20,
+                        rejected: 20,
+                        submitted: 45
+                    });
+                }, 800);
+            });
+        }
+
+        const response = await api.get<ReportData>('/reports/me');
+        return response.data;
     }
-};
+}
