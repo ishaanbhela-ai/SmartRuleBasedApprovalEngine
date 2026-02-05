@@ -3,11 +3,21 @@ module Api
     module Approver
       class RequestsController < ApplicationController
         def index
-          requests = Request
-            .where(status: "pending_approval")
-            .includes(:request_type, :requester)
-            .joins(request_type: :request_type_approvers)
-            .where(request_type_approvers: { user_id: current_user.id })
+          # Admins see all pending requests, approvers see only their assigned requests
+          requests = if current_user.role == "admin"
+                       # Admins can approve any pending request
+                       Request
+                         .where(status: "pending_approval")
+                         .where(tenant_id: current_user.tenant_id)
+          else
+                       # Approvers see only pending requests for their assigned request types
+                       Request
+                         .where(status: "pending_approval")
+                         .joins(request_type: :request_type_approvers)
+                         .where(request_type_approvers: { user_id: current_user.id })
+          end
+
+          requests = requests.includes(:request_type, :requester)
 
           render json: requests.map { |req| serialize_request(req) }
         end
