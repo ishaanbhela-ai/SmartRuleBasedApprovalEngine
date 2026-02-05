@@ -8,6 +8,7 @@ class Ability
     can :create, Request
     can :read, Request, requester_id: user.id
     can :read, :balance
+    can :read, :my_reports
 
     # Role-specific permissions
     if user.role == "admin"
