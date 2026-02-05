@@ -4,14 +4,14 @@ module Api
       def index
         authorize! :read, Rule
         rules = current_user.tenant.rules.includes(:request_type)
+        pagy, records = pagy(:offset, rules)
 
-        render json: rules.map { |rule|
-          {
-            id: rule.id,
-            request_type: rule.request_type.name,
-            grade: rule.grade,
-            definition: rule.definition
-          }
+        render json: {
+          data: Panko::ArraySerializer.new(
+            records,
+            each_serializer: RuleSerializer
+          ).to_a,
+          meta: pagy_meta(pagy)
         }
       end
 
@@ -27,12 +27,7 @@ module Api
         )
 
         if rule.save
-          render json: {
-            id: rule.id,
-            request_type: request_type.name,
-            grade: rule.grade,
-            definition: rule.definition
-          }, status: :created
+          render json: RuleSerializer.new(rule).to_json, status: :created
         else
           render json: { errors: rule.errors.full_messages },
                  status: :unprocessable_entity

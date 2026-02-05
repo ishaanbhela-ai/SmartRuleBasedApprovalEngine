@@ -4,19 +4,14 @@ module Api
       def index
         authorize! :read, RequestType
         request_types = current_user.tenant.request_types.includes(:approvers)
+        pagy, records = pagy(:offset, request_types)
 
-        render json: request_types.map { |rt|
-          {
-            id: rt.id,
-            name: rt.name,
-            approvers: rt.approvers.map { |u|
-              {
-                id: u.id,
-                name: u.name,
-                email: u.email
-              }
-            }
-          }
+        render json: {
+          data: Panko::ArraySerializer.new(
+            records,
+            each_serializer: RequestTypeSerializer
+          ).to_a,
+          meta: pagy_meta(pagy)
         }
       end
 
@@ -65,13 +60,8 @@ module Api
           end
         end
 
-        render json: {
-          id: request_type.id,
-          name: request_type.name,
-          approvers: approvers.map { |u|
-            { id: u.id, name: u.name, email: u.email }
-          }
-        }, status: :created
+        render json: RequestTypeSerializer.new(request_type).to_json, status: :created
+
       rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.message }, status: :unprocessable_entity
       end
@@ -111,13 +101,7 @@ module Api
           end
         end
 
-        render json: {
-          id: request_type.id,
-          name: request_type.name,
-          approvers: approvers.map { |u|
-            { id: u.id, name: u.name, email: u.email }
-          }
-        }
+        render json: RequestTypeSerializer.new(request_type).to_json
       rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.message }, status: :unprocessable_entity
       end

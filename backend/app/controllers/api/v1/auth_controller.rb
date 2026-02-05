@@ -10,6 +10,7 @@ module Api
           token = encode_token(user)
           render json: {
             token: token,
+<<<<<<< HEAD
             user: {
               id: user.id,
               name: user.name,
@@ -17,6 +18,9 @@ module Api
               role: user.role,
               grade: user.grade
             }
+=======
+            user: UserSerializer.new.serialize(user)
+>>>>>>> origin/backend/serialized
           }
         else
           render json: { error: "Invalid email or password" }, status: :unauthorized

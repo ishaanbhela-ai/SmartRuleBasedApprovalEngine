@@ -41,7 +41,8 @@ gem "dotenv-rails"
 gem "business_time", "~> 0.13"
 gem "cancancan"
 gem "whenever", require: false
-
+gem "pagy", "~> 43.2"
+gem "panko_serializer"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
