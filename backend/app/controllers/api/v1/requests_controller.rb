@@ -7,12 +7,6 @@ module Api
         when "admin"
                      # Admins can see all requests in their tenant
                      current_user.tenant.requests
-        when "approver"
-                     # Approvers see pending requests for their assigned request types
-                     Request
-                       .where(status: "pending_approval")
-                       .joins(request_type: :request_type_approvers)
-                       .where(request_type_approvers: { user_id: current_user.id })
         else
                      # Users see only their own requests
                      current_user.tenant.requests.where(requester_id: current_user.id)
