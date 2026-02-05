@@ -29,6 +29,7 @@ class Ability
 
     elsif user.role == "user"
       can :read, RequestType
+      can :read, Request, requester_id: user.id
       can :read, Rule
     end
   end
