@@ -53,7 +53,7 @@ export interface ApproverRequest {
         name: string;
         grade: number;
     };
-    quota: {
+    quota?: {
         limit: number;
         used: number;
         remaining: number;

@@ -45,5 +45,14 @@ export const requestTypesService = {
     createRequestType: async (data: CreateRequestTypeInput): Promise<RequestType> => {
         const response = await api.post<RequestType>('/request_types', data);
         return response.data;
+    },
+
+    updateRequestType: async (id: string, data: Partial<CreateRequestTypeInput>): Promise<RequestType> => {
+        const response = await api.patch<RequestType>(`/request_types/${id}`, data);
+        return response.data;
+    },
+
+    deleteRequestType: async (id: string): Promise<void> => {
+        await api.delete(`/request_types/${id}`);
     }
 };

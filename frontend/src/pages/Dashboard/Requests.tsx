@@ -34,27 +34,42 @@ export default function RequestsPage() {
 
     const fetchRequests = async () => {
         setIsLoading(true);
+
+        const loadPending = async () => {
+            try {
+                const pending = await requestsService.getPendingRequests();
+                setPendingApprovals(pending);
+            } catch (error) {
+                console.error("Failed to fetch pending requests", error);
+            }
+        };
+
+        const loadMyRequests = async () => {
+            try {
+                const my = await requestsService.getMyRequests();
+                setMyRequests(my);
+            } catch (error) {
+                console.error("Failed to fetch my requests", error);
+            }
+        };
+
+        const loadAllRequests = async () => {
+            try {
+                const all = await requestsService.getAllRequests();
+                setMyRequests(all);
+            } catch (error) {
+                console.error("Failed to fetch all requests", error);
+            }
+        };
+
         try {
             if (userRole === 'approver') {
-                const [pending, my] = await Promise.all([
-                    requestsService.getPendingRequests(),
-                    requestsService.getMyRequests()
-                ]);
-                setPendingApprovals(pending);
-                setMyRequests(my);
+                await Promise.allSettled([loadPending(), loadMyRequests()]);
             } else if (userRole === 'admin') {
-                const [pending, all] = await Promise.all([
-                    requestsService.getPendingRequests(),
-                    requestsService.getAllRequests()
-                ]);
-                setPendingApprovals(pending);
-                setMyRequests(all); // Using myRequests state to store 'all' for admin for simplicity
+                await Promise.allSettled([loadPending(), loadAllRequests()]);
             } else {
-                const data = await requestsService.getMyRequests();
-                setMyRequests(data);
+                await loadMyRequests();
             }
-        } catch (error) {
-            console.error("Failed to fetch requests", error);
         } finally {
             setIsLoading(false);
         }
@@ -111,15 +126,19 @@ export default function RequestsPage() {
                                 {req.requested_value.toLocaleString()}
                             </td>
                             <td className="px-6 py-4 text-xs text-slate-500">
-                                <div className="flex flex-col gap-1">
-                                    <span>Used: {req.quota.used.toLocaleString()} / {req.quota.limit.toLocaleString()}</span>
-                                    <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                                        <div
-                                            className="h-full bg-slate-400 rounded-full"
-                                            style={{ width: `${Math.min((req.quota.used / req.quota.limit) * 100, 100)}%` }}
-                                        />
+                                {req.quota ? (
+                                    <div className="flex flex-col gap-1">
+                                        <span>Used: {req.quota.used.toLocaleString()} / {req.quota.limit.toLocaleString()}</span>
+                                        <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                            <div
+                                                className="h-full bg-slate-400 rounded-full"
+                                                style={{ width: `${Math.min((req.quota.used / req.quota.limit) * 100, 100)}%` }}
+                                            />
+                                        </div>
                                     </div>
-                                </div>
+                                ) : (
+                                    <span className="text-slate-400 italic">Unavailable</span>
+                                )}
                             </td>
                             <td className="px-6 py-4 text-right">
                                 <button

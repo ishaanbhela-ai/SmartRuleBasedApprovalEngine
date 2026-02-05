@@ -5,12 +5,13 @@ import { requestTypesService } from '../../services/requestTypes';
 import type { RequestType, CreateRequestTypeInput } from '../../models/RequestType';
 import { CreateRequestTypeForm } from '../../components/requestTypes/CreateRequestTypeForm';
 import { Modal } from '../../components/ui/Modal/Modal';
-import { FileText, User as UserIcon } from 'lucide-react';
+import { FileText, User as UserIcon, Edit, Trash2 } from 'lucide-react';
 
 export default function RequestTypesPage() {
     const [requestTypes, setRequestTypes] = useState<RequestType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [editingType, setEditingType] = useState<RequestType | null>(null);
     const [notification, setNotification] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
     const fetchRequestTypes = async () => {
@@ -30,18 +31,40 @@ export default function RequestTypesPage() {
         fetchRequestTypes();
     }, []);
 
-    const handleCreate = async (data: CreateRequestTypeInput) => {
-        try {
-            const newType = await requestTypesService.createRequestType(data);
-            setRequestTypes([...requestTypes, newType]);
-            setIsCreateModalOpen(false);
+    const handleSuccess = (updatedOrNewType: RequestType) => {
+        if (editingType) {
+            setRequestTypes(requestTypes.map(rt => rt.id === updatedOrNewType.id ? updatedOrNewType : rt));
+            setNotification({ type: 'success', message: "Request Type updated successfully" });
+        } else {
+            setRequestTypes([...requestTypes, updatedOrNewType]);
             setNotification({ type: 'success', message: "Request Type created successfully" });
-            setTimeout(() => setNotification(null), 3000);
-        } catch (error) {
-            console.error("Failed to create request type", error);
-            setNotification({ type: 'error', message: "Failed to create request type. It might already exist." });
-            setTimeout(() => setNotification(null), 3000);
         }
+        setIsCreateModalOpen(false);
+        setEditingType(null);
+        setTimeout(() => setNotification(null), 3000);
+    };
+
+    const handleDelete = async (id: string) => {
+        if (!confirm("Are you sure you want to delete this request type?")) return;
+        try {
+            await requestTypesService.deleteRequestType(id);
+            setRequestTypes(requestTypes.filter(rt => rt.id !== id));
+            setNotification({ type: 'success', message: "Request Type deleted successfully" });
+        } catch (error) {
+            console.error("Failed to delete", error);
+            setNotification({ type: 'error', message: "Failed to delete request type." });
+        }
+        setTimeout(() => setNotification(null), 3000);
+    };
+
+    const openEditModal = (type: RequestType) => {
+        setEditingType(type);
+        setIsCreateModalOpen(true);
+    };
+
+    const openCreateModal = () => {
+        setEditingType(null);
+        setIsCreateModalOpen(true);
     };
 
     return (
@@ -56,7 +79,7 @@ export default function RequestTypesPage() {
                 title="Request Types"
                 description="Configure request categories and their approvers."
                 actionLabel="Create Type"
-                onAction={() => setIsCreateModalOpen(true)}
+                onAction={openCreateModal}
             />
 
             <Card>
@@ -72,7 +95,7 @@ export default function RequestTypesPage() {
                                     <tr>
                                         <th className="px-6 py-3 font-medium">Name</th>
                                         <th className="px-6 py-3 font-medium">Approvers</th>
-                                        <th className="px-6 py-3 font-medium text-right">ID</th>
+                                        <th className="px-6 py-3 font-medium text-right">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
@@ -103,8 +126,23 @@ export default function RequestTypesPage() {
                                                     <span className="text-slate-400 italic">No approvers assigned</span>
                                                 )}
                                             </td>
-                                            <td className="px-6 py-4 text-right text-xs text-slate-400 font-mono">
-                                                {rt.id.substring(0, 8)}...
+                                            <td className="px-6 py-4 text-right">
+                                                <div className="flex justify-end gap-2">
+                                                    <button
+                                                        onClick={() => openEditModal(rt)}
+                                                        className="text-slate-400 hover:text-blue-600 transition-colors p-1"
+                                                        title="Edit"
+                                                    >
+                                                        <Edit className="h-4 w-4" />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(rt.id)}
+                                                        className="text-slate-400 hover:text-red-600 transition-colors p-1"
+                                                        title="Delete"
+                                                    >
+                                                        <Trash2 className="h-4 w-4" />
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -119,13 +157,17 @@ export default function RequestTypesPage() {
             <Modal
                 isOpen={isCreateModalOpen}
                 onClose={() => setIsCreateModalOpen(false)}
-                title="Configure Request Type"
+                title={editingType ? "Edit Request Type" : "Configure Request Type"}
             >
                 <CreateRequestTypeForm
-                    onSuccess={handleCreate}
-                    onCancel={() => setIsCreateModalOpen(false)}
+                    initialData={editingType || undefined} // Force undefined if null
+                    onSuccess={handleSuccess}
+                    onCancel={() => {
+                        setIsCreateModalOpen(false);
+                        setEditingType(null);
+                    }}
                 />
             </Modal>
-        </div>
+        </div >
     );
 }
