@@ -2,9 +2,23 @@ module Api
   module V1
     class RequestsController < ApplicationController
       def index
-        requests = Request
-          .accessible_by(current_ability)
-          .includes(:requester, :request_type)
+        # Manual filtering based on role since we use block-based abilities
+        requests = case current_user.role
+        when "admin"
+                     # Admins can see all requests in their tenant
+                     current_user.tenant.requests
+        when "approver"
+                     # Approvers see pending requests for their assigned request types
+                     Request
+                       .where(status: "pending_approval")
+                       .joins(request_type: :request_type_approvers)
+                       .where(request_type_approvers: { user_id: current_user.id })
+        else
+                     # Users see only their own requests
+                     current_user.tenant.requests.where(requester_id: current_user.id)
+        end
+
+        requests = requests.includes(:requester, :request_type)
 
         render json: requests.map { |req| serialize_request(req) }
       end
