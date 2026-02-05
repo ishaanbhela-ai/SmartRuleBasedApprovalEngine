@@ -12,18 +12,22 @@ module Api
                      current_user.tenant.requests.where(requester_id: current_user.id)
         end
 
-        requests = requests.includes(:requester, :request_type)
+        requests = requests.includes(:requester, :request_type, :approval)
         pagy, records = pagy(:offset, requests)
 
         render json: {
-          data: records.map { |req| serialize_request(req) }, meta: pagy_meta(pagy)
+          data: Panko::ArraySerializer.new(
+            records,
+            each_serializer: RequestSerializer
+          ).to_a,
+          meta: pagy_meta(pagy)
         }
       end
 
       def show
         request = Request.find(params[:id])
         authorize! :read, request
-        render json: serialize_request(request)
+        render json: RequestSerializer.new(request).to_json
       end
 
       def create
@@ -42,7 +46,7 @@ module Api
           RuleEvaluator.new(request).evaluate!
         end
 
-        render json: serialize_request(request), status: :created
+        render json: RequestSerializer.new(request).to_json, status: :created
       rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.message }, status: :unprocessable_entity
       end
@@ -70,31 +74,6 @@ module Api
       end
 
       private
-
-      def serialize_request(request)
-        {
-          id: request.id,
-          type: request.request_type.name,
-          requested_value: request.requested_value,
-          status: request.status,
-          approval: request.approval && {
-            action: request.approval.action,
-            reason: request.approval.reason,
-            approver_id: request.approval.approver_id
-          },
-          request_type: {
-            id: request.request_type.id,
-            name: request.request_type.name
-          },
-          requester: {
-            id: request.requester.id,
-            name: request.requester.name,
-            email: request.requester.email,
-            grade: request.requester.grade
-          },
-          created_at: request.created_at
-        }
-      end
     end
   end
 end

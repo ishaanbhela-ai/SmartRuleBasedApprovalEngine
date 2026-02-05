@@ -21,7 +21,11 @@ module Api
           pagy, records = pagy(:offset, requests)
 
           render json: {
-            data: records.map { |req| serialize_request(req) }, meta: pagy_meta(pagy)
+            data: Panko::ArraySerializer.new(
+              records,
+              each_serializer: ApproverRequestSerializer
+            ).to_a,
+            meta: pagy_meta(pagy)
           }
         end
 
@@ -60,35 +64,6 @@ module Api
             request_type: request.request_type,
             grade: request.requester.grade
           )
-        end
-
-        def serialize_request(req)
-          quota = QuotaCalculator.new(
-            user: req.requester,
-            request_type: req.request_type,
-            tenant: req.tenant
-          )
-
-          {
-            id: req.id,
-            status: req.status,
-            requested_value: req.requested_value,
-            request_type: {
-              id: req.request_type.id,
-              name: req.request_type.name
-            },
-            requester: {
-              id: req.requester.id,
-              name: req.requester.name,
-              grade: req.requester.grade
-            },
-            quota: {
-              limit: quota.limit,
-              used: quota.used,
-              remaining: quota.remaining
-            },
-            created_at: req.created_at
-          }
         end
       end
     end

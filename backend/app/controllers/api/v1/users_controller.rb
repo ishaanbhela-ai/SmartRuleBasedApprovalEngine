@@ -8,16 +8,11 @@ module Api
         pagy, records = pagy(:offset, users)
 
         render json: {
-          data: records.map { |u|
-          {
-            id: u.id,
-            email: u.email,
-            name: u.name,
-            role: u.role,
-            grade: u.grade,
-            created_at: u.created_at
-          }
-        }, meta: pagy_meta(pagy)
+          data: Panko::ArraySerializer.new(
+            records,
+            each_serializer: UserSerializer
+          ).to_a,
+          meta: pagy_meta(pagy)
         }
       end
 
@@ -28,12 +23,7 @@ module Api
         user.tenant = current_user.tenant
 
         if user.save
-          render json: {
-            id: user.id,
-            email: user.email,
-            role: user.role,
-            grade: user.grade
-          }, status: :created
+          render json: UserSerializer.new(user).to_json, status: :created
         else
           render json: { errors: user.errors.full_messages },
                  status: :unprocessable_entity

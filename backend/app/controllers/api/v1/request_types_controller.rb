@@ -7,19 +7,11 @@ module Api
         pagy, records = pagy(:offset, request_types)
 
         render json: {
-          data: records.map { |rt|
-          {
-            id: rt.id,
-            name: rt.name,
-            approvers: rt.approvers.map { |u|
-              {
-                id: u.id,
-                name: u.name,
-                email: u.email
-              }
-            }
-          }
-        }, meta: pagy_meta(pagy)
+          data: Panko::ArraySerializer.new(
+            records,
+            each_serializer: RequestTypeSerializer
+          ).to_a,
+          meta: pagy_meta(pagy)
         }
       end
 
@@ -68,13 +60,8 @@ module Api
           end
         end
 
-        render json: {
-          id: request_type.id,
-          name: request_type.name,
-          approvers: approvers.map { |u|
-            { id: u.id, name: u.name, email: u.email }
-          }
-        }, status: :created
+        render json: RequestTypeSerializer.new(request_type).to_json, status: :created
+
       rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.message }, status: :unprocessable_entity
       end
@@ -114,13 +101,7 @@ module Api
           end
         end
 
-        render json: {
-          id: request_type.id,
-          name: request_type.name,
-          approvers: approvers.map { |u|
-            { id: u.id, name: u.name, email: u.email }
-          }
-        }
+        render json: RequestTypeSerializer.new(request_type).to_json
       rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.message }, status: :unprocessable_entity
       end
