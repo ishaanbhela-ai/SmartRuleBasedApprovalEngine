@@ -6,6 +6,7 @@ namespace :requests do
     requests = Request
       .where(status: "pending_approval")
       .where("created_at < ?", cutoff_time)
+      .includes(:requester, :request_type)
 
     puts "Found #{requests.count} requests to auto reject"
 

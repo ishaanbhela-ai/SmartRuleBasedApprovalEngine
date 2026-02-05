@@ -6,6 +6,9 @@ class User < ApplicationRecord
            class_name: "Request",
            foreign_key: :requester_id
 
+  has_many :request_type_approvers, dependent: :destroy
+  has_many :approvable_request_types, through: :request_type_approvers, source: :request_type
+
   has_many :approved_requests,
            class_name: "Approval",
            foreign_key: :approver_id

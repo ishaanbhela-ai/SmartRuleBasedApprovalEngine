@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_04_065114) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_04_155925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,8 +29,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_04_065114) do
     t.index ["tenant_id"], name: "index_approvals_on_tenant_id"
   end
 
+  create_table "request_type_approvers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.uuid "request_type_id", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.index ["request_type_id", "user_id"], name: "index_request_type_approvers_unique", unique: true
+  end
+
   create_table "request_types", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "approver_id", null: false
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
     t.string "name", null: false
@@ -93,8 +100,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_04_065114) do
   add_foreign_key "approvals", "requests"
   add_foreign_key "approvals", "rules"
   add_foreign_key "approvals", "tenants"
+  add_foreign_key "request_type_approvers", "request_types"
+  add_foreign_key "request_type_approvers", "users"
   add_foreign_key "request_types", "tenants"
-  add_foreign_key "request_types", "users", column: "approver_id"
   add_foreign_key "requests", "request_types"
   add_foreign_key "requests", "tenants"
   add_foreign_key "requests", "users", column: "requester_id"

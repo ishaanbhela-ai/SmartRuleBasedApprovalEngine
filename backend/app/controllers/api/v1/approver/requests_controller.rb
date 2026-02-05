@@ -4,9 +4,10 @@ module Api
       class RequestsController < ApplicationController
         def index
           requests = Request
-            .accessible_by(current_ability)
             .where(status: "pending_approval")
             .includes(:request_type, :requester)
+            .joins(request_type: :request_type_approvers)
+            .where(request_type_approvers: { user_id: current_user.id })
 
           render json: requests.map { |req| serialize_request(req) }
         end
