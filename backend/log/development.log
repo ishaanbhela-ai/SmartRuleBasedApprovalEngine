@@ -3374,3 +3374,82 @@ Processing by Api::V1::RequestTypesController#create as */*
 Completed 409 Conflict in 79ms (Views: 0.2ms | ActiveRecord: 12.0ms (3 queries, 0 cached) | GC: 0.0ms)
 
 
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 05:32:51 UTC
+[AutoReject] Cutoff time: 2026-01-26 09:00:00 UTC
+  [1m[36mRequest Count (2.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-01-26 09:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:15:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 05:33:15 UTC
+[AutoReject] Cutoff time: 2026-01-26 09:00:00 UTC
+  [1m[36mRequest Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-01-26 09:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:15:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 05:35:52 UTC
+[AutoReject] Cutoff time: 2026-01-26 09:00:00 UTC
+  [1m[36mRequest Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-01-26 09:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:15:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 05:52:03 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 2 requests to auto-reject
+  [1m[36mRequest Load (0.8ms)[0m  [1m[34mSELECT "requests".* FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') ORDER BY "requests"."id" ASC LIMIT 1000 /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:25:in `block (2 levels) in <main>'
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" IN ('83001a5e-a295-476b-b35f-96003cfd4a64', '0b0d12a0-5028-4d30-ac12-93a5a472fd12') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:25:in `block (2 levels) in <main>'
+  [1m[36mRequestType Load (1.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:25:in `block (2 levels) in <main>'
+  [1m[36mTenant Load (0.6ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:25:in `block (2 levels) in <main>'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:28:in `block (4 levels) in <main>'
+  [1m[36mRequest Update (3.1ms)[0m  [1m[33mUPDATE "requests" SET "status" = 'rejected', "updated_at" = '2026-02-05 05:52:03.624580' WHERE "requests"."id" = 'aab4d455-2c63-42c7-8824-d49f4d9c447e' /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:28:in `block (4 levels) in <main>'
+  [1m[36mApproval Create (2.4ms)[0m  [1m[32mINSERT INTO "approvals" ("tenant_id", "request_id", "approver_id", "rule_id", "definition", "action", "reason", "created_at", "updated_at") VALUES ('d03f07e3-fd7e-43e4-ab08-99ea120abb0e', 'aab4d455-2c63-42c7-8824-d49f4d9c447e', NULL, NULL, NULL, 'rejected', 'Auto-rejected after 2 hours without approval', '2026-02-05 05:52:03.649718', '2026-02-05 05:52:03.649718') RETURNING "id" /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:30:in `block (4 levels) in <main>'
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:27:in `block (3 levels) in <main>'
+[AutoReject] ✓ Rejected request aab4d455-2c63-42c7-8824-d49f4d9c447e (expense)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:28:in `block (4 levels) in <main>'
+  [1m[36mRequest Update (2.6ms)[0m  [1m[33mUPDATE "requests" SET "status" = 'rejected', "updated_at" = '2026-02-05 05:52:03.656450' WHERE "requests"."id" = 'b38a730d-00a7-4407-aa9d-cf94458b5cf7' /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:28:in `block (4 levels) in <main>'
+  [1m[36mApproval Create (0.9ms)[0m  [1m[32mINSERT INTO "approvals" ("tenant_id", "request_id", "approver_id", "rule_id", "definition", "action", "reason", "created_at", "updated_at") VALUES ('d03f07e3-fd7e-43e4-ab08-99ea120abb0e', 'b38a730d-00a7-4407-aa9d-cf94458b5cf7', NULL, NULL, NULL, 'rejected', 'Auto-rejected after 2 hours without approval', '2026-02-05 05:52:03.661853', '2026-02-05 05:52:03.661853') RETURNING "id" /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:30:in `block (4 levels) in <main>'
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:27:in `block (3 levels) in <main>'
+[AutoReject] ✓ Rejected request b38a730d-00a7-4407-aa9d-cf94458b5cf7 (expense)
+[AutoReject] =========================================
+[AutoReject] Task completed in 0.3 seconds
+[AutoReject] Total found: 2
+[AutoReject] Successfully rejected: 2
+[AutoReject] Errors: 0
+[AutoReject] =========================================
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 05:53:03 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 05:54:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
