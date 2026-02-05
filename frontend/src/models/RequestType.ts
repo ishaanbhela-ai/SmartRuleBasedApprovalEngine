@@ -6,12 +6,11 @@ export const REQUEST_TYPE_NAMES = ['expense', 'leave', 'discount'] as const;
 export const RequestTypeSchema = z.object({
     id: z.uuid(),
     name: z.enum(REQUEST_TYPE_NAMES),
-    approver_id: z.uuid().optional(),
-    approver: z.object({ // Nested approver object returned by API
-        id: z.uuid(),
+    approvers: z.array(z.object({
+        id: z.string(),
         name: z.string(),
         email: z.email(),
-    }).optional(),
+    })).default([]),
 });
 
 export const CreateRequestTypeSchema = z.object({

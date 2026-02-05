@@ -1,5 +1,5 @@
 import api from '../lib/axios';
-import type { Request, CreateRequestInput, ApprovalAction } from '../models/Request';
+import type { Request, CreateRequestInput, ApprovalAction, ApproverRequest } from '../models/Request';
 
 export const requestsService = {
     // For Users: Get my own requests
@@ -12,11 +12,12 @@ export const requestsService = {
     },
 
     // For Approvers: Get requests pending my approval
-    getPendingRequests: async (): Promise<Request[]> => {
+    // For Approvers: Get requests pending my approval
+    getPendingRequests: async (): Promise<ApproverRequest[]> => {
         if (import.meta.env.VITE_USE_MOCK_API === 'true') {
             return new Promise((resolve) => setTimeout(() => resolve([]), 500));
         }
-        const response = await api.get<Request[]>('/approver/requests');
+        const response = await api.get<ApproverRequest[]>('/approver/requests');
         return response.data;
     },
 

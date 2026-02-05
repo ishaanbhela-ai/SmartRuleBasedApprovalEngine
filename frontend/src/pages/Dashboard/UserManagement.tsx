@@ -5,7 +5,6 @@ import { Card, CardContent } from '../../components/ui/Card/Card';
 import { Button } from '../../components/ui/Button/Button';
 import { Badge } from '../../components/ui/Badge/Badge';
 import { userService } from '../../services/users';
-import { authService } from '../../services/auth';
 import type { User } from '../../models/User';
 import { CreateUserForm } from '../../components/users/CreateUserForm';
 import { Modal } from '../../components/ui/Modal/Modal';
@@ -57,9 +56,7 @@ export default function UserManagement() {
         setTimeout(() => setNotification(null), 3000);
     };
 
-    const handleLogout = () => {
-        authService.logout();
-    };
+
 
     return (
         <div className="space-y-8 relative">
@@ -72,7 +69,6 @@ export default function UserManagement() {
             <DashboardHeader
                 title="User Management"
                 description="Manage system users, roles, and access levels."
-                onLogout={handleLogout}
                 actionLabel="Add User"
                 onAction={() => setIsCreateModalOpen(true)}
             />

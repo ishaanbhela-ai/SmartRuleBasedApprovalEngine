@@ -11,8 +11,7 @@ export const requestTypesService = {
                         {
                             id: "1",
                             name: "expense",
-                            approver_id: "user-uuid-1",
-                            approver: { id: "user-uuid-1", name: "John Approver", email: "john@example.com" }
+                            approvers: [{ id: "user-uuid-1", name: "John Approver", email: "john@example.com" }]
                         }
                     ]);
                 }, 500);
@@ -30,14 +29,12 @@ export const requestTypesService = {
                     {
                         id: "fallback-expense",
                         name: "expense",
-                        approver_id: "mock-admin-id",
-                        approver: { id: "mock-admin-id", name: "Admin", email: "admin@example.com" }
+                        approvers: [{ id: "mock-admin-id", name: "Admin", email: "admin@example.com" }]
                     },
                     {
                         id: "fallback-leave",
                         name: "leave",
-                        approver_id: "mock-admin-id",
-                        approver: { id: "mock-admin-id", name: "Admin", email: "admin@example.com" }
+                        approvers: [{ id: "mock-admin-id", name: "Admin", email: "admin@example.com" }]
                     }
                 ];
             }

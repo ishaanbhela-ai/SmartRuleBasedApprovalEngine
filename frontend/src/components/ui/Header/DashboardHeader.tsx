@@ -10,15 +10,11 @@ interface DashboardHeaderProps {
     onAction?: () => void
 }
 
-export function DashboardHeader({ title, description, onLogout, actionLabel, onAction }: DashboardHeaderProps) {
+export function DashboardHeader({ title, description, actionLabel, onAction }: Omit<DashboardHeaderProps, 'onLogout'>) {
     const { logout } = useAuth()
 
     const handleLogout = () => {
-        if (onLogout) {
-            onLogout()
-        } else {
-            logout()
-        }
+        logout()
     }
 
     return (

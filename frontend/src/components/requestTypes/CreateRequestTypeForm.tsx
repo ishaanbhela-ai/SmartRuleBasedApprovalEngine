@@ -27,9 +27,9 @@ export function CreateRequestTypeForm({ onSuccess, onCancel }: CreateRequestType
             setIsLoadingUsers(true);
             try {
                 const users = await userService.getUsers();
-                // Filter for users who can be approvers if needed, or just list all. 
-                // Backend check checks if approver.tenant_id == current.tenant_id, which is true for all these users.
-                setApprovers(users);
+                // Filter users: must act as approver and not be an admin
+                const eligibleApprovers = users.filter(u => u.role === 'approver');
+                setApprovers(eligibleApprovers);
             } catch (err) {
                 console.error("Failed to fetch users", err);
             } finally {

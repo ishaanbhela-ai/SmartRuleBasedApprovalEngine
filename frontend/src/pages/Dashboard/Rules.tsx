@@ -57,7 +57,6 @@ export default function RulesPage() {
             <DashboardHeader
                 title="Rules Configuration"
                 description="Set approval limits for different request types and grades."
-                onLogout={() => { /* Logout handled by header */ }}
                 actionLabel={user?.role === 'admin' ? "Create Rule" : undefined}
                 onAction={user?.role === 'admin' ? () => setIsCreateModalOpen(true) : undefined}
             />

@@ -55,7 +55,6 @@ export default function RequestTypesPage() {
             <DashboardHeader
                 title="Request Types"
                 description="Configure request categories and their approvers."
-                onLogout={() => { import('../../services/auth').then(m => m.authService.logout()) }}
                 actionLabel="Create Type"
                 onAction={() => setIsCreateModalOpen(true)}
             />
@@ -72,7 +71,7 @@ export default function RequestTypesPage() {
                                 <thead className="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
                                     <tr>
                                         <th className="px-6 py-3 font-medium">Name</th>
-                                        <th className="px-6 py-3 font-medium">Approver</th>
+                                        <th className="px-6 py-3 font-medium">Approvers</th>
                                         <th className="px-6 py-3 font-medium text-right">ID</th>
                                     </tr>
                                 </thead>
@@ -88,16 +87,20 @@ export default function RequestTypesPage() {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                {rt.approver ? (
-                                                    <div className="flex items-center gap-2">
-                                                        <UserIcon className="h-4 w-4 text-slate-400" />
-                                                        <div>
-                                                            <div className="text-slate-900">{rt.approver.name}</div>
-                                                            <div className="text-xs text-slate-500">{rt.approver.email}</div>
-                                                        </div>
+                                                {rt.approvers && rt.approvers.length > 0 ? (
+                                                    <div className="flex flex-col gap-2">
+                                                        {rt.approvers.map(approver => (
+                                                            <div key={approver.id} className="flex items-center gap-2">
+                                                                <UserIcon className="h-4 w-4 text-slate-400" />
+                                                                <div>
+                                                                    <div className="text-slate-900 text-sm">{approver.name}</div>
+                                                                    <div className="text-xs text-slate-500">{approver.email}</div>
+                                                                </div>
+                                                            </div>
+                                                        ))}
                                                     </div>
                                                 ) : (
-                                                    <span className="text-slate-400 italic">No approver assigned</span> // Should not happen given constraints
+                                                    <span className="text-slate-400 italic">No approvers assigned</span>
                                                 )}
                                             </td>
                                             <td className="px-6 py-4 text-right text-xs text-slate-400 font-mono">
