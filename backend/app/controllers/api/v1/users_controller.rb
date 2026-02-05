@@ -5,8 +5,10 @@ module Api
         authorize! :read, User
 
         users = current_user.tenant.users
+        pagy, records = pagy(:offset, users)
 
-        render json: users.map { |u|
+        render json: {
+          data: records.map { |u|
           {
             id: u.id,
             email: u.email,
@@ -15,6 +17,7 @@ module Api
             grade: u.grade,
             created_at: u.created_at
           }
+        }, meta: pagy_meta(pagy)
         }
       end
 

@@ -18,8 +18,11 @@ module Api
           end
 
           requests = requests.includes(:request_type, :requester)
+          pagy, records = pagy(:offset, requests)
 
-          render json: requests.map { |req| serialize_request(req) }
+          render json: {
+            data: records.map { |req| serialize_request(req) }, meta: pagy_meta(pagy)
+          }
         end
 
         def update

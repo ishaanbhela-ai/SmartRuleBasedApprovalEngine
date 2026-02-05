@@ -4,8 +4,10 @@ module Api
       def index
         authorize! :read, RequestType
         request_types = current_user.tenant.request_types.includes(:approvers)
+        pagy, records = pagy(:offset, request_types)
 
-        render json: request_types.map { |rt|
+        render json: {
+          data: records.map { |rt|
           {
             id: rt.id,
             name: rt.name,
@@ -17,6 +19,7 @@ module Api
               }
             }
           }
+        }, meta: pagy_meta(pagy)
         }
       end
 

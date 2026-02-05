@@ -4,14 +4,17 @@ module Api
       def index
         authorize! :read, Rule
         rules = current_user.tenant.rules.includes(:request_type)
+        pagy, records = pagy(:offset, rules)
 
-        render json: rules.map { |rule|
+        render json: {
+          data: records.map { |rule|
           {
             id: rule.id,
             request_type: rule.request_type.name,
             grade: rule.grade,
             definition: rule.definition
           }
+        }, meta: pagy_meta(pagy)
         }
       end
 
