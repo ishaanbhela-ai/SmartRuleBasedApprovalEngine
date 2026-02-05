@@ -19,6 +19,9 @@ Rails.application.routes.draw do
         resources :requests, only: [ :index, :update, :show ]
       end
 
+      # Personalized reports for all users
+      get "reports/me", to: "reports#me"
+
       namespace :admin do
         get "reports/summary", to: "reports#summary"
       end
