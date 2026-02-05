@@ -5,7 +5,7 @@ import { rulesService } from '../../services/rules';
 import type { Rule, CreateRuleInput } from '../../models/Rule';
 import { CreateRuleForm } from '../../components/rules/CreateRuleForm';
 import { Modal } from '../../components/ui/Modal/Modal';
-import { Shield } from 'lucide-react';
+import { Shield, Trash2 } from 'lucide-react';
 
 import { useAuth } from '../../context/AuthContext';
 
@@ -42,6 +42,20 @@ export default function RulesPage() {
         } catch (error) {
             console.error("Failed to create rule", error);
             setNotification({ type: 'error', message: "Failed to create rule." });
+            setTimeout(() => setNotification(null), 3000);
+        }
+    };
+
+    const handleDelete = async (id: string) => {
+        if (!confirm("Are you sure you want to delete this rule?")) return;
+        try {
+            await rulesService.deleteRule(id);
+            setRules(rules.filter(r => r.id !== id));
+            setNotification({ type: 'success', message: "Rule deleted successfully" });
+            setTimeout(() => setNotification(null), 3000);
+        } catch (error) {
+            console.error("Failed to delete rule", error);
+            setNotification({ type: 'error', message: "Failed to delete rule." });
             setTimeout(() => setNotification(null), 3000);
         }
     };
@@ -99,6 +113,17 @@ export default function RulesPage() {
                                             </td>
                                             <td className="px-6 py-4 text-right font-medium text-slate-900">
                                                 {rule.definition.toLocaleString()}
+                                            </td>
+                                            <td className="px-6 py-4 text-right">
+                                                {user?.role === 'admin' && (
+                                                    <button
+                                                        onClick={() => handleDelete(rule.id)}
+                                                        className="text-slate-400 hover:text-red-600 transition-colors p-1"
+                                                        title="Delete Rule"
+                                                    >
+                                                        <Trash2 className="h-4 w-4" />
+                                                    </button>
+                                                )}
                                             </td>
                                         </tr>
                                     ))}

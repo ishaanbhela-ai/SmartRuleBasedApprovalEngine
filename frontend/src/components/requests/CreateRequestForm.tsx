@@ -17,9 +17,35 @@ export function CreateRequestForm({ onSuccess, onCancel }: CreateRequestFormProp
     const [requestTypes, setRequestTypes] = useState<RequestType[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<CreateRequestFormValues>({
+    const { register, handleSubmit, watch, formState: { errors, isSubmitting }, setError } = useForm<CreateRequestFormValues>({
         resolver: zodResolver(CreateRequestSchema)
     });
+
+    const selectedTypeId = watch('request_type_id');
+    const [balance, setBalance] = useState<{ limit: number, used: number, remaining: number } | null>(null);
+    const [balanceLoading, setBalanceLoading] = useState(false);
+
+    useEffect(() => {
+        if (!selectedTypeId) {
+            setBalance(null);
+            return;
+        }
+
+        const fetchBalance = async () => {
+            setBalanceLoading(true);
+            try {
+                const data = await requestsService.getBalance(selectedTypeId);
+                setBalance(data);
+            } catch (error) {
+                console.error("Failed to fetch balance", error);
+                setBalance(null);
+            } finally {
+                setBalanceLoading(false);
+            }
+        };
+
+        fetchBalance();
+    }, [selectedTypeId]);
 
     useEffect(() => {
         const fetchTypes = async () => {
@@ -71,6 +97,31 @@ export function CreateRequestForm({ onSuccess, onCancel }: CreateRequestFormProp
                     <p className="text-sm text-red-500 mt-1">{errors.request_type_id.message}</p>
                 )}
             </div>
+
+            {selectedTypeId && (
+                <div className="bg-slate-50 p-3 rounded-md border border-slate-100 text-sm">
+                    {balanceLoading ? (
+                        <span className="text-slate-500">Checking balance...</span>
+                    ) : balance ? (
+                        <div className="space-y-1">
+                            <div className="flex justify-between text-slate-700">
+                                <span>Quota Limit:</span>
+                                <span className="font-medium">{balance.limit.toLocaleString()}</span>
+                            </div>
+                            <div className="flex justify-between text-slate-700">
+                                <span>Used:</span>
+                                <span className="font-medium">{balance.used.toLocaleString()}</span>
+                            </div>
+                            <div className="flex justify-between text-slate-900 border-t border-slate-200 pt-1 mt-1">
+                                <span className="font-medium">Remaining:</span>
+                                <span className="font-medium text-primary-600">{balance.remaining.toLocaleString()}</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <span className="text-slate-400 italic">Balance info unavailable</span>
+                    )}
+                </div>
+            )}
 
             <Input
                 label="Requested Value"

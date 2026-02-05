@@ -35,5 +35,12 @@ export const requestsService = {
     // For Approvers: Approve or Reject
     processRequest: async (id: string, action: ApprovalAction): Promise<void> => {
         await api.put(`/approver/requests/${id}`, action);
+    },
+
+    getBalance: async (requestTypeId: string): Promise<{ limit: number; used: number; remaining: number }> => {
+        const response = await api.get<{ limit: number; used: number; remaining: number }>('/requests/balance', {
+            params: { request_type_id: requestTypeId }
+        });
+        return response.data;
     }
 };

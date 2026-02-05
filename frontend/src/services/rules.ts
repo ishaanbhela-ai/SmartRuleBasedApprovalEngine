@@ -35,5 +35,9 @@ export const rulesService = {
     createRule: async (data: CreateRuleInput): Promise<Rule> => {
         const response = await api.post<Rule>('/rules', data);
         return response.data;
+    },
+
+    deleteRule: async (id: string): Promise<void> => {
+        await api.delete(`/rules/${id}`);
     }
 };

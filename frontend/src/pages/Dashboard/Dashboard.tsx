@@ -24,7 +24,15 @@ export default function DashboardPage() {
                 const userRole = user?.role || 'user'
 
                 if (userRole === 'approver') {
-                    requestsData = await requestsService.getPendingRequests()
+                    const pendingRequests = await requestsService.getPendingRequests()
+                    // Normalize ApproverRequest to RequestItem by adding missing 'type' field
+                    requestsData = pendingRequests.map(req => ({
+                        ...req,
+                        type: req.request_type.name,
+                        // Ensure other optional fields required by UI are present or handled
+                        approval: null,
+                        requester: { ...req.requester, email: '' } // Approver list doesn't have email, but UI shows it. Fallback.
+                    })) as unknown as RequestItem[]
                 } else if (userRole === 'admin') {
                     requestsData = await requestsService.getAllRequests()
                 } else {
@@ -59,7 +67,7 @@ export default function DashboardPage() {
     const statCards = [
         {
             title: "Pending Requests",
-            value: stats?.status_breakdown['submitted'] || 0,
+            value: (stats?.status_breakdown['submitted'] || 0) + (stats?.status_breakdown['pending_approval'] || 0),
             icon: Clock,
             description: "Awaiting review"
         },
@@ -83,16 +91,11 @@ export default function DashboardPage() {
         },
     ]
 
-    function handleLogout(): void {
-        authService.logout()
-    }
-
     return (
         <div className="space-y-8">
             <DashboardHeader
                 title="Dashboard"
                 description="Overview of your validation and approval system."
-                onLogout={handleLogout}
                 actionLabel="Download Report"
                 onAction={() => console.log("Download report")}
             />
@@ -126,7 +129,7 @@ export default function DashboardPage() {
                                         </div>
                                         <div className="ml-auto">
                                             <Badge variant={
-                                                item.status === 'approved' ? 'success' :
+                                                item.status === 'approved' || item.status === 'auto_approved' ? 'success' :
                                                     item.status === 'rejected' ? 'destructive' : 'warning'
                                             }>
                                                 {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
