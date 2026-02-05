@@ -4474,3 +4474,405 @@ Processing by Api::V1::RequestsController#index as HTML
 Completed 200 OK in 15ms (Views: 0.3ms | ActiveRecord: 2.3ms (12 queries, 0 cached) | GC: 0.0ms)
 
 
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:43:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:44:03 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:45:03 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:46:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+Started GET "/api/v1/requests" for ::1 at 2026-02-05 12:16:53 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+Processing by Api::V1::RequestsController#index as */*
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mRequest Load (1.7ms)[0m  [1m[34mSELECT "requests".* FROM "requests" INNER JOIN "request_types" ON "request_types"."deleted_at" IS NULL AND "request_types"."id" = "requests"."request_type_id" INNER JOIN "request_type_approvers" ON "request_type_approvers"."request_type_id" = "request_types"."id" WHERE "requests"."status" = 'pending_approval' AND "request_type_approvers"."user_id" = 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:23:in `map'
+Completed 200 OK in 128ms (Views: 0.2ms | ActiveRecord: 20.4ms (2 queries, 0 cached) | GC: 14.6ms)
+
+
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:47:03 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:48:03 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:49:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:50:03 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:51:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:52:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:53:03 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:54:03 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:55:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:56:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:57:03 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:58:03 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 06:59:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+Started GET "/api/v1/approver/requests" for ::1 at 2026-02-05 12:29:42 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+Processing by Api::V1::Approver::RequestsController#index as */*
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mRequest Load (1.1ms)[0m  [1m[34mSELECT "requests".* FROM "requests" INNER JOIN "request_types" ON "request_types"."deleted_at" IS NULL AND "request_types"."id" = "requests"."request_type_id" INNER JOIN "request_type_approvers" ON "request_type_approvers"."request_type_id" = "request_types"."id" WHERE "requests"."status" = 'pending_approval' AND "request_type_approvers"."user_id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:12:in `map'
+Completed 200 OK in 75ms (Views: 0.2ms | ActiveRecord: 11.9ms (2 queries, 0 cached) | GC: 12.3ms)
+
+
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:00:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+Started GET "/api/v1/requests" for ::1 at 2026-02-05 12:30:19 +0530
+Processing by Api::V1::RequestsController#index as */*
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mRequest Load (0.6ms)[0m  [1m[34mSELECT "requests".* FROM "requests" INNER JOIN "request_types" ON "request_types"."deleted_at" IS NULL AND "request_types"."id" = "requests"."request_type_id" INNER JOIN "request_type_approvers" ON "request_type_approvers"."request_type_id" = "request_types"."id" WHERE "requests"."status" = 'pending_approval' AND "request_type_approvers"."user_id" = 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:23:in `map'
+Completed 200 OK in 5ms (Views: 0.1ms | ActiveRecord: 1.1ms (2 queries, 0 cached) | GC: 0.1ms)
+
+
+Started GET "/api/v1/requests" for ::1 at 2026-02-05 12:30:32 +0530
+Processing by Api::V1::RequestsController#index as */*
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.6ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:9:in `index'
+  [1m[36mRequest Load (0.7ms)[0m  [1m[34mSELECT "requests".* FROM "requests" WHERE "requests"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:23:in `map'
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" IN ('fe038de5-c81f-49dc-921a-88483ce0e58a', '75f36521-1c51-417c-9a15-b928634bd7a5', '0b0d12a0-5028-4d30-ac12-93a5a472fd12', '83001a5e-a295-476b-b35f-96003cfd4a64') /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:23:in `map'
+  [1m[36mRequestType Load (0.4ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:23:in `map'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '7a6cf344-8a50-486e-a0f2-b3d193d1a26c' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '77541218-cbc2-4c90-913a-07cd99dce377' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'bb36d7b2-f031-41d3-9149-244686220165' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '20d39852-3275-4f45-9ed1-d57b173a6c66' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'fb89016e-5d0c-4377-997b-b95c753ef2f2' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '7b14a429-f3b1-4a6f-b614-b90025e91103' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '17d7bbe4-1641-4715-b95c-fe045626cc7f' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'a51a490c-1c0a-4e24-b89c-6d4acecc4dde' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '46ee06c7-144e-4e91-a0d7-925264a30406' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '2766c10a-edae-458f-b00d-8ba5554ae5b0' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'af434a0f-1b1c-48de-839f-2c2ad60da375' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'aab4d455-2c63-42c7-8824-d49f4d9c447e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'b38a730d-00a7-4407-aa9d-cf94458b5cf7' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+Completed 200 OK in 61ms (Views: 0.2ms | ActiveRecord: 11.5ms (18 queries, 0 cached) | GC: 0.2ms)
+
+
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:01:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:02:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:03:01 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:04:01 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:05:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:06:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+Started GET "/api/v1/requests" for ::1 at 2026-02-05 12:36:44 +0530
+Processing by Api::V1::RequestsController#index as */*
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.5ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:9:in `index'
+  [1m[36mRequest Load (0.5ms)[0m  [1m[34mSELECT "requests".* FROM "requests" WHERE "requests"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:23:in `map'
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" IN ('fe038de5-c81f-49dc-921a-88483ce0e58a', '75f36521-1c51-417c-9a15-b928634bd7a5', '0b0d12a0-5028-4d30-ac12-93a5a472fd12', '83001a5e-a295-476b-b35f-96003cfd4a64') /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:23:in `map'
+  [1m[36mRequestType Load (0.5ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:23:in `map'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '7a6cf344-8a50-486e-a0f2-b3d193d1a26c' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.3ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '77541218-cbc2-4c90-913a-07cd99dce377' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.3ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'bb36d7b2-f031-41d3-9149-244686220165' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '20d39852-3275-4f45-9ed1-d57b173a6c66' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.3ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'fb89016e-5d0c-4377-997b-b95c753ef2f2' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '7b14a429-f3b1-4a6f-b614-b90025e91103' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '17d7bbe4-1641-4715-b95c-fe045626cc7f' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'a51a490c-1c0a-4e24-b89c-6d4acecc4dde' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.3ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '46ee06c7-144e-4e91-a0d7-925264a30406' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.9ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '2766c10a-edae-458f-b00d-8ba5554ae5b0' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'af434a0f-1b1c-48de-839f-2c2ad60da375' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'aab4d455-2c63-42c7-8824-d49f4d9c447e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'b38a730d-00a7-4407-aa9d-cf94458b5cf7' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:83:in `serialize_request'
+Completed 200 OK in 53ms (Views: 0.3ms | ActiveRecord: 11.2ms (18 queries, 0 cached) | GC: 0.0ms)
+
+
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:07:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:08:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:09:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:10:01 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:11:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:12:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:13:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:14:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:15:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:16:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:17:01 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:18:01 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:19:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:20:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:21:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:22:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[AutoReject] Starting auto-reject task at 2026-02-05 07:23:02 UTC
+[AutoReject] Cutoff time: 2026-02-04 15:00:00 UTC
+  [1m[36mRequest Count (1.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND (created_at < '2026-02-04 15:00:00') /*application='ApprovalEngine'*/[0m
+  ↳ lib/tasks/auto_reject.rake:16:in `block (2 levels) in <main>'
+[AutoReject] Found 0 requests to auto-reject
