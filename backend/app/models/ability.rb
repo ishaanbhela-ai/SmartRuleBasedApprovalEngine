@@ -3,21 +3,31 @@ class Ability
 
   def initialize(user)
     return unless user
-    can :read, :balance if user.role.in?(%w[user approver admin])
 
+    # Common permissions for all authenticated users
+    can :create, Request
+    can :read, Request, requester_id: user.id
+    can :read, :balance
+
+    # Role-specific permissions
     if user.role == "admin"
       can :manage, :all
 
     elsif user.role == "approver"
-      can :create, Request
-      can :read, Request, request_type: { approver_id: user.id }
-      can :update, Request, status: "pending_approval"
+      can :read, Request do |request|
+        request.status == "pending_approval" &&
+        request.request_type.approvers.exists?(user.id)
+      end
+
+      can :update, Request do |request|
+        request.status == "pending_approval" &&
+        request.request_type.approvers.exists?(user.id)
+      end
+
       can :read, RequestType
       can :read, Rule
 
     elsif user.role == "user"
-      can :create, Request
-      can :read, Request, requester_id: user.id
       can :read, RequestType
       can :read, Rule
     end

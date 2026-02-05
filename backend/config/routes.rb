@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post "login", to: "auth#login"
       resources :users, only: [ :create, :index, :destroy ]
-      resources :request_types, only: [ :create, :index, :destroy ]
+      resources :request_types, only: [ :create, :index, :destroy, :update ]
       resources :rules, only: [ :create, :index, :destroy ]
       resources :requests, only: [ :create, :index, :show ] do
         collection do

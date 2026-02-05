@@ -2,7 +2,10 @@ module Api
   module V1
     class RequestsController < ApplicationController
       def index
-        requests = Request.accessible_by(current_ability)
+        requests = Request
+          .accessible_by(current_ability)
+          .includes(:requester, :request_type)
+
         render json: requests.map { |req| serialize_request(req) }
       end
 
@@ -67,7 +70,18 @@ module Api
             action: request.approval.action,
             reason: request.approval.reason,
             approver_id: request.approval.approver_id
-          }
+          },
+          request_type: {
+            id: request.request_type.id,
+            name: request.request_type.name
+          },
+          requester: {
+            id: request.requester.id,
+            name: request.requester.name,
+            email: request.requester.email,
+            grade: request.requester.grade
+          },
+          created_at: request.created_at
         }
       end
     end

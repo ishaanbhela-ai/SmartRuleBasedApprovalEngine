@@ -2560,3 +2560,817 @@ Processing by Api::V1::Admin::ReportsController#summary as */*
 Completed 200 OK in 71ms (Views: 0.2ms | ActiveRecord: 21.0ms (7 queries, 0 cached) | GC: 1.3ms)
 
 
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+Started GET "/api/v1/requests" for ::1 at 2026-02-04 16:46:23 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+Processing by Api::V1::RequestsController#index as */*
+Filter chain halted as :authenticate_user rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/requests" for ::1 at 2026-02-04 16:46:46 +0530
+Processing by Api::V1::RequestsController#index as */*
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mRequest Load (0.8ms)[0m  [1m[34mSELECT "requests".* FROM "requests" /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:6:in `map'
+  [1m[36mRequestType Load (0.9ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.8ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '7a6cf344-8a50-486e-a0f2-b3d193d1a26c' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '77541218-cbc2-4c90-913a-07cd99dce377' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'bb36d7b2-f031-41d3-9149-244686220165' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '20d39852-3275-4f45-9ed1-d57b173a6c66' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'fb89016e-5d0c-4377-997b-b95c753ef2f2' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '7b14a429-f3b1-4a6f-b614-b90025e91103' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '17d7bbe4-1641-4715-b95c-fe045626cc7f' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'af434a0f-1b1c-48de-839f-2c2ad60da375' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'b38a730d-00a7-4407-aa9d-cf94458b5cf7' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'a51a490c-1c0a-4e24-b89c-6d4acecc4dde' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '46ee06c7-144e-4e91-a0d7-925264a30406' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'aab4d455-2c63-42c7-8824-d49f4d9c447e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.8ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '2766c10a-edae-458f-b00d-8ba5554ae5b0' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+Completed 200 OK in 216ms (Views: 0.2ms | ActiveRecord: 29.5ms (28 queries, 12 cached) | GC: 22.2ms)
+
+
+Started POST "/api/v1/login" for ::1 at 2026-02-04 16:51:45 +0530
+Processing by Api::V1::AuthController#login as */*
+  Parameters: {"email"=>"[FILTERED]", "password"=>"[FILTERED]", "auth"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."email" = 'employee3@example.com' LIMIT 1 /*action='login',application='ApprovalEngine',controller='auth'*/[0m
+  ↳ app/controllers/api/v1/auth_controller.rb:7:in `login'
+Completed 200 OK in 367ms (Views: 0.2ms | ActiveRecord: 0.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/requests" for ::1 at 2026-02-04 16:52:01 +0530
+Processing by Api::V1::RequestsController#index as */*
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = '83001a5e-a295-476b-b35f-96003cfd4a64' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mRequest Load (0.6ms)[0m  [1m[34mSELECT "requests".* FROM "requests" WHERE "requests"."requester_id" = '83001a5e-a295-476b-b35f-96003cfd4a64' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:6:in `map'
+  [1m[36mRequestType Load (0.5ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'a51a490c-1c0a-4e24-b89c-6d4acecc4dde' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '46ee06c7-144e-4e91-a0d7-925264a30406' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'aab4d455-2c63-42c7-8824-d49f4d9c447e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+Completed 200 OK in 25ms (Views: 0.2ms | ActiveRecord: 3.4ms (8 queries, 2 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/login" for ::1 at 2026-02-04 16:52:39 +0530
+Processing by Api::V1::AuthController#login as */*
+  Parameters: {"email"=>"[FILTERED]", "password"=>"[FILTERED]", "auth"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."email" = 'admin@example.com' LIMIT 1 /*action='login',application='ApprovalEngine',controller='auth'*/[0m
+  ↳ app/controllers/api/v1/auth_controller.rb:7:in `login'
+Completed 200 OK in 364ms (Views: 0.2ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/request_types" for ::1 at 2026-02-04 16:54:27 +0530
+Processing by Api::V1::RequestTypesController#create as */*
+  Parameters: {"name"=>"leave", "approver_id"=>"75f36521-1c51-417c-9a15-b928634bd7a5", "request_type"=>{"name"=>"leave", "approver_id"=>"75f36521-1c51-417c-9a15-b928634bd7a5"}}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = '75f36521-1c51-417c-9a15-b928634bd7a5' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:23:in `create'
+  [1m[36mTenant Load (0.7ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:30:in `create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:35:in `create'
+  [1m[36mRequestType Create (3.4ms)[0m  [1m[32mINSERT INTO "request_types" ("tenant_id", "name", "approver_id", "created_at", "updated_at", "deleted_at") VALUES ('d03f07e3-fd7e-43e4-ab08-99ea120abb0e', 'leave', '75f36521-1c51-417c-9a15-b928634bd7a5', '2026-02-04 11:24:27.747205', '2026-02-04 11:24:27.747205', NULL) RETURNING "id" /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:35:in `create'
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mCOMMIT /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:35:in `create'
+Completed 201 Created in 32ms (Views: 0.2ms | ActiveRecord: 9.0ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/request_types" for ::1 at 2026-02-04 16:55:33 +0530
+Processing by Api::V1::RequestTypesController#create as */*
+  Parameters: {"name"=>"expense", "approver_id"=>"75f36521-1c51-417c-9a15-b928634bd7a5", "request_type"=>{"name"=>"expense", "approver_id"=>"75f36521-1c51-417c-9a15-b928634bd7a5"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = '75f36521-1c51-417c-9a15-b928634bd7a5' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:23:in `create'
+  [1m[36mTenant Load (0.6ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:30:in `create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:35:in `create'
+  [1m[36mRequestType Create (4.2ms)[0m  [1m[32mINSERT INTO "request_types" ("tenant_id", "name", "approver_id", "created_at", "updated_at", "deleted_at") VALUES ('d03f07e3-fd7e-43e4-ab08-99ea120abb0e', 'expense', '75f36521-1c51-417c-9a15-b928634bd7a5', '2026-02-04 11:25:33.585693', '2026-02-04 11:25:33.585693', NULL) RETURNING "id" /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:35:in `create'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:35:in `create'
+Completed 500 Internal Server Error in 17ms (ActiveRecord: 6.5ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ActiveRecord::RecordNotUnique (PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+)
+Caused by: PG::UniqueViolation (ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+)
+
+Information for: ActiveRecord::RecordNotUnique (PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+):
+  
+
+Information for cause: PG::UniqueViolation (ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+):
+  
+app/controllers/api/v1/request_types_controller.rb:35:in `create'
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+Started GET "/api/v1/requests" for ::1 at 2026-02-04 18:55:08 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+Processing by Api::V1::RequestsController#index as */*
+  [1m[36mUser Load (2.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = '83001a5e-a295-476b-b35f-96003cfd4a64' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mRequest Load (1.7ms)[0m  [1m[34mSELECT "requests".* FROM "requests" WHERE "requests"."requester_id" = '83001a5e-a295-476b-b35f-96003cfd4a64' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:6:in `map'
+  [1m[36mRequestType Load (2.2ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (2.0ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'a51a490c-1c0a-4e24-b89c-6d4acecc4dde' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '46ee06c7-144e-4e91-a0d7-925264a30406' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'aab4d455-2c63-42c7-8824-d49f4d9c447e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+Completed 200 OK in 179ms (Views: 0.3ms | ActiveRecord: 33.0ms (8 queries, 2 cached) | GC: 17.8ms)
+
+
+Started POST "/api/v1/login" for ::1 at 2026-02-04 18:55:17 +0530
+Processing by Api::V1::AuthController#login as */*
+  Parameters: {"email"=>"[FILTERED]", "password"=>"[FILTERED]", "auth"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."email" = 'admin@example.com' LIMIT 1 /*action='login',application='ApprovalEngine',controller='auth'*/[0m
+  ↳ app/controllers/api/v1/auth_controller.rb:7:in `login'
+Completed 200 OK in 376ms (Views: 0.2ms | ActiveRecord: 1.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/requests" for ::1 at 2026-02-04 18:55:33 +0530
+Processing by Api::V1::RequestsController#index as */*
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mRequest Load (0.9ms)[0m  [1m[34mSELECT "requests".* FROM "requests" /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:6:in `map'
+  [1m[36mRequestType Load (0.8ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (1.2ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '7a6cf344-8a50-486e-a0f2-b3d193d1a26c' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '77541218-cbc2-4c90-913a-07cd99dce377' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'bb36d7b2-f031-41d3-9149-244686220165' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '20d39852-3275-4f45-9ed1-d57b173a6c66' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'fb89016e-5d0c-4377-997b-b95c753ef2f2' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '7b14a429-f3b1-4a6f-b614-b90025e91103' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '17d7bbe4-1641-4715-b95c-fe045626cc7f' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'af434a0f-1b1c-48de-839f-2c2ad60da375' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'b38a730d-00a7-4407-aa9d-cf94458b5cf7' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'a51a490c-1c0a-4e24-b89c-6d4acecc4dde' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '46ee06c7-144e-4e91-a0d7-925264a30406' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'aab4d455-2c63-42c7-8824-d49f4d9c447e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '2766c10a-edae-458f-b00d-8ba5554ae5b0' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+Completed 200 OK in 77ms (Views: 0.2ms | ActiveRecord: 11.1ms (28 queries, 12 cached) | GC: 0.0ms)
+
+
+Started PATCH "/api/v1/approver/requests/af434a0f-1b1c-48de-839f-2c2ad60da375" for ::1 at 2026-02-04 18:57:23 +0530
+Processing by Api::V1::Approver::RequestsController#update as */*
+  Parameters: {"action_type"=>"approved", "reason"=>"Ek rupee", "id"=>"af434a0f-1b1c-48de-839f-2c2ad60da375", "request"=>{}}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = '75f36521-1c51-417c-9a15-b928634bd7a5' LIMIT 1 /*action='update',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mRequest Load (0.7ms)[0m  [1m[34mSELECT "requests".* FROM "requests" WHERE "requests"."id" = 'af434a0f-1b1c-48de-839f-2c2ad60da375' LIMIT 1 /*action='update',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:15:in `update'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN /*action='update',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:23:in `block in update'
+  [1m[36mRequest Update (4.3ms)[0m  [1m[33mUPDATE "requests" SET "status" = 'approved', "updated_at" = '2026-02-04 13:27:23.695379' WHERE "requests"."id" = 'af434a0f-1b1c-48de-839f-2c2ad60da375' /*action='update',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:23:in `block in update'
+  [1m[36mTenant Load (1.7ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='update',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:28:in `block in update'
+  [1m[36mRequestType Load (0.7ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1 /*action='update',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:46:in `applicable_rule'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = '0b0d12a0-5028-4d30-ac12-93a5a472fd12' LIMIT 1 /*action='update',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:47:in `applicable_rule'
+  [1m[36mRule Load (2.6ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "rules"."request_type_id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' AND "rules"."grade" = 1 LIMIT 1 /*action='update',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:44:in `applicable_rule'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "rules"."request_type_id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' AND "rules"."grade" = 1 LIMIT 1[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:44:in `applicable_rule'
+  [1m[36mApproval Create (1.6ms)[0m  [1m[32mINSERT INTO "approvals" ("tenant_id", "request_id", "approver_id", "rule_id", "definition", "action", "reason", "created_at", "updated_at") VALUES ('d03f07e3-fd7e-43e4-ab08-99ea120abb0e', 'af434a0f-1b1c-48de-839f-2c2ad60da375', '75f36521-1c51-417c-9a15-b928634bd7a5', '5df7d539-2b57-4f1f-bbff-fb928da22373', 10000, 'approved', 'Ek rupee', '2026-02-04 13:27:23.741907', '2026-02-04 13:27:23.741907') RETURNING "id" /*action='update',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:27:in `block in update'
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mCOMMIT /*action='update',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:22:in `update'
+Completed 200 OK in 62ms (Views: 0.2ms | ActiveRecord: 19.4ms (9 queries, 1 cached) | GC: 0.0ms)
+
+
+Started PATCH "/api/v1/approver/requests/af434a0f-1b1c-48de-839f-2c2ad60da375" for ::1 at 2026-02-04 18:57:31 +0530
+Processing by Api::V1::Approver::RequestsController#update as */*
+  Parameters: {"action_type"=>"rejected", "reason"=>"Ek rupee", "id"=>"af434a0f-1b1c-48de-839f-2c2ad60da375", "request"=>{}}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = '75f36521-1c51-417c-9a15-b928634bd7a5' LIMIT 1 /*action='update',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mRequest Load (0.9ms)[0m  [1m[34mSELECT "requests".* FROM "requests" WHERE "requests"."id" = 'af434a0f-1b1c-48de-839f-2c2ad60da375' LIMIT 1 /*action='update',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:15:in `update'
+rescue_from handled CanCan::AccessDenied (You are not authorized to access this page.) - /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/cancancan-3.6.1/lib/cancan/ability.rb:180:in `authorize!'
+Completed 403 Forbidden in 13ms (Views: 0.4ms | ActiveRecord: 1.7ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/requests" for ::1 at 2026-02-04 18:59:58 +0530
+Processing by Api::V1::RequestsController#index as */*
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mRequest Load (1.0ms)[0m  [1m[34mSELECT "requests".* FROM "requests" /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:6:in `map'
+  [1m[36mRequestType Load (1.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '7a6cf344-8a50-486e-a0f2-b3d193d1a26c' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '77541218-cbc2-4c90-913a-07cd99dce377' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'bb36d7b2-f031-41d3-9149-244686220165' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.8ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '20d39852-3275-4f45-9ed1-d57b173a6c66' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'fb89016e-5d0c-4377-997b-b95c753ef2f2' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.8ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '7b14a429-f3b1-4a6f-b614-b90025e91103' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '17d7bbe4-1641-4715-b95c-fe045626cc7f' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.5ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'b38a730d-00a7-4407-aa9d-cf94458b5cf7' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'a51a490c-1c0a-4e24-b89c-6d4acecc4dde' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.8ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '46ee06c7-144e-4e91-a0d7-925264a30406' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.7ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'aab4d455-2c63-42c7-8824-d49f4d9c447e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.8ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '2766c10a-edae-458f-b00d-8ba5554ae5b0' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:63:in `serialize_request'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'af434a0f-1b1c-48de-839f-2c2ad60da375' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:66:in `serialize_request'
+Completed 200 OK in 100ms (Views: 0.3ms | ActiveRecord: 11.8ms (28 queries, 12 cached) | GC: 14.6ms)
+
+
+Started GET "/api/v1/requests" for ::1 at 2026-02-04 19:08:38 +0530
+Processing by Api::V1::RequestsController#index as */*
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mRequest Load (1.3ms)[0m  [1m[34mSELECT "requests".* FROM "requests" /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:9:in `map'
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" IN ('fe038de5-c81f-49dc-921a-88483ce0e58a', '75f36521-1c51-417c-9a15-b928634bd7a5', '0b0d12a0-5028-4d30-ac12-93a5a472fd12', '83001a5e-a295-476b-b35f-96003cfd4a64') /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:9:in `map'
+  [1m[36mRequestType Load (1.6ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:9:in `map'
+  [1m[36mApproval Load (1.2ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '7a6cf344-8a50-486e-a0f2-b3d193d1a26c' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+  [1m[36mApproval Load (1.4ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '77541218-cbc2-4c90-913a-07cd99dce377' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+  [1m[36mApproval Load (1.0ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'bb36d7b2-f031-41d3-9149-244686220165' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+  [1m[36mApproval Load (1.3ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '20d39852-3275-4f45-9ed1-d57b173a6c66' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+  [1m[36mApproval Load (0.9ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'fb89016e-5d0c-4377-997b-b95c753ef2f2' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+  [1m[36mApproval Load (1.1ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '7b14a429-f3b1-4a6f-b614-b90025e91103' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+  [1m[36mApproval Load (0.8ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '17d7bbe4-1641-4715-b95c-fe045626cc7f' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+  [1m[36mApproval Load (1.2ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'b38a730d-00a7-4407-aa9d-cf94458b5cf7' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+  [1m[36mApproval Load (0.9ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'a51a490c-1c0a-4e24-b89c-6d4acecc4dde' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+  [1m[36mApproval Load (1.0ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '46ee06c7-144e-4e91-a0d7-925264a30406' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+  [1m[36mApproval Load (1.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'aab4d455-2c63-42c7-8824-d49f4d9c447e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+  [1m[36mApproval Load (0.9ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = '2766c10a-edae-458f-b00d-8ba5554ae5b0' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+  [1m[36mApproval Load (1.1ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" = 'af434a0f-1b1c-48de-839f-2c2ad60da375' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:69:in `serialize_request'
+Completed 200 OK in 179ms (Views: 0.7ms | ActiveRecord: 28.5ms (17 queries, 0 cached) | GC: 5.6ms)
+
+
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_try_advisory_lock(1219215388655053755) /*application='ApprovalEngine'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.4ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='ApprovalEngine'*/[0m
+Migrating to CreateRequestTypeApprovers (20260204155848)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN /*application='ApprovalEngine'*/[0m
+  [1m[35m (9.2ms)[0m  [1m[35mCREATE TABLE "request_type_approvers" ("id" uuid DEFAULT gen_random_uuid() NOT NULL PRIMARY KEY, "request_type_id" uuid NOT NULL, "user_id" uuid NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='ApprovalEngine'*/[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_request_type_approvers_unique" ON "request_type_approvers" ("request_type_id", "user_id") /*application='ApprovalEngine'*/[0m
+  [1m[35m (3.9ms)[0m  [1m[35mALTER TABLE "request_type_approvers" ADD CONSTRAINT "fk_rails_95ce725bee"
+FOREIGN KEY ("request_type_id")
+  REFERENCES "request_types" ("id")
+ /*application='ApprovalEngine'*/[0m
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "request_type_approvers" ADD CONSTRAINT "fk_rails_4453caf550"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+ /*application='ApprovalEngine'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260204155848') RETURNING "version" /*application='ApprovalEngine'*/[0m
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[35mCOMMIT /*application='ApprovalEngine'*/[0m
+Migrating to RemoveApproverIdFromRequestTypes (20260204155925)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='ApprovalEngine'*/[0m
+  [1m[35m (3.8ms)[0m  [1m[35mALTER TABLE "request_types" DROP COLUMN "approver_id" /*application='ApprovalEngine'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260204155925') RETURNING "version" /*application='ApprovalEngine'*/[0m
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT /*application='ApprovalEngine'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(1219215388655053755) /*application='ApprovalEngine'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='ApprovalEngine'*/[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[35mSET search_path TO "$user", public /*application='ApprovalEngine'*/[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[35mSET search_path TO public /*application='ApprovalEngine'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO "$user", public /*application='ApprovalEngine'*/[0m
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+Started GET "/api/v1/request_types" for ::1 at 2026-02-04 22:12:14 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+Processing by Api::V1::RequestTypesController#index as */*
+Filter chain halted as :authenticate_user rendered or redirected
+Completed 401 Unauthorized in 2ms (Views: 0.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/users" for ::1 at 2026-02-04 22:14:42 +0530
+Processing by Api::V1::UsersController#index as */*
+Filter chain halted as :authenticate_user rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/login" for ::1 at 2026-02-04 22:14:57 +0530
+Processing by Api::V1::AuthController#login as */*
+  Parameters: {"email"=>"[FILTERED]", "password"=>"[FILTERED]", "auth"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."email" = 'admin@example.com' LIMIT 1 /*action='login',application='ApprovalEngine',controller='auth'*/[0m
+  ↳ app/controllers/api/v1/auth_controller.rb:7:in `login'
+Completed 200 OK in 464ms (Views: 0.2ms | ActiveRecord: 13.6ms (1 query, 0 cached) | GC: 4.4ms)
+
+
+Started GET "/api/v1/request_types" for ::1 at 2026-02-04 22:15:21 +0530
+Processing by Api::V1::RequestTypesController#index as */*
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (1.0ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:6:in `index'
+  [1m[36mRequestType Load (1.3ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:8:in `map'
+  [1m[36mRequestTypeApprover Load (1.3ms)[0m  [1m[34mSELECT "request_type_approvers".* FROM "request_type_approvers" WHERE "request_type_approvers"."request_type_id" IN ('9f083360-28a1-4237-8e11-78bcfd0c0ac2', 'e272ea9b-56f8-4c9c-bdba-2c18521e1ad0') /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:8:in `map'
+Completed 200 OK in 96ms (Views: 0.2ms | ActiveRecord: 16.6ms (4 queries, 0 cached) | GC: 1.5ms)
+
+
+Started GET "/api/v1/users" for ::1 at 2026-02-04 22:16:26 +0530
+Processing by Api::V1::UsersController#index as */*
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (1.2ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:9:in `map'
+Completed 200 OK in 17ms (Views: 0.4ms | ActiveRecord: 3.0ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/request_types" for ::1 at 2026-02-04 22:16:54 +0530
+Processing by Api::V1::RequestTypesController#create as */*
+  Parameters: {"name"=>"expense", "approver_id"=>"75f36521-1c51-417c-9a15-b928634bd7a5", "request_type"=>{"name"=>"expense"}}
+Filter chain halted as :authenticate_user rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/request_types" for ::1 at 2026-02-04 22:17:02 +0530
+Processing by Api::V1::RequestTypesController#create as */*
+  Parameters: {"name"=>"expense", "approver_id"=>"75f36521-1c51-417c-9a15-b928634bd7a5", "request_type"=>{"name"=>"expense"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+Completed 422 Unprocessable Content in 3ms (Views: 0.1ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/request_types" for ::1 at 2026-02-04 22:17:33 +0530
+Processing by Api::V1::RequestTypesController#create as */*
+  Parameters: {"name"=>"expense", "approver_ids"=>"75f36521-1c51-417c-9a15-b928634bd7a5", "request_type"=>{"name"=>"expense"}}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.7ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:34:in `create'
+  [1m[36mUser Count (3.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "users"."id" = '75f36521-1c51-417c-9a15-b928634bd7a5' AND "users"."role" = 'approver' /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:38:in `create'
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mBEGIN /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+  [1m[36mRequestType Create (4.3ms)[0m  [1m[32mINSERT INTO "request_types" ("tenant_id", "name", "created_at", "updated_at", "deleted_at") VALUES ('d03f07e3-fd7e-43e4-ab08-99ea120abb0e', 'expense', '2026-02-04 16:47:33.963522', '2026-02-04 16:47:33.963522', NULL) RETURNING "id" /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[31mROLLBACK /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:48:in `create'
+Completed 500 Internal Server Error in 28ms (ActiveRecord: 10.3ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ActiveRecord::RecordNotUnique (PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+)
+Caused by: PG::UniqueViolation (ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+)
+
+Information for: ActiveRecord::RecordNotUnique (PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+):
+  
+
+Information for cause: PG::UniqueViolation (ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+):
+  
+app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+app/controllers/api/v1/request_types_controller.rb:48:in `create'
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+Started POST "/api/v1/request_types" for ::1 at 2026-02-04 22:21:11 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+Processing by Api::V1::RequestTypesController#create as */*
+  Parameters: {"name"=>"expense", "approver_ids"=>"75f36521-1c51-417c-9a15-b928634bd7a5", "request_type"=>{"name"=>"expense"}}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.9ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:34:in `create'
+  [1m[36mUser Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "users"."id" = '75f36521-1c51-417c-9a15-b928634bd7a5' AND "users"."role" = 'approver' /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:38:in `create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+  [1m[36mRequestType Create (3.6ms)[0m  [1m[32mINSERT INTO "request_types" ("tenant_id", "name", "created_at", "updated_at", "deleted_at") VALUES ('d03f07e3-fd7e-43e4-ab08-99ea120abb0e', 'expense', '2026-02-04 16:51:11.457186', '2026-02-04 16:51:11.457186', NULL) RETURNING "id" /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:48:in `create'
+Completed 500 Internal Server Error in 78ms (ActiveRecord: 60.2ms (4 queries, 0 cached) | GC: 3.7ms)
+
+
+  
+ActiveRecord::RecordNotUnique (PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+)
+Caused by: PG::UniqueViolation (ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+)
+
+Information for: ActiveRecord::RecordNotUnique (PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+):
+  
+
+Information for cause: PG::UniqueViolation (ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+):
+  
+app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+app/controllers/api/v1/request_types_controller.rb:48:in `create'
+Started GET "/api/v1/users" for ::1 at 2026-02-04 22:21:19 +0530
+Processing by Api::V1::UsersController#index as */*
+Filter chain halted as :authenticate_user rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/login" for ::1 at 2026-02-04 22:21:33 +0530
+Processing by Api::V1::AuthController#login as */*
+  Parameters: {"email"=>"[FILTERED]", "password"=>"[FILTERED]", "auth"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."email" = 'admin@example.com' LIMIT 1 /*action='login',application='ApprovalEngine',controller='auth'*/[0m
+  ↳ app/controllers/api/v1/auth_controller.rb:7:in `login'
+Completed 200 OK in 365ms (Views: 0.2ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/users" for ::1 at 2026-02-04 22:21:42 +0530
+Processing by Api::V1::UsersController#index as */*
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.8ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:9:in `map'
+Completed 200 OK in 11ms (Views: 0.3ms | ActiveRecord: 2.2ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/request_types" for ::1 at 2026-02-04 22:21:55 +0530
+Processing by Api::V1::RequestTypesController#create as */*
+  Parameters: {"name"=>"expense", "approver_ids"=>"fe038de5-c81f-49dc-921a-88483ce0e58a", "request_type"=>{"name"=>"expense"}}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (1.0ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:34:in `create'
+  [1m[36mUser Count (1.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' AND "users"."role" = 'approver' /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:38:in `create'
+Completed 422 Unprocessable Content in 15ms (Views: 0.3ms | ActiveRecord: 3.6ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/users" for ::1 at 2026-02-04 22:23:08 +0530
+Processing by Api::V1::UsersController#create as */*
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]", "name"=>"Manager", "role"=>"approver", "grade"=>2}}
+Filter chain halted as :authenticate_user rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/users" for ::1 at 2026-02-04 22:23:17 +0530
+Processing by Api::V1::UsersController#create as */*
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]", "name"=>"Manager", "role"=>"approver", "grade"=>2}}
+Filter chain halted as :authenticate_user rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/users" for ::1 at 2026-02-04 22:23:36 +0530
+Processing by Api::V1::UsersController#create as */*
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]", "name"=>"Manager", "role"=>"approver", "grade"=>2}}
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='create',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.6ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='create',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:25:in `create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*action='create',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:27:in `create'
+  [1m[36mUser Exists? (2.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'manager2@example.com' LIMIT 1 /*action='create',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:27:in `create'
+  [1m[36mUser Create (1.1ms)[0m  [1m[32mINSERT INTO "users" ("tenant_id", "email", "password_digest", "name", "role", "grade", "created_at", "updated_at", "deleted_at") VALUES ('d03f07e3-fd7e-43e4-ab08-99ea120abb0e', 'manager2@example.com', '$2a$12$/MPh/w72lqo6tzg1rUe/2e0YyZUHFnrPNLhiRNaYqDWvpbHKYkVb.', 'Manager', 'approver', 2, '2026-02-04 16:53:36.390140', '2026-02-04 16:53:36.390140', NULL) RETURNING "id" /*action='create',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:27:in `create'
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mCOMMIT /*action='create',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:27:in `create'
+Completed 201 Created in 387ms (Views: 0.2ms | ActiveRecord: 6.6ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/request_types" for ::1 at 2026-02-04 22:24:02 +0530
+Processing by Api::V1::RequestTypesController#create as */*
+  Parameters: {"name"=>"expense", "approver_ids"=>"fe502c6c-44f0-48ce-b093-fcfdde5f37a8", "request_type"=>{"name"=>"expense"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.7ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:34:in `create'
+  [1m[36mUser Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "users"."id" = 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8' AND "users"."role" = 'approver' /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:38:in `create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+  [1m[36mRequestType Create (3.0ms)[0m  [1m[32mINSERT INTO "request_types" ("tenant_id", "name", "created_at", "updated_at", "deleted_at") VALUES ('d03f07e3-fd7e-43e4-ab08-99ea120abb0e', 'expense', '2026-02-04 16:54:02.611541', '2026-02-04 16:54:02.611541', NULL) RETURNING "id" /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:48:in `create'
+Completed 500 Internal Server Error in 16ms (ActiveRecord: 5.4ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ActiveRecord::RecordNotUnique (PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+)
+Caused by: PG::UniqueViolation (ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+)
+
+Information for: ActiveRecord::RecordNotUnique (PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+):
+  
+
+Information for cause: PG::UniqueViolation (ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+):
+  
+app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+app/controllers/api/v1/request_types_controller.rb:48:in `create'
+Started POST "/api/v1/request_types" for ::1 at 2026-02-04 22:28:42 +0530
+Processing by Api::V1::RequestTypesController#create as */*
+  Parameters: {"name"=>"expense", "approver_ids"=>["fe502c6c-44f0-48ce-b093-fcfdde5f37a8"], "request_type"=>{"name"=>"expense"}}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.6ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:34:in `create'
+  [1m[36mUser Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "users"."id" = 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8' AND "users"."role" = 'approver' /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:38:in `create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+  [1m[36mRequestType Create (3.1ms)[0m  [1m[32mINSERT INTO "request_types" ("tenant_id", "name", "created_at", "updated_at", "deleted_at") VALUES ('d03f07e3-fd7e-43e4-ab08-99ea120abb0e', 'expense', '2026-02-04 16:58:42.875862', '2026-02-04 16:58:42.875862', NULL) RETURNING "id" /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:48:in `create'
+Completed 500 Internal Server Error in 19ms (ActiveRecord: 6.0ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ActiveRecord::RecordNotUnique (PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+)
+Caused by: PG::UniqueViolation (ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+)
+
+Information for: ActiveRecord::RecordNotUnique (PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+):
+  
+
+Information for cause: PG::UniqueViolation (ERROR:  duplicate key value violates unique constraint "index_request_types_on_tenant_id_and_name"
+DETAIL:  Key (tenant_id, name)=(d03f07e3-fd7e-43e4-ab08-99ea120abb0e, expense) already exists.
+):
+  
+app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+app/controllers/api/v1/request_types_controller.rb:48:in `create'
+Started POST "/api/v1/request_types" for ::1 at 2026-02-04 22:29:53 +0530
+Processing by Api::V1::RequestTypesController#create as */*
+  Parameters: {"name"=>"discount", "approver_ids"=>["fe502c6c-44f0-48ce-b093-fcfdde5f37a8"], "request_type"=>{"name"=>"discount"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.8ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:34:in `create'
+  [1m[36mUser Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "users"."id" = 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8' AND "users"."role" = 'approver' /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:38:in `create'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+  [1m[36mRequestType Create (3.5ms)[0m  [1m[32mINSERT INTO "request_types" ("tenant_id", "name", "created_at", "updated_at", "deleted_at") VALUES ('d03f07e3-fd7e-43e4-ab08-99ea120abb0e', 'discount', '2026-02-04 16:59:53.157883', '2026-02-04 16:59:53.157883', NULL) RETURNING "id" /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:49:in `block in create'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "users"."id" = 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8' AND "users"."role" = 'approver' /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:51:in `block in create'
+  [1m[36mRequestTypeApprover Create (1.4ms)[0m  [1m[32mINSERT INTO "request_type_approvers" ("request_type_id", "user_id", "created_at", "updated_at") VALUES ('ac8ae25c-6c03-4f9b-ab7b-69ab2f188711', 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8', '2026-02-04 16:59:53.193308', '2026-02-04 16:59:53.193308') RETURNING "id" /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:52:in `block (2 levels) in create'
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mCOMMIT /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:48:in `create'
+Completed 201 Created in 54ms (Views: 0.2ms | ActiveRecord: 11.7ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+Started GET "/api/v1/request_types" for ::1 at 2026-02-05 10:23:54 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+Processing by Api::V1::RequestTypesController#index as */*
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (1.9ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:6:in `index'
+  [1m[36mRequestType Load (2.1ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:8:in `map'
+  [1m[36mRequestTypeApprover Load (2.0ms)[0m  [1m[34mSELECT "request_type_approvers".* FROM "request_type_approvers" WHERE "request_type_approvers"."request_type_id" IN ('9f083360-28a1-4237-8e11-78bcfd0c0ac2', 'e272ea9b-56f8-4c9c-bdba-2c18521e1ad0', 'ac8ae25c-6c03-4f9b-ab7b-69ab2f188711') /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:8:in `map'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8' /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:8:in `map'
+Completed 200 OK in 183ms (Views: 0.3ms | ActiveRecord: 31.2ms (5 queries, 0 cached) | GC: 18.5ms)
+
+
+Started GET "/api/v1/users" for ::1 at 2026-02-05 10:26:01 +0530
+Processing by Api::V1::UsersController#index as */*
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.5ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in `index'
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:9:in `map'
+Completed 200 OK in 13ms (Views: 0.4ms | ActiveRecord: 2.2ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/api/v1/request_types/9f083360-28a1-4237-8e11-78bcfd0c0ac2" for ::1 at 2026-02-05 10:26:34 +0530
+Processing by Api::V1::RequestTypesController#update as */*
+  Parameters: {"approver_ids"=>["75f36521-1c51-417c-9a15-b928634bd7a5", "fe502c6c-44f0-48ce-b093-fcfdde5f37a8"], "id"=>"9f083360-28a1-4237-8e11-78bcfd0c0ac2", "request_type"=>{}}
+Filter chain halted as :authenticate_user rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/api/v1/request_types/9f083360-28a1-4237-8e11-78bcfd0c0ac2" for ::1 at 2026-02-05 10:26:43 +0530
+Processing by Api::V1::RequestTypesController#update as */*
+  Parameters: {"approver_ids"=>["75f36521-1c51-417c-9a15-b928634bd7a5", "fe502c6c-44f0-48ce-b093-fcfdde5f37a8"], "id"=>"9f083360-28a1-4237-8e11-78bcfd0c0ac2", "request_type"=>{}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='update',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.8ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='update',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:73:in `update'
+  [1m[36mRequestType Load (0.6ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "request_types"."id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' LIMIT 1 /*action='update',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:73:in `update'
+  [1m[36mUser Count (1.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "users"."id" IN ('75f36521-1c51-417c-9a15-b928634bd7a5', 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8') AND "users"."role" = 'approver' /*action='update',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:87:in `update'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*action='update',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:94:in `block in update'
+  [1m[36mRequestTypeApprover Load (2.6ms)[0m  [1m[34mSELECT "request_type_approvers".* FROM "request_type_approvers" WHERE "request_type_approvers"."request_type_id" = '9f083360-28a1-4237-8e11-78bcfd0c0ac2' /*action='update',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:94:in `block in update'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "users"."id" IN ('75f36521-1c51-417c-9a15-b928634bd7a5', 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8') AND "users"."role" = 'approver' /*action='update',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:97:in `block in update'
+  [1m[36mRequestTypeApprover Create (1.7ms)[0m  [1m[32mINSERT INTO "request_type_approvers" ("request_type_id", "user_id", "created_at", "updated_at") VALUES ('9f083360-28a1-4237-8e11-78bcfd0c0ac2', '75f36521-1c51-417c-9a15-b928634bd7a5', '2026-02-05 04:56:43.191522', '2026-02-05 04:56:43.191522') RETURNING "id" /*action='update',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:98:in `block (2 levels) in update'
+  [1m[36mRequestTypeApprover Create (0.8ms)[0m  [1m[32mINSERT INTO "request_type_approvers" ("request_type_id", "user_id", "created_at", "updated_at") VALUES ('9f083360-28a1-4237-8e11-78bcfd0c0ac2', 'fe502c6c-44f0-48ce-b093-fcfdde5f37a8', '2026-02-05 04:56:43.197075', '2026-02-05 04:56:43.197075') RETURNING "id" /*action='update',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:98:in `block (2 levels) in update'
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mCOMMIT /*action='update',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:92:in `update'
+Completed 200 OK in 35ms (Views: 0.2ms | ActiveRecord: 10.8ms (8 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/request_types" for ::1 at 2026-02-05 10:34:49 +0530
+Processing by Api::V1::RequestTypesController#create as */*
+  Parameters: {"name"=>"discount", "approver_ids"=>["fe502c6c-44f0-48ce-b093-fcfdde5f37a8"], "request_type"=>{"name"=>"discount"}}
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'fe038de5-c81f-49dc-921a-88483ce0e58a' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in `authenticate_user'
+  [1m[36mTenant Load (0.9ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:26:in `create'
+  [1m[36mRequestType Load (1.6ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."tenant_id" = 'd03f07e3-fd7e-43e4-ab08-99ea120abb0e' AND "request_types"."name" = 'discount' LIMIT 1 /*action='create',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:26:in `create'
+Completed 409 Conflict in 79ms (Views: 0.2ms | ActiveRecord: 12.0ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
