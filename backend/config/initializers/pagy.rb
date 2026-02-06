@@ -13,6 +13,9 @@ Pagy.options[:limit] = 10
 # Allow clients to request up to 100 items per page
 Pagy.options[:client_max_limit] = 100
 
+# Accept both 'limit' and 'per_page' as parameter names
+Pagy.options[:limit_param] = ->(params) { params[:per_page] || params[:limit] }
+
 
 ############ JavaScript ####################################################################
 # See https://ddnexus.github.io/pagy/resources/javascript/ for details.

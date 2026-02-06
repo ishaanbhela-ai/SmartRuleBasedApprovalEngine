@@ -5,7 +5,7 @@ module Api
         authorize! :read, User
 
         users = current_user.tenant.users
-        pagy, records = pagy(:offset, users)
+        pagy, records = pagy(:offset, users, limit: (params[:per_page] || params[:limit] || 10).to_i)
 
         render json: {
           data: Panko::ArraySerializer.new(
