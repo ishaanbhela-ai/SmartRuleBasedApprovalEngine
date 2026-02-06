@@ -60,13 +60,29 @@ RSpec.describe "Request Types API", type: :request do
       end
 
       it "returns unprocessable entity if no approvers provided" do
-        post "/api/v1/request_types", params: { name: "discount", approver_ids: [] }, headers: headers
+        post "/api/v1/request_types", params: { name: "discount", approver_ids: [] }, headers: headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
+        json = JSON.parse(response.body)
+        expect(json["error"]).to eq("At least one approver is required")
       end
 
       it "returns unprocessable entity if invalid approvers provided" do
-        post "/api/v1/request_types", params: { name: "discount", approver_ids: [ 99999 ] }, headers: headers
+        post "/api/v1/request_types", params: { name: "discount", approver_ids: [ 99999 ] }, headers: headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
+        json = JSON.parse(response.body)
+        expect(json["error"]).to eq("Invalid approvers provided")
+      end
+
+      it "handles RecordInvalid explicitly" do
+        # Simulate a validation failure that passes explicit checks but fails at model level
+        # For example, if name is invalid (though only inclusion validation exists and we bypass frontend checks potentially)
+        # Or mock .save! to raise
+        allow_any_instance_of(RequestType).to receive(:save!).and_raise(ActiveRecord::RecordInvalid.new(RequestType.new))
+
+        post "/api/v1/request_types", params: { name: "discount", approver_ids: [ approver.id ] }, headers: headers, as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        json = JSON.parse(response.body)
+        expect(json["error"]).to include("Validation failed")
       end
     end
 
@@ -96,10 +112,38 @@ RSpec.describe "Request Types API", type: :request do
 
       put "/api/v1/request_types/#{rt.id}",
           params: { approver_ids: [ new_approver.id ] },
-          headers: headers
+          headers: headers, as: :json
 
       rt.reload
       expect(rt.approvers).to contain_exactly(new_approver)
+    end
+
+    context "validations" do
+      it "returns unprocessable entity if no approvers provided" do
+        put "/api/v1/request_types/#{rt.id}", params: { approver_ids: [] }, headers: headers, as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        json = JSON.parse(response.body)
+        expect(json["error"]).to eq("At least one approver is required")
+      end
+
+      it "returns unprocessable entity if invalid approvers provided" do
+         put "/api/v1/request_types/#{rt.id}", params: { approver_ids: [ 99999 ] }, headers: headers, as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        json = JSON.parse(response.body)
+        expect(json["error"]).to eq("Invalid approvers provided")
+      end
+
+       it "handles RecordInvalid explicitly" do
+         allow(RequestTypeApprover).to receive(:create!).and_raise(ActiveRecord::RecordInvalid.new(RequestTypeApprover.new))
+
+         put "/api/v1/request_types/#{rt.id}",
+          params: { approver_ids: [ new_approver.id ] },
+          headers: headers, as: :json
+
+         expect(response).to have_http_status(:unprocessable_entity)
+         json = JSON.parse(response.body)
+         expect(json["error"]).to include("Validation failed")
+       end
     end
 
     it "forbids update by non-admin" do
