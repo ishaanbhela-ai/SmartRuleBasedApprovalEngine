@@ -3,6 +3,9 @@ module Api
     module Approver
       class RequestsController < ApplicationController
         def index
+          # Admin has manage :all so they can access. Approvers have access via their role.
+          # Explicit check might be needed if standard resource auth isn't used.
+
           # Admins see all pending requests, approvers see only their assigned requests
           requests = if current_user.role == "admin"
                        # Admins can approve any pending request

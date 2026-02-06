@@ -5,8 +5,8 @@ class ApproverRequestSerializer < Panko::Serializer
              :created_at,
              :quota
 
-  has_one :requester, serializer: UserSerializer
-  has_one :request_type, serializer: RequestTypeSerializer
+  has_one :requester, serializer: ::UserSerializer
+  has_one :request_type, serializer: ::RequestTypeSerializer
 
   def quota
     calculator = QuotaCalculator.new(

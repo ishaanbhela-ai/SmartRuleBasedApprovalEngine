@@ -18,7 +18,7 @@ module SoftDeletable
     deleted_at.present?
   end
 
-  def restore
-    update_column(:deleted_at, nil)
-  end
+  # def restore
+  # update_column(:deleted_at, nil)
+  # end
 end

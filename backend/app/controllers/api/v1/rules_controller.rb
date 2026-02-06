@@ -9,7 +9,7 @@ module Api
         render json: {
           data: Panko::ArraySerializer.new(
             records,
-            each_serializer: RuleSerializer
+            each_serializer: ::RuleSerializer
           ).to_a,
           meta: pagy_meta(pagy)
         }
@@ -27,7 +27,7 @@ module Api
         )
 
         if rule.save
-          render json: RuleSerializer.new(rule).to_json, status: :created
+          render json: ::RuleSerializer.new.serialize_to_json(rule), status: :created
         else
           render json: { errors: rule.errors.full_messages },
                  status: :unprocessable_entity
