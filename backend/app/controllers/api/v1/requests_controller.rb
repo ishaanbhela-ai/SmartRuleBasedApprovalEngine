@@ -27,7 +27,7 @@ module Api
       def show
         request = Request.find(params[:id])
         authorize! :read, request
-        render json: RequestSerializer.new.serialize(request)
+        render json: { data: RequestSerializer.new.serialize(request) }
       end
 
       def create
@@ -46,7 +46,7 @@ module Api
           RuleEvaluator.new(request).evaluate!
         end
 
-        render json: RequestSerializer.new.serialize(request), status: :created
+        render json: { data: RequestSerializer.new.serialize(request) }, status: :created
       rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.message }, status: :unprocessable_entity
       end
