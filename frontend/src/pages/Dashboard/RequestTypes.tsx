@@ -7,7 +7,9 @@ import type { PaginationMeta } from '../../models/common';
 import { Pagination } from '../../components/ui/Pagination/Pagination';
 import { CreateRequestTypeForm } from '../../components/requestTypes/CreateRequestTypeForm';
 import { Modal } from '../../components/ui/Modal/Modal';
-import { FileText, User as UserIcon, Edit, Trash2 } from 'lucide-react';
+import { Edit, Trash2 } from 'lucide-react';
+import { RequestTypeIcon } from '../../components/ui/RequestTypeIcon/RequestTypeIcon';
+import { UserAvatar } from '../../components/ui/UserAvatar/UserAvatar';
 
 export default function RequestTypesPage() {
     const [requestTypes, setRequestTypes] = useState<RequestType[]>([]);
@@ -116,9 +118,7 @@ export default function RequestTypesPage() {
                                         <tr key={rt.id} className="hover:bg-slate-50 transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="h-8 w-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-                                                        <FileText className="h-4 w-4" />
-                                                    </div>
+                                                    <RequestTypeIcon className="bg-blue-50 text-blue-500" />
                                                     <span className="font-medium text-slate-900 capitalize">{rt.name}</span>
                                                 </div>
                                             </td>
@@ -126,13 +126,12 @@ export default function RequestTypesPage() {
                                                 {rt.approvers && rt.approvers.length > 0 ? (
                                                     <div className="flex flex-col gap-2">
                                                         {rt.approvers.map(approver => (
-                                                            <div key={approver.id} className="flex items-center gap-2">
-                                                                <UserIcon className="h-4 w-4 text-slate-400" />
-                                                                <div>
-                                                                    <div className="text-slate-900 text-sm">{approver.name}</div>
-                                                                    <div className="text-xs text-slate-500">{approver.email}</div>
-                                                                </div>
-                                                            </div>
+                                                            <UserAvatar
+                                                                key={approver.id}
+                                                                user={approver}
+                                                                size="sm"
+                                                                className="opacity-90"
+                                                            />
                                                         ))}
                                                     </div>
                                                 ) : (
@@ -164,7 +163,7 @@ export default function RequestTypesPage() {
                         </div>
                     )}
 
-                    {paginationMeta && (
+                    {paginationMeta && paginationMeta.total_pages > 1 && (
                         <Pagination
                             currentPage={currentPage}
                             totalPages={paginationMeta.total_pages}

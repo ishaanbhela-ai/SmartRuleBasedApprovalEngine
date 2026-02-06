@@ -3,7 +3,7 @@ import { z } from 'zod';
 export type RequestStatus = 'submitted' | 'approved' | 'rejected' | 'pending_approval' | 'auto_approved';
 
 export const RequestSchema = z.object({
-    id: z.string().uuid(),
+    id: z.uuid(),
     type: z.string().optional(), // Backend serializer removed this, use request_type.name
     requested_value: z.number(),
     status: z.enum(['submitted', 'pending_approval', 'approved', 'rejected', 'auto_approved']),

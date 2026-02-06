@@ -17,7 +17,7 @@ class User < ApplicationRecord
 
   ROLES = %w[admin approver user].freeze
 
-  validates :email, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: { scope: :tenant_id, conditions: -> { where(deleted_at: nil) } }
   validates :name, presence: true
   validates :role, inclusion: { in: ROLES }
   validates :grade, inclusion: { in: [ 1, 2, 3 ] }

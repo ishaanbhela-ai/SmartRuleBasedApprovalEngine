@@ -8,7 +8,7 @@ export const requestsService = {
         if (import.meta.env.VITE_USE_MOCK_API === 'true') {
             return new Promise((resolve) => setTimeout(() => resolve({
                 data: [],
-                meta: { total_count: 0, page: 1, per_page: 20, total_pages: 1 }
+                meta: { total_count: 0, page: 1, per_page: 20, total_pages: 0 }
             }), 500));
         }
         const response = await api.get<PaginatedResponse<Request>>('/requests', { params: { page } });
@@ -20,7 +20,7 @@ export const requestsService = {
         if (import.meta.env.VITE_USE_MOCK_API === 'true') {
             return new Promise((resolve) => setTimeout(() => resolve({
                 data: [],
-                meta: { total_count: 0, page: 1, per_page: 20, total_pages: 1 }
+                meta: { total_count: 0, page: 1, per_page: 20, total_pages: 0 }
             }), 500));
         }
         const response = await api.get<PaginatedResponse<ApproverRequest>>('/approver/requests', { params: { page } });

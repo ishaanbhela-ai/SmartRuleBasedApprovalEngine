@@ -155,7 +155,7 @@ export default function DashboardPage() {
                                             <FileText className="h-5 w-5 text-slate-500" />
                                         </div>
                                         <div className="ml-4 space-y-1">
-                                            <p className="text-sm font-medium leading-none text-slate-900">Request #{item.id}</p>
+                                            <p className="text-sm font-medium leading-none text-slate-900">Name: {item.requester?.name || 'Unknown'}</p>
                                             <p className="text-xs text-slate-500">{item.request_type?.name || item.type} • {item.requested_value}</p>
                                         </div>
                                         <div className="ml-auto">

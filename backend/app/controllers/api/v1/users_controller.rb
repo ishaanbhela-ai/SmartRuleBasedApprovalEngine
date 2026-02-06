@@ -24,11 +24,7 @@ module Api
         user.tenant = current_user.tenant
 
         if user.save
-<<<<<<< HEAD
-          render json: UserSerializer.new.serialize(user), status: :created
-=======
           render json: { data: UserSerializer.new.serialize(user) }, status: :created
->>>>>>> origin/backend/remove-unique
         else
           render json: { errors: user.errors.full_messages },
                  status: :unprocessable_entity

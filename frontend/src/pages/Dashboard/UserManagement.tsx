@@ -10,6 +10,7 @@ import type { PaginationMeta } from '../../models/common';
 import { Pagination } from '../../components/ui/Pagination/Pagination';
 import { CreateUserForm } from '../../components/users/CreateUserForm';
 import { Modal } from '../../components/ui/Modal/Modal';
+import { UserAvatar } from '../../components/ui/UserAvatar/UserAvatar';
 
 export default function UserManagement() {
     const [users, setUsers] = useState<User[]>([]);
@@ -105,15 +106,7 @@ export default function UserManagement() {
                                     {users.map((user) => (
                                         <tr key={user.id} className="hover:bg-slate-50 transition-colors">
                                             <td className="px-6 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
-                                                        <UserIcon className="h-4 w-4" />
-                                                    </div>
-                                                    <div>
-                                                        <div className="font-medium text-slate-900">{user.name}</div>
-                                                        <div className="text-xs text-slate-500">ID: {user.id}</div>
-                                                    </div>
-                                                </div>
+                                                <UserAvatar user={user} size="md" />
                                             </td>
                                             <td className="px-6 py-4">
                                                 <Badge variant={user.role === 'admin' ? 'default' : user.role === 'approver' ? 'secondary' : 'outline'}>
@@ -142,7 +135,7 @@ export default function UserManagement() {
                         </div>
                     )}
 
-                    {paginationMeta && (
+                    {paginationMeta && paginationMeta.total_pages > 1 && (
                         <Pagination
                             currentPage={currentPage}
                             totalPages={paginationMeta.total_pages}
