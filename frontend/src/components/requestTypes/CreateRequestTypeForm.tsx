@@ -67,8 +67,9 @@ export function CreateRequestTypeForm({ initialData, onSuccess, onCancel }: Crea
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Type Name</label>
+                <label htmlFor="name" className="text-sm font-medium text-slate-700">Type Name</label>
                 <select
+                    id="name"
                     {...register('name')}
                     className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
                 >
@@ -81,7 +82,7 @@ export function CreateRequestTypeForm({ initialData, onSuccess, onCancel }: Crea
             </div>
 
             <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Approvers</label>
+                <label htmlFor="approver-select" className="text-sm font-medium text-slate-700">Approvers</label>
                 <div className="flex gap-2">
                     <select
                         id="approver-select"

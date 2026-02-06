@@ -47,8 +47,9 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Full Name</label>
+                <label htmlFor="name" className="text-sm font-medium text-slate-700">Full Name</label>
                 <Input
+                    id="name"
                     {...register('name')}
                     placeholder="John Doe"
                     error={errors.name?.message}
@@ -56,8 +57,9 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
             </div>
 
             <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Email Address</label>
+                <label htmlFor="email" className="text-sm font-medium text-slate-700">Email Address</label>
                 <Input
+                    id="email"
                     {...register('email')}
                     type="email"
                     placeholder="john@example.com"
@@ -66,8 +68,9 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
             </div>
 
             <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Password</label>
+                <label htmlFor="password" className="text-sm font-medium text-slate-700">Password</label>
                 <Input
+                    id="password"
                     {...register('password')}
                     type="password"
                     placeholder="••••••••"
@@ -77,8 +80,9 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
 
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700">Role</label>
+                    <label htmlFor="role" className="text-sm font-medium text-slate-700">Role</label>
                     <select
+                        id="role"
                         {...register('role')}
                         className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
                     >
@@ -90,8 +94,9 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700">Grade</label>
+                    <label htmlFor="grade" className="text-sm font-medium text-slate-700">Grade</label>
                     <select
+                        id="grade"
                         {...register('grade', { valueAsNumber: true })}
                         className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
                     >

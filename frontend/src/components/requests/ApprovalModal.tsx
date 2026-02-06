@@ -43,11 +43,11 @@ export function ApprovalModal({ request, isOpen, onClose, onSuccess }: ApprovalM
         }
     };
 
-    const percentageUsed = request.quota.limit > 0
+    const percentageUsed = request.quota && request.quota.limit > 0
         ? Math.round((request.quota.used / request.quota.limit) * 100)
         : 0;
 
-    const isOverLimit = request.requested_value > request.quota.remaining;
+    const isOverLimit = request.quota ? request.requested_value > request.quota.remaining : false;
 
     return (
         <Modal
@@ -91,16 +91,16 @@ export function ApprovalModal({ request, isOpen, onClose, onSuccess }: ApprovalM
                     <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                             <span className="text-slate-500">Total Limit</span>
-                            <span className="font-medium">{request.quota.limit.toLocaleString()}</span>
+                            <span className="font-medium">{request.quota?.limit.toLocaleString() ?? 'N/A'}</span>
+                        </div>
+                        <div className="flex justify-between text-sm text-slate-500 mb-1">
+                            <span>Used</span>
+                            <span className="font-medium">{request.quota?.used.toLocaleString() ?? 'N/A'}</span>
                         </div>
                         <div className="flex justify-between text-sm">
-                            <span className="text-slate-500">Used</span>
-                            <span className="font-medium">{request.quota.used.toLocaleString()}</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                            <span className="text-slate-500">Remaining</span>
-                            <span className={`font-medium ${request.quota.remaining < request.requested_value ? 'text-red-600' : 'text-emerald-600'}`}>
-                                {request.quota.remaining.toLocaleString()}
+                            <span>Remaining</span>
+                            <span className={`font-medium ${request.quota && request.quota.remaining < request.requested_value ? 'text-red-600' : 'text-emerald-600'}`}>
+                                {request.quota?.remaining.toLocaleString() ?? 'N/A'}
                             </span>
                         </div>
                     </div>

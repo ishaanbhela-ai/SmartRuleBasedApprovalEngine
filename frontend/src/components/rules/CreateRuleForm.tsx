@@ -50,8 +50,9 @@ export function CreateRuleForm({ onSuccess, onCancel }: CreateRuleFormProps) {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Request Type</label>
+                <label htmlFor="request_type_id" className="text-sm font-medium text-slate-700">Request Type</label>
                 <select
+                    id="request_type_id"
                     {...register('request_type_id')}
                     className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
                     disabled={isLoadingTypes}
@@ -66,8 +67,9 @@ export function CreateRuleForm({ onSuccess, onCancel }: CreateRuleFormProps) {
             </div>
 
             <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Grade</label>
+                <label htmlFor="grade" className="text-sm font-medium text-slate-700">Grade</label>
                 <select
+                    id="grade"
                     {...register('grade')}
                     className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
                 >
@@ -80,8 +82,9 @@ export function CreateRuleForm({ onSuccess, onCancel }: CreateRuleFormProps) {
             </div>
 
             <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Limit Amount</label>
+                <label htmlFor="definition" className="text-sm font-medium text-slate-700">Limit Amount</label>
                 <input
+                    id="definition"
                     type="number"
                     {...register('definition', { valueAsNumber: true })}
                     className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500"

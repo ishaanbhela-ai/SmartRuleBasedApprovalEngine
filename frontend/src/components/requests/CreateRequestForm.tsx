@@ -81,8 +81,9 @@ export function CreateRequestForm({ onSuccess, onCancel }: CreateRequestFormProp
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Request Type</label>
+                <label htmlFor="request_type_id" className="block text-sm font-medium text-slate-700 mb-1">Request Type</label>
                 <select
+                    id="request_type_id"
                     {...register('request_type_id')}
                     className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
                 >
@@ -124,6 +125,7 @@ export function CreateRequestForm({ onSuccess, onCancel }: CreateRequestFormProp
             )}
 
             <Input
+                id="requested-value"
                 label="Requested Value"
                 type="number"
                 step="0.01"

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Trash2, User as UserIcon } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { DashboardHeader } from '../../components/ui/Header/DashboardHeader';
 import { Card, CardContent } from '../../components/ui/Card/Card';
 import { Button } from '../../components/ui/Button/Button';

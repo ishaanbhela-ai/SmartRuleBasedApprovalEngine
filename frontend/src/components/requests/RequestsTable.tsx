@@ -1,7 +1,6 @@
 import type { Request } from '../../models/Request';
 import { RequestTypeIcon } from '../ui/RequestTypeIcon/RequestTypeIcon';
 import { StatusBadge } from '../ui/StatusBadge/StatusBadge';
-import { UserAvatar } from '../ui/UserAvatar/UserAvatar';
 
 interface RequestsTableProps {
     requests: Request[];
