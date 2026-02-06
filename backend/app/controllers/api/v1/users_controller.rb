@@ -5,7 +5,8 @@ module Api
         authorize! :read, User
 
         users = current_user.tenant.users
-        pagy, records = pagy(:offset, users, limit: (params[:per_page] || params[:limit] || 10).to_i)
+        limit = [ (params[:per_page] || params[:limit] || 10).to_i, 1 ].max
+        pagy, records = pagy(:offset, users, limit: limit)
 
         render json: {
           data: Panko::ArraySerializer.new(
@@ -23,7 +24,11 @@ module Api
         user.tenant = current_user.tenant
 
         if user.save
+<<<<<<< HEAD
           render json: UserSerializer.new.serialize(user), status: :created
+=======
+          render json: { data: UserSerializer.new.serialize(user) }, status: :created
+>>>>>>> origin/backend/remove-unique
         else
           render json: { errors: user.errors.full_messages },
                  status: :unprocessable_entity

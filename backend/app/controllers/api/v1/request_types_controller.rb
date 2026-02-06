@@ -9,7 +9,7 @@ module Api
         render json: {
           data: Panko::ArraySerializer.new(
             records,
-            each_serializer: RequestTypeSerializer
+            each_serializer: ::RequestTypeSerializer
           ).to_a,
           meta: pagy_meta(pagy)
         }
@@ -60,7 +60,11 @@ module Api
           end
         end
 
+<<<<<<< HEAD
         render json: RequestTypeSerializer.new.serialize(request_type), status: :created
+=======
+        render json: ::RequestTypeSerializer.new.serialize_to_json(request_type), status: :created
+>>>>>>> origin/backend/remove-unique
 
       rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.message }, status: :unprocessable_entity
@@ -101,7 +105,11 @@ module Api
           end
         end
 
+<<<<<<< HEAD
         render json: RequestTypeSerializer.new.serialize(request_type)
+=======
+        render json: ::RequestTypeSerializer.new.serialize_to_json(request_type)
+>>>>>>> origin/backend/remove-unique
       rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.message }, status: :unprocessable_entity
       end

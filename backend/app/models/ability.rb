@@ -20,6 +20,8 @@ class Ability
         request.request_type.approvers.exists?(user.id)
       end
 
+      can :read, :approver_requests
+
       can :update, Request do |request|
         request.status == "pending_approval" &&
         request.request_type.approvers.exists?(user.id)

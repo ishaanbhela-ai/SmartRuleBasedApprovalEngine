@@ -19,8 +19,6 @@ class MyReportCalculator
       approver_report
     when "user"
       user_report
-    else
-      user_report # Default to user report
     end
   end
 
