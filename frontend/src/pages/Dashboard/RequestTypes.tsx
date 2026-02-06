@@ -3,6 +3,8 @@ import { DashboardHeader } from '../../components/ui/Header/DashboardHeader';
 import { Card, CardContent } from '../../components/ui/Card/Card';
 import { requestTypesService } from '../../services/requestTypes';
 import type { RequestType } from '../../models/RequestType';
+import type { PaginationMeta } from '../../models/common';
+import { Pagination } from '../../components/ui/Pagination/Pagination';
 import { CreateRequestTypeForm } from '../../components/requestTypes/CreateRequestTypeForm';
 import { Modal } from '../../components/ui/Modal/Modal';
 import { FileText, User as UserIcon, Edit, Trash2 } from 'lucide-react';
@@ -14,11 +16,16 @@ export default function RequestTypesPage() {
     const [editingType, setEditingType] = useState<RequestType | null>(null);
     const [notification, setNotification] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
+    // Pagination State
+    const [currentPage, setCurrentPage] = useState(1);
+    const [paginationMeta, setPaginationMeta] = useState<PaginationMeta | null>(null);
+
     const fetchRequestTypes = async () => {
         try {
             setIsLoading(true);
-            const data = await requestTypesService.getRequestTypes();
-            setRequestTypes(data);
+            const response = await requestTypesService.getRequestTypes(currentPage);
+            setRequestTypes(response.data);
+            setPaginationMeta(response.meta);
         } catch (error) {
             console.error("Failed to fetch request types", error);
             // setNotification({ type: 'error', message: "Failed to load request types" });
@@ -29,14 +36,20 @@ export default function RequestTypesPage() {
 
     useEffect(() => {
         fetchRequestTypes();
-    }, []);
+    }, [currentPage]);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
 
     const handleSuccess = (updatedOrNewType: RequestType) => {
         if (editingType) {
             setRequestTypes(requestTypes.map(rt => rt.id === updatedOrNewType.id ? updatedOrNewType : rt));
             setNotification({ type: 'success', message: "Request Type updated successfully" });
         } else {
-            setRequestTypes([...requestTypes, updatedOrNewType]);
+            // For new types, effectively we should probably reload or add to top if on first page?
+            // Simplest handling is to reload to show new item properly in paginated list
+            fetchRequestTypes();
             setNotification({ type: 'success', message: "Request Type created successfully" });
         }
         setIsCreateModalOpen(false);
@@ -149,6 +162,16 @@ export default function RequestTypesPage() {
                                 </tbody>
                             </table>
                         </div>
+                    )}
+
+                    {paginationMeta && (
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={paginationMeta.total_pages}
+                            onPageChange={handlePageChange}
+                            hasNext={paginationMeta.page < paginationMeta.total_pages}
+                            hasPrev={paginationMeta.page > 1}
+                        />
                     )}
                 </CardContent>
             </Card>

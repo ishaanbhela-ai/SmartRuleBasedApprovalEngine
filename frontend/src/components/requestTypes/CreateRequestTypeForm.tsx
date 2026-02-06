@@ -35,9 +35,9 @@ export function CreateRequestTypeForm({ initialData, onSuccess, onCancel }: Crea
         const fetchApprovers = async () => {
             setIsLoadingUsers(true);
             try {
-                const users = await userService.getUsers();
+                const response = await userService.getUsers();
                 // Filter users: must act as approver and not be an admin
-                const eligibleApprovers = users.filter(u => u.role === 'approver');
+                const eligibleApprovers = response.data.filter(u => u.role === 'approver');
                 setApprovers(eligibleApprovers);
             } catch (err) {
                 console.error("Failed to fetch users", err);

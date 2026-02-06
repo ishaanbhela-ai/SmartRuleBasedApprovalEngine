@@ -27,7 +27,7 @@ module Api
         )
 
         if rule.save
-          render json: RuleSerializer.new(rule).to_json, status: :created
+          render json: RuleSerializer.new.serialize(rule), status: :created
         else
           render json: { errors: rule.errors.full_messages },
                  status: :unprocessable_entity

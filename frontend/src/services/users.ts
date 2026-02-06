@@ -1,6 +1,7 @@
 import api from '../lib/axios';
 import { type CreateUser, CreateUserSchema } from '../models/CreateUser';
 import type { User } from '../models/User';
+import type { PaginatedResponse } from '../models/common';
 
 // Mock data for development
 const mockUsers: User[] = [
@@ -10,11 +11,19 @@ const mockUsers: User[] = [
 ];
 
 export const userService = {
-    getUsers: async (): Promise<User[]> => {
+    getUsers: async (page = 1): Promise<PaginatedResponse<User>> => {
         if (import.meta.env.VITE_USE_MOCK_API === 'true') {
-            return new Promise((resolve) => setTimeout(() => resolve(mockUsers), 500));
+            return new Promise((resolve) => setTimeout(() => resolve({
+                data: mockUsers,
+                meta: {
+                    total_count: 3,
+                    page: 1,
+                    per_page: 20,
+                    total_pages: 1
+                }
+            }), 500));
         }
-        const response = await api.get<User[]>('/users');
+        const response = await api.get<PaginatedResponse<User>>('/users', { params: { page } });
         return response.data;
     },
 

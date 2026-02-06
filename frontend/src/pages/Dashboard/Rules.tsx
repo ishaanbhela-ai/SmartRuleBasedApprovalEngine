@@ -6,6 +6,8 @@ import type { Rule, CreateRuleInput } from '../../models/Rule';
 import { CreateRuleForm } from '../../components/rules/CreateRuleForm';
 import { Modal } from '../../components/ui/Modal/Modal';
 import { Shield, Trash2 } from 'lucide-react';
+import { Pagination } from '../../components/ui/Pagination/Pagination';
+import type { PaginationMeta } from '../../models/common';
 
 import { useAuth } from '../../context/AuthContext';
 
@@ -16,11 +18,16 @@ export default function RulesPage() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [notification, setNotification] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
-    const fetchRules = async () => {
+    // Pagination State
+    const [currentPage, setCurrentPage] = useState(1);
+    const [paginationMeta, setPaginationMeta] = useState<PaginationMeta | null>(null);
+
+    const fetchRules = async (page: number) => {
         try {
             setIsLoading(true);
-            const data = await rulesService.getRules();
-            setRules(data);
+            const response = await rulesService.getRules(page);
+            setRules(response.data);
+            setPaginationMeta(response.meta);
         } catch (error) {
             console.error("Failed to fetch rules", error);
         } finally {
@@ -29,8 +36,12 @@ export default function RulesPage() {
     };
 
     useEffect(() => {
-        fetchRules();
-    }, []);
+        fetchRules(currentPage);
+    }, [currentPage]);
+
+    const handlePageChange = (newPage: number) => {
+        setCurrentPage(newPage);
+    };
 
     const handleCreate = async (data: CreateRuleInput) => {
         try {
@@ -100,7 +111,7 @@ export default function RulesPage() {
                                                     <div className="h-8 w-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500">
                                                         <Shield className="h-4 w-4" />
                                                     </div>
-                                                    <span className="font-medium text-slate-900 capitalize">{rule.request_type}</span>
+                                                    <span className="font-medium text-slate-900 capitalize">{rule.request_type.name}</span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 text-slate-600">
@@ -130,6 +141,16 @@ export default function RulesPage() {
                                 </tbody>
                             </table>
                         </div>
+                    )}
+
+                    {paginationMeta && (
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={paginationMeta.total_pages}
+                            onPageChange={handlePageChange}
+                            hasNext={currentPage < paginationMeta.total_pages}
+                            hasPrev={currentPage > 1}
+                        />
                     )}
                 </CardContent>
             </Card>

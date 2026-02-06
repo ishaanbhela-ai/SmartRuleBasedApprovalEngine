@@ -50,8 +50,8 @@ export function CreateRequestForm({ onSuccess, onCancel }: CreateRequestFormProp
     useEffect(() => {
         const fetchTypes = async () => {
             try {
-                const types = await requestTypesService.getRequestTypes();
-                setRequestTypes(types);
+                const response = await requestTypesService.getRequestTypes();
+                setRequestTypes(response.data);
             } catch (error) {
                 console.error("Failed to load request types", error);
             }

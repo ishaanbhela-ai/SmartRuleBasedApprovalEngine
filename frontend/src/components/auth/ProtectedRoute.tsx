@@ -1,14 +1,27 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
-export const ProtectedRoute = () => {
-    // Check if token exists
-    const token = localStorage.getItem('token');
+interface ProtectedRouteProps {
+    allowedRoles?: string[];
+}
 
-    if (!token) {
-        // If not authenticated, redirect to login page
+export const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
+    const { user, isAuthenticated, isLoading } = useAuth();
+
+    if (isLoading) {
+        // You might want to render a loading spinner here
+        return <div className="flex h-screen items-center justify-center">Loading...</div>;
+    }
+
+    if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
     }
 
-    // If authenticated, render child routes
+    // specific role check
+    if (allowedRoles && user && !allowedRoles.includes(user.role)) {
+        // User is logged in but doesn't have permission
+        return <Navigate to="/dashboard" replace />;
+    }
+
     return <Outlet />;
 };

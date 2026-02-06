@@ -4,7 +4,7 @@ export type RequestStatus = 'submitted' | 'approved' | 'rejected' | 'pending_app
 
 export const RequestSchema = z.object({
     id: z.string().uuid(),
-    type: z.string(), // Keeping for backward compat, but preferring request_type.name
+    type: z.string().optional(), // Backend serializer removed this, use request_type.name
     requested_value: z.number(),
     status: z.enum(['submitted', 'pending_approval', 'approved', 'rejected', 'auto_approved']),
     request_type: z.object({
@@ -53,7 +53,7 @@ export interface ApproverRequest {
         name: string;
         grade: number;
     };
-    quota?: {
+    quota: {
         limit: number;
         used: number;
         remaining: number;

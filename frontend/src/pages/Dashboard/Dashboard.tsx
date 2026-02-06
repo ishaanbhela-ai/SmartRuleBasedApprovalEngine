@@ -27,21 +27,23 @@ export default function DashboardPage() {
                 if (userRole === 'admin') {
                     // Admin fetches global summary
                     statsData = await reportsService.getSummary();
-                    requestsData = await requestsService.getAllRequests();
+                    const response = await requestsService.getAllRequests();
+                    requestsData = response.data;
                 } else {
                     // Everyone else fetches their own report
                     statsData = await reportsService.getMyReport();
 
                     if (userRole === 'approver') {
-                        const pendingRequests = await requestsService.getPendingRequests()
-                        requestsData = pendingRequests.map(req => ({
+                        const pendingRequestsResponse = await requestsService.getPendingRequests()
+                        requestsData = pendingRequestsResponse.data.map(req => ({
                             ...req,
                             type: req.request_type.name,
                             approval: null,
                             requester: { ...req.requester, email: '' }
                         })) as unknown as RequestItem[]
                     } else {
-                        requestsData = await requestsService.getMyRequests()
+                        const response = await requestsService.getMyRequests()
+                        requestsData = response.data;
                     }
                 }
 
@@ -154,7 +156,7 @@ export default function DashboardPage() {
                                         </div>
                                         <div className="ml-4 space-y-1">
                                             <p className="text-sm font-medium leading-none text-slate-900">Request #{item.id}</p>
-                                            <p className="text-xs text-slate-500">{item.type} • {item.requested_value}</p>
+                                            <p className="text-xs text-slate-500">{item.request_type?.name || item.type} • {item.requested_value}</p>
                                         </div>
                                         <div className="ml-auto">
                                             <Badge variant={

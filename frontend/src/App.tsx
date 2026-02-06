@@ -21,7 +21,9 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<DashboardPage />} />
-              <Route path="users" element={<UserManagement />} />
+              <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+                <Route path="users" element={<UserManagement />} />
+              </Route>
               <Route path="request-types" element={<RequestTypesPage />} />
               <Route path="rules" element={<RulesPage />} />
               <Route path="requests" element={<RequestsPage />} />

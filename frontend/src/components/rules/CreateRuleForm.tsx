@@ -23,8 +23,8 @@ export function CreateRuleForm({ onSuccess, onCancel }: CreateRuleFormProps) {
         const fetchTypes = async () => {
             setIsLoadingTypes(true);
             try {
-                const types = await requestTypesService.getRequestTypes();
-                setRequestTypes(types);
+                const response = await requestTypesService.getRequestTypes();
+                setRequestTypes(response.data);
             } catch (err) {
                 console.error("Failed to fetch request types", err);
             } finally {

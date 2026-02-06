@@ -1,34 +1,41 @@
 import api from '../lib/axios';
 import type { Rule, CreateRuleInput } from '../models/Rule';
+import type { PaginatedResponse } from '../models/common';
 
 export const rulesService = {
-    getRules: async (): Promise<Rule[]> => {
+    getRules: async (page = 1): Promise<PaginatedResponse<Rule>> => {
         if (import.meta.env.VITE_USE_MOCK_API === 'true') {
             return new Promise((resolve) => {
                 setTimeout(() => {
-                    resolve([
-                        {
-                            id: "rule-1",
-                            request_type_id: "req-type-1",
-                            request_type: "expense",
-                            grade: 1,
-                            definition: 1000,
-                            is_active: true
-                        },
-                        {
-                            id: "rule-2",
-                            request_type_id: "req-type-1",
-                            request_type: "expense",
-                            grade: 2,
-                            definition: 5000,
-                            is_active: true
+                    resolve({
+                        data: [
+                            {
+                                id: "rule-1",
+                                request_type: { id: "req-type-1", name: "expense" },
+                                grade: 1,
+                                definition: 1000,
+                                is_active: true
+                            },
+                            {
+                                id: "rule-2",
+                                request_type: { id: "req-type-1", name: "expense" },
+                                grade: 2,
+                                definition: 5000,
+                                is_active: true
+                            }
+                        ],
+                        meta: {
+                            total_count: 2,
+                            page: 1,
+                            per_page: 20,
+                            total_pages: 1
                         }
-                    ]);
+                    });
                 }, 500);
             });
         }
 
-        const response = await api.get<Rule[]>('/rules');
+        const response = await api.get<PaginatedResponse<Rule>>('/rules', { params: { page } });
         return response.data;
     },
 

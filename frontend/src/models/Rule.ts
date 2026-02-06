@@ -2,8 +2,10 @@ import { z } from 'zod';
 
 export const RuleSchema = z.object({
     id: z.uuid(),
-    request_type_id: z.uuid(),
-    request_type: z.string(), // The name of the request type (e.g., "expense")
+    request_type: z.object({
+        id: z.string(),
+        name: z.string()
+    }),
     grade: z.number().min(1).max(3),
     definition: z.number().positive("Limit must be positive"),
     is_active: z.boolean(),

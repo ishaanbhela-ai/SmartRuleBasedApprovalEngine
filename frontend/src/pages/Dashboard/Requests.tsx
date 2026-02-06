@@ -3,6 +3,8 @@ import { DashboardHeader } from '../../components/ui/Header/DashboardHeader';
 import { Card, CardContent } from '../../components/ui/Card/Card';
 import { requestsService } from '../../services/requests';
 import type { Request, ApproverRequest } from '../../models/Request';
+import type { PaginationMeta } from '../../models/common';
+import { Pagination } from '../../components/ui/Pagination/Pagination';
 import { useAuth } from '../../context/AuthContext';
 import { FileText, CheckCircle, XCircle, Clock, ListFilter } from 'lucide-react';
 import { CreateRequestForm } from '../../components/requests/CreateRequestForm';
@@ -19,6 +21,11 @@ export default function RequestsPage() {
     const [pendingApprovals, setPendingApprovals] = useState<ApproverRequest[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
+    // Pagination State
+    const [currentPage, setCurrentPage] = useState(1);
+    const [paginationMeta, setPaginationMeta] = useState<PaginationMeta | null>(null);
+    const [pendingCount, setPendingCount] = useState<number>(0);
+
     // UI State
     const [activeTab, setActiveTab] = useState<'pending' | 'my_requests' | 'all_requests'>(
         userRole === 'approver' || userRole === 'admin' ? 'pending' : 'my_requests'
@@ -34,42 +41,30 @@ export default function RequestsPage() {
 
     const fetchRequests = async () => {
         setIsLoading(true);
-
-        const loadPending = async () => {
-            try {
-                const pending = await requestsService.getPendingRequests();
-                setPendingApprovals(pending);
-            } catch (error) {
-                console.error("Failed to fetch pending requests", error);
-            }
-        };
-
-        const loadMyRequests = async () => {
-            try {
-                const my = await requestsService.getMyRequests();
-                setMyRequests(my);
-            } catch (error) {
-                console.error("Failed to fetch my requests", error);
-            }
-        };
-
-        const loadAllRequests = async () => {
-            try {
-                const all = await requestsService.getAllRequests();
-                setMyRequests(all);
-            } catch (error) {
-                console.error("Failed to fetch all requests", error);
-            }
-        };
-
         try {
-            if (userRole === 'approver') {
-                await Promise.allSettled([loadPending(), loadMyRequests()]);
-            } else if (userRole === 'admin') {
-                await Promise.allSettled([loadPending(), loadAllRequests()]);
-            } else {
-                await loadMyRequests();
+            if (activeTab === 'pending') {
+                const response = await requestsService.getPendingRequests(currentPage);
+                setPendingApprovals(response.data);
+                setPaginationMeta(response.meta);
+                setPendingCount(response.meta.total_count);
+            } else if (activeTab === 'my_requests') {
+                const response = await requestsService.getMyRequests(currentPage);
+                setMyRequests(response.data);
+                setPaginationMeta(response.meta);
+
+                if ((userRole === 'approver' || userRole === 'admin') && pendingCount === 0) {
+                    requestsService.getPendingRequests(1).then(res => setPendingCount(res.meta.total_count)).catch(() => { });
+                }
+            } else if (activeTab === 'all_requests') {
+                const response = await requestsService.getAllRequests(currentPage);
+                setMyRequests(response.data);
+                setPaginationMeta(response.meta);
+                if (pendingCount === 0) {
+                    requestsService.getPendingRequests(1).then(res => setPendingCount(res.meta.total_count)).catch(() => { });
+                }
             }
+        } catch (error) {
+            console.error("Failed to fetch requests", error);
         } finally {
             setIsLoading(false);
         }
@@ -77,7 +72,17 @@ export default function RequestsPage() {
 
     useEffect(() => {
         fetchRequests();
-    }, [userRole]);
+    }, [userRole, activeTab, currentPage]);
+
+    const handleTabChange = (tab: 'pending' | 'my_requests' | 'all_requests') => {
+        setActiveTab(tab);
+        setCurrentPage(1);
+        setPaginationMeta(null);
+    };
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
 
     const getStatusBadge = (status: string) => {
         switch (status) {
@@ -94,7 +99,6 @@ export default function RequestsPage() {
         }
     };
 
-    // Render Approver Table (Pending Approvals)
     const renderApproverTable = () => (
         <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
@@ -155,7 +159,6 @@ export default function RequestsPage() {
         </div>
     );
 
-    // Render Standard Request Table (My Requests / All Requests)
     const renderStandardTable = () => (
         <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
@@ -231,12 +234,11 @@ export default function RequestsPage() {
                 onAction={() => setIsCreateModalOpen(true)}
             />
 
-            {/* Approver & Admin Tabs */}
             {(userRole === 'approver' || userRole === 'admin') && (
                 <div className="border-b border-slate-200">
                     <nav className="-mb-px flex space-x-8" aria-label="Tabs">
                         <button
-                            onClick={() => setActiveTab('pending')}
+                            onClick={() => handleTabChange('pending')}
                             className={cn(
                                 "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2",
                                 activeTab === 'pending'
@@ -246,14 +248,14 @@ export default function RequestsPage() {
                         >
                             <ListFilter className="h-4 w-4" />
                             Requires Approval
-                            {pendingApprovals.length > 0 && (
+                            {pendingCount > 0 && (
                                 <span className="bg-red-100 text-red-600 py-0.5 px-2 rounded-full text-xs ml-1">
-                                    {pendingApprovals.length}
+                                    {pendingCount}
                                 </span>
                             )}
                         </button>
                         <button
-                            onClick={() => setActiveTab(userRole === 'admin' ? 'all_requests' : 'my_requests')}
+                            onClick={() => handleTabChange(userRole === 'admin' ? 'all_requests' : 'my_requests')}
                             className={cn(
                                 "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2",
                                 activeTab === 'my_requests' || activeTab === 'all_requests'
@@ -289,10 +291,19 @@ export default function RequestsPage() {
                             ) : renderStandardTable()
                         )
                     )}
+
+                    {paginationMeta && (
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={paginationMeta.total_pages}
+                            onPageChange={handlePageChange}
+                            hasNext={paginationMeta.page < paginationMeta.total_pages}
+                            hasPrev={paginationMeta.page > 1}
+                        />
+                    )}
                 </CardContent>
             </Card>
 
-            {/* Create Request Modal */}
             <Modal
                 isOpen={isCreateModalOpen}
                 onClose={() => setIsCreateModalOpen(false)}
@@ -307,7 +318,6 @@ export default function RequestsPage() {
                 />
             </Modal>
 
-            {/* Approval Modal */}
             {selectedRequestToApprove && (
                 <ApprovalModal
                     request={selectedRequestToApprove}

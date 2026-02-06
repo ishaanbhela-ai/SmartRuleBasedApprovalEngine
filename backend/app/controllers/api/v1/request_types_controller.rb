@@ -60,7 +60,7 @@ module Api
           end
         end
 
-        render json: RequestTypeSerializer.new(request_type).to_json, status: :created
+        render json: RequestTypeSerializer.new.serialize(request_type), status: :created
 
       rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.message }, status: :unprocessable_entity
@@ -101,7 +101,7 @@ module Api
           end
         end
 
-        render json: RequestTypeSerializer.new(request_type).to_json
+        render json: RequestTypeSerializer.new.serialize(request_type)
       rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.message }, status: :unprocessable_entity
       end

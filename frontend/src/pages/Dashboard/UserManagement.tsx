@@ -6,6 +6,8 @@ import { Button } from '../../components/ui/Button/Button';
 import { Badge } from '../../components/ui/Badge/Badge';
 import { userService } from '../../services/users';
 import type { User } from '../../models/User';
+import type { PaginationMeta } from '../../models/common';
+import { Pagination } from '../../components/ui/Pagination/Pagination';
 import { CreateUserForm } from '../../components/users/CreateUserForm';
 import { Modal } from '../../components/ui/Modal/Modal';
 
@@ -15,11 +17,16 @@ export default function UserManagement() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [notification, setNotification] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
+    // Pagination State
+    const [currentPage, setCurrentPage] = useState(1);
+    const [paginationMeta, setPaginationMeta] = useState<PaginationMeta | null>(null);
+
     const fetchUsers = async () => {
         try {
             setIsLoading(true);
-            const data = await userService.getUsers();
-            setUsers(data);
+            const response = await userService.getUsers(currentPage);
+            setUsers(response.data);
+            setPaginationMeta(response.meta);
         } catch (error) {
             console.error("Failed to fetch users", error);
             showNotification('error', 'Failed to load users');
@@ -30,7 +37,11 @@ export default function UserManagement() {
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+    }, [currentPage]);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
 
     const handleDeleteUser = async (id: string) => {
         if (!confirm('Are you sure you want to delete this user?')) return;
@@ -129,6 +140,16 @@ export default function UserManagement() {
                                 </tbody>
                             </table>
                         </div>
+                    )}
+
+                    {paginationMeta && (
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={paginationMeta.total_pages}
+                            onPageChange={handlePageChange}
+                            hasNext={paginationMeta.page < paginationMeta.total_pages}
+                            hasPrev={paginationMeta.page > 1}
+                        />
                     )}
                 </CardContent>
             </Card>
