@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { DashboardHeader } from '../../components/ui/Header/DashboardHeader';
 import { Card, CardContent } from '../../components/ui/Card/Card';
 import { useMyRequests, usePendingRequests, useAllRequests } from '../../hooks/useRequests';
-import type { ApproverRequest, Request } from '../../models/Request';
+import { useRequestTypes } from '../../hooks/useRequestTypes';
+import type { ApproverRequest, Request, RequestFilters } from '../../models/Request';
 import { Pagination } from '../../components/ui/Pagination/Pagination';
 import { useAuth } from '../../context/AuthContext';
 import { CheckCircle, Clock, ListFilter } from 'lucide-react';
@@ -27,21 +28,27 @@ export default function RequestsPage() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [selectedRequestToApprove, setSelectedRequestToApprove] = useState<ApproverRequest | null>(null);
 
+    const [filters, setFilters] = useState<RequestFilters>({});
+
+    // Fetch Request Types for Filter Dropdown
+    const { data: requestTypesData } = useRequestTypes(1); // Assuming 1 page covers most, or improve later
+    const requestTypes = requestTypesData?.data || [];
+
     // Queries
     const {
         data: pendingData,
         isLoading: isPendingLoading
-    } = usePendingRequests(currentPage, { enabled: activeTab === 'pending' });
+    } = usePendingRequests(currentPage, filters, { enabled: activeTab === 'pending' });
 
     const {
         data: myRequestsData,
         isLoading: isMyRequestsLoading
-    } = useMyRequests(currentPage, { enabled: activeTab === 'my_requests' });
+    } = useMyRequests(currentPage, filters, { enabled: activeTab === 'my_requests' });
 
     const {
         data: allRequestsData,
         isLoading: isAllRequestsLoading
-    } = useAllRequests(currentPage, { enabled: activeTab === 'all_requests' });
+    } = useAllRequests(currentPage, filters, { enabled: activeTab === 'all_requests' });
 
     // Also fetch pending count always if approver/admin, to show badge
     // We reuse the pending query for page 1 but ignore data if not active tab? 
@@ -51,7 +58,7 @@ export default function RequestsPage() {
     // The previous code did: if ((userRole === 'approver' || userRole === 'admin') && pendingCount === 0) calls fetchRequests(1)
 
     // For now, let's just use a separate query for count if user is approver/admin and not on pending tab
-    const { data: pendingCountData } = usePendingRequests(1, {
+    const { data: pendingCountData } = usePendingRequests(1, filters, {
         enabled: (userRole === 'approver' || userRole === 'admin') && activeTab !== 'pending'
     });
 
@@ -141,6 +148,59 @@ export default function RequestsPage() {
                     </nav>
                 </div>
             )}
+
+            {/* Filters Section */}
+            <Card>
+                <CardContent className="p-4">
+                    <div className="flex flex-col md:flex-row gap-4">
+                        <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <select
+                                className="block w-full rounded-md border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm p-2 border"
+                                value={filters.status || ''}
+                                onChange={(e) => {
+                                    setFilters(prev => ({ ...prev, status: e.target.value || undefined }));
+                                    setCurrentPage(1);
+                                }}
+                            >
+                                <option value="">All Statuses</option>
+                                <option value="submitted">Submitted</option>
+                                <option value="pending_approval">Pending Approval</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="auto_approved">Auto Approved</option>
+                            </select>
+
+                            <select
+                                className="block w-full rounded-md border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm p-2 border"
+                                value={filters.request_type_id || ''}
+                                onChange={(e) => {
+                                    setFilters(prev => ({ ...prev, request_type_id: e.target.value || undefined }));
+                                    setCurrentPage(1);
+                                }}
+                            >
+                                <option value="">All Request Types</option>
+                                {requestTypes.map((type) => (
+                                    <option key={type.id} value={type.id}>
+                                        {type.name}
+                                    </option>
+                                ))}
+                            </select>
+
+                        </div>
+                        {Object.keys(filters).length > 0 && (
+                            <button
+                                onClick={() => {
+                                    setFilters({});
+                                    setCurrentPage(1);
+                                }}
+                                className="mt-2 md:mt-0 text-sm text-red-600 hover:text-red-800 whitespace-nowrap"
+                            >
+                                Clear Filters
+                            </button>
+                        )}
+                    </div>
+                </CardContent>
+            </Card>
 
             <Card>
                 <CardContent className="p-0">

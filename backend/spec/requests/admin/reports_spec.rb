@@ -39,7 +39,7 @@ RSpec.describe "Admin Reports API", type: :request do
           "status_breakdown",
           "request_type_breakdown",
           "decision_breakdown",
-          "rule_hit_counts"
+          "total_rules"
         )
 
         expect(json["total_requests"]).to eq(4) # 3 from setup + 1 associated with approval
@@ -52,6 +52,8 @@ RSpec.describe "Admin Reports API", type: :request do
         expect(json["request_type_breakdown"]["leave"]).to eq(1)
 
         expect(json["decision_breakdown"]["approved"]).to eq(1)
+
+        expect(json["total_rules"]).to eq(1)
       end
     end
 

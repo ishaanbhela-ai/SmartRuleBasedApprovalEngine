@@ -10,7 +10,7 @@ export const reportsService = {
                 status_breakdown: { submitted: 45, approved: 60, rejected: 20 },
                 request_type_breakdown: { "Expense": 50, "Travel": 30, "Software": 45 },
                 decision_breakdown: { approved: 60, rejected: 20 },
-                rule_hit_counts: { "Auto-Approve Low Value": 40, "Reject High Value": 10 }
+                total_rules: 50
             });
         }
 

@@ -12,6 +12,7 @@ module Api
                      current_user.tenant.requests.where(requester_id: current_user.id)
         end
 
+        requests = apply_filters(requests)
         requests = requests.includes(:requester, :request_type, :approval).order(created_at: :desc)
         pagy, records = pagy(:offset, requests)
 
@@ -74,6 +75,13 @@ module Api
       end
 
       private
+
+      def apply_filters(requests)
+        requests = requests.where(status: params[:status]) if params[:status].present?
+        requests = requests.where(request_type_id: params[:request_type_id]) if params[:request_type_id].present?
+        requests = requests.where(created_at: params[:start_date]..params[:end_date]) if params[:start_date].present? && params[:end_date].present?
+        requests
+      end
     end
   end
 end
