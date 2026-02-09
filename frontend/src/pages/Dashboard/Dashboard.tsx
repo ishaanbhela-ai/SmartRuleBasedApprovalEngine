@@ -8,9 +8,26 @@ import type { ReportSummary, UserReport, ApproverReport } from '../../models/Rep
 import type { Request, ApproverRequest } from '../../models/Request'
 import { useReportSummary, useMyReport } from '../../hooks/useReports'
 import { useAllRequests, useMyRequests } from '../../hooks/useRequests'
+import { systemHealthService } from '../../services/systemHealth'
+import { useState, useEffect } from 'react'
 
 export default function DashboardPage() {
     const { user } = useAuth()
+    const [isSystemUp, setIsSystemUp] = useState<boolean | null>(null);
+
+    // Poll System Health
+    useEffect(() => {
+        if (user?.role === 'admin') {
+            const checkHealth = async () => {
+                const healthy = await systemHealthService.checkHealth();
+                setIsSystemUp(healthy);
+            };
+            checkHealth();
+            // Poll every 30 seconds
+            const interval = setInterval(checkHealth, 30000);
+            return () => clearInterval(interval);
+        }
+    }, [user?.role]);
 
     // Role-based Conditional Queries
     const { data: summaryStats } = useReportSummary({ enabled: user?.role === 'admin' });
@@ -150,7 +167,6 @@ export default function DashboardPage() {
                     </CardContent>
                 </Card>
 
-                {/* Quick Actions / Side Panel Placeholder */}
                 {/* Quick Actions / Side Panel */}
                 <Card className="col-span-3">
                     <CardHeader>
@@ -161,24 +177,26 @@ export default function DashboardPage() {
                             <div className="space-y-4">
                                 <div className="flex items-center justify-between rounded-lg border border-slate-100 p-4">
                                     <div className="space-y-1">
-                                        <p className="text-sm font-medium text-slate-900">Rule Engine</p>
-                                        <p className="text-xs text-slate-500">Operational</p>
+                                        <p className="text-sm font-medium text-slate-900">System Status</p>
+                                        <p className="text-xs text-slate-500">
+                                            {isSystemUp === null ? 'Checking...' : isSystemUp ? 'Operational' : 'Issues Detected'}
+                                        </p>
                                     </div>
-                                    <div className="h-2 w-2 rounded-full bg-emerald-500" />
+                                    <div className={`h-2 w-2 rounded-full ${isSystemUp === null ? 'bg-slate-300' : isSystemUp ? 'bg-emerald-500' : 'bg-red-500'}`} />
                                 </div>
                                 <div className="flex items-center justify-between rounded-lg border border-slate-100 p-4">
                                     <div className="space-y-1">
                                         <p className="text-sm font-medium text-slate-900">Database</p>
-                                        <p className="text-xs text-slate-500">Connected</p>
+                                        <p className="text-xs text-slate-500">{isSystemUp === null ? 'Checking...' : isSystemUp ? 'Connected' : 'Connection Error'}</p>
                                     </div>
-                                    <div className="h-2 w-2 rounded-full bg-emerald-500" />
+                                    <div className={`h-2 w-2 rounded-full ${isSystemUp === null ? 'bg-slate-300' : isSystemUp ? 'bg-emerald-500' : 'bg-red-500'}`} />
                                 </div>
                                 <div className="flex items-center justify-between rounded-lg border border-slate-100 p-4">
                                     <div className="space-y-1">
                                         <p className="text-sm font-medium text-slate-900">API Gateway</p>
-                                        <p className="text-xs text-slate-500">Operational</p>
+                                        <p className="text-xs text-slate-500">{isSystemUp === null ? 'Checking...' : isSystemUp ? 'Operational' : 'Issues Detected'}</p>
                                     </div>
-                                    <div className="h-2 w-2 rounded-full bg-emerald-500" />
+                                    <div className={`h-2 w-2 rounded-full ${isSystemUp === null ? 'bg-slate-300' : isSystemUp ? 'bg-emerald-500' : 'bg-red-500'}`} />
                                 </div>
                             </div>
                         ) : (

@@ -30,7 +30,7 @@ export function Sidebar() {
     });
 
     return (
-        <div className="flex h-screen w-64 flex-col border-r border-slate-200 bg-white">
+        <div className="flex h-full w-64 flex-col border-r border-slate-200 bg-white">
             <div className="flex h-16 items-center px-6 border-b border-slate-200">
                 <Logo className="h-6 w-6 mr-2" />
                 <span className="text-lg font-bold text-slate-900">SmartRule</span>

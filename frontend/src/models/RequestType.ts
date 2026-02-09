@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Backend strict restriction
-export const REQUEST_TYPE_NAMES = ['expense', 'leave', 'discount'] as const;
+export const REQUEST_TYPE_NAMES = ['expense', 'leave'] as const;
 
 export const RequestTypeSchema = z.object({
     id: z.uuid(),

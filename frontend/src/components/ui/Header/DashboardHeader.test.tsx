@@ -34,9 +34,15 @@ describe('DashboardHeader Component', () => {
     });
 
     it('calls logout when logout button is clicked', () => {
+        // Mock window.confirm
+        const confirmSpy = vi.spyOn(window, 'confirm');
+        confirmSpy.mockImplementation(() => true);
+
         render(<DashboardHeader title="Title" />);
         const logoutButton = screen.getByText('Logout');
         fireEvent.click(logoutButton);
         expect(mockLogout).toHaveBeenCalled();
+
+        confirmSpy.mockRestore();
     });
 });
