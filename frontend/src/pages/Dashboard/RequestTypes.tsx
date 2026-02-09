@@ -1,75 +1,60 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { DashboardHeader } from '../../components/ui/Header/DashboardHeader';
 import { Card, CardContent } from '../../components/ui/Card/Card';
-import { requestTypesService } from '../../services/requestTypes';
 import type { RequestType } from '../../models/RequestType';
-import type { PaginationMeta } from '../../models/common';
 import { Pagination } from '../../components/ui/Pagination/Pagination';
 import { CreateRequestTypeForm } from '../../components/requestTypes/CreateRequestTypeForm';
 import { Modal } from '../../components/ui/Modal/Modal';
 import { Edit, Trash2 } from 'lucide-react';
 import { RequestTypeIcon } from '../../components/ui/RequestTypeIcon/RequestTypeIcon';
 import { UserAvatar } from '../../components/ui/UserAvatar/UserAvatar';
+import { useRequestTypes, useDeleteRequestType } from '../../hooks/useRequestTypes';
 
 export default function RequestTypesPage() {
-    const [requestTypes, setRequestTypes] = useState<RequestType[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [editingType, setEditingType] = useState<RequestType | null>(null);
     const [notification, setNotification] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
     // Pagination State
     const [currentPage, setCurrentPage] = useState(1);
-    const [paginationMeta, setPaginationMeta] = useState<PaginationMeta | null>(null);
 
-    const fetchRequestTypes = async () => {
-        try {
-            setIsLoading(true);
-            const response = await requestTypesService.getRequestTypes(currentPage);
-            setRequestTypes(response.data);
-            setPaginationMeta(response.meta);
-        } catch (error) {
-            console.error("Failed to fetch request types", error);
-            // setNotification({ type: 'error', message: "Failed to load request types" });
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    // Queries & Mutations
+    const { data: requestTypesData, isLoading } = useRequestTypes(currentPage);
+    const requestTypes = requestTypesData?.data || [];
+    const paginationMeta = requestTypesData?.meta;
 
-    useEffect(() => {
-        fetchRequestTypes();
-    }, [currentPage]);
+    const { mutate: deleteRequestType } = useDeleteRequestType();
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
 
-    const handleSuccess = (updatedOrNewType: RequestType) => {
-        if (editingType) {
-            setRequestTypes(requestTypes.map(rt => rt.id === updatedOrNewType.id ? updatedOrNewType : rt));
-            setNotification({ type: 'success', message: "Request Type updated successfully" });
-        } else {
-            // For new types, effectively we should probably reload or add to top if on first page?
-            // Simplest handling is to reload to show new item properly in paginated list
-            fetchRequestTypes();
-            setNotification({ type: 'success', message: "Request Type created successfully" });
-        }
+    const handleSuccess = () => {
+        // Query invalidation handles the data refresh
+        setNotification({
+            type: 'success',
+            message: editingType ? "Request Type updated successfully" : "Request Type created successfully"
+        });
+
         setIsCreateModalOpen(false);
         setEditingType(null);
         setTimeout(() => setNotification(null), 3000);
     };
 
-    const handleDelete = async (id: string) => {
+    const handleDelete = (id: string) => {
         if (!confirm("Are you sure you want to delete this request type?")) return;
-        try {
-            await requestTypesService.deleteRequestType(id);
-            setRequestTypes(requestTypes.filter(rt => rt.id !== id));
-            setNotification({ type: 'success', message: "Request Type deleted successfully" });
-        } catch (error) {
-            console.error("Failed to delete", error);
-            setNotification({ type: 'error', message: "Failed to delete request type." });
-        }
-        setTimeout(() => setNotification(null), 3000);
+
+        deleteRequestType(id, {
+            onSuccess: () => {
+                setNotification({ type: 'success', message: "Request Type deleted successfully" });
+                setTimeout(() => setNotification(null), 3000);
+            },
+            onError: (error) => {
+                console.error("Failed to delete", error);
+                setNotification({ type: 'error', message: "Failed to delete request type." });
+                setTimeout(() => setNotification(null), 3000);
+            }
+        });
     };
 
     const openEditModal = (type: RequestType) => {
@@ -85,7 +70,7 @@ export default function RequestTypesPage() {
     return (
         <div className="space-y-8 relative">
             {notification && (
-                <div className={`fixed top-4 right-4 p-4 rounded-md shadow-lg z-50 text-white animate-in slide-in-from-right-10 fade-in duration-300 ${notification.type === 'success' ? 'bg-emerald-500' : 'bg-red-500'}`}>
+                <div className={`fixed top-4 right-4 p-4 rounded-md shadow-lg z-[100] text-white animate-in slide-in-from-right-10 fade-in duration-300 ${notification.type === 'success' ? 'bg-emerald-500' : 'bg-red-500'}`}>
                     {notification.message}
                 </div>
             )}

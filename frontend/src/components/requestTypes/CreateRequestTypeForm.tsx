@@ -2,13 +2,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateRequestTypeSchema, type CreateRequestTypeInput, REQUEST_TYPE_NAMES, type RequestType } from '../../models/RequestType';
 import { Button } from '../ui/Button/Button';
-// import { Input } from '../ui/Input/Input'; // Unused
-// Since we don't have a specific Select component yet, I'll use native select with styling or simplistic custom div.
-// Actually, I'll use a simple native select styled with Tailwind for now to ensure reliability.
-import { useEffect, useState } from 'react';
-import type { User } from '../../models/User';
-import { userService } from '../../services/users';
-import { requestTypesService } from '../../services/requestTypes';
+import { useState } from 'react';
+import { useUsers } from '../../hooks/useUsers';
+import { useCreateRequestType, useUpdateRequestType } from '../../hooks/useRequestTypes';
 
 interface CreateRequestTypeFormProps {
     initialData?: RequestType;
@@ -17,11 +13,9 @@ interface CreateRequestTypeFormProps {
 }
 
 export function CreateRequestTypeForm({ initialData, onSuccess, onCancel }: CreateRequestTypeFormProps) {
-    const [approvers, setApprovers] = useState<User[]>([]);
-    const [isLoadingUsers, setIsLoadingUsers] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
 
-    const { register, handleSubmit, setValue, watch, formState: { errors, isSubmitting } } = useForm<CreateRequestTypeInput>({
+    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<CreateRequestTypeInput>({
         resolver: zodResolver(CreateRequestTypeSchema),
         defaultValues: {
             name: initialData?.name,
@@ -31,36 +25,39 @@ export function CreateRequestTypeForm({ initialData, onSuccess, onCancel }: Crea
 
     const currentApproverIds = watch('approver_ids');
 
-    useEffect(() => {
-        const fetchApprovers = async () => {
-            setIsLoadingUsers(true);
-            try {
-                const response = await userService.getUsers();
-                // Filter users: must act as approver and not be an admin
-                const eligibleApprovers = response.data.filter(u => u.role === 'approver');
-                setApprovers(eligibleApprovers);
-            } catch (err) {
-                console.error("Failed to fetch users", err);
-            } finally {
-                setIsLoadingUsers(false);
+    const { data: usersData, isLoading: isLoadingUsers } = useUsers(1);
+    const users = usersData?.data || [];
+    const approvers = users.filter(u => u.role === 'approver');
+
+    const { mutate: createType, isPending: isCreating } = useCreateRequestType();
+    const { mutate: updateType, isPending: isUpdating } = useUpdateRequestType();
+
+    const onSubmit = (data: CreateRequestTypeInput) => {
+        setSubmitError(null);
+
+        const options = {
+            onSuccess: (result: RequestType) => {
+                onSuccess(result);
+            },
+            onError: (error: any) => {
+                console.error("Form submission error", error);
+                const errorData = error.response?.data;
+                let errorMessage = "Failed to save request type";
+
+                if (errorData?.errors && Array.isArray(errorData.errors)) {
+                    errorMessage = errorData.errors.join(", ");
+                } else if (errorData?.error) {
+                    errorMessage = errorData.error;
+                }
+
+                setSubmitError(errorMessage);
             }
         };
-        fetchApprovers();
-    }, []);
 
-    const onSubmit = async (data: CreateRequestTypeInput) => {
-        setSubmitError(null);
-        try {
-            let result: RequestType;
-            if (initialData?.id) {
-                result = await requestTypesService.updateRequestType(initialData.id, data);
-            } else {
-                result = await requestTypesService.createRequestType(data);
-            }
-            onSuccess(result);
-        } catch (error: any) {
-            console.error("Form submission error", error);
-            setSubmitError(error.response?.data?.error || "Failed to save request type");
+        if (initialData?.id) {
+            updateType({ id: initialData.id, data }, options);
+        } else {
+            createType(data, options);
         }
     };
 
@@ -72,6 +69,7 @@ export function CreateRequestTypeForm({ initialData, onSuccess, onCancel }: Crea
                     id="name"
                     {...register('name')}
                     className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
+                    disabled={isCreating || isUpdating}
                 >
                     <option value="">Select a type...</option>
                     {REQUEST_TYPE_NAMES.map(name => (
@@ -149,7 +147,7 @@ export function CreateRequestTypeForm({ initialData, onSuccess, onCancel }: Crea
 
             <div className="flex justify-end space-x-3 pt-4">
                 <Button type="button" variant="ghost" onClick={onCancel}>Cancel</Button>
-                <Button type="submit" isLoading={isSubmitting}>
+                <Button type="submit" isLoading={isCreating || isUpdating}>
                     {initialData ? 'Update Type' : 'Create Type'}
                 </Button>
             </div>

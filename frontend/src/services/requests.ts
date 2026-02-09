@@ -6,10 +6,10 @@ export const requestsService = {
     // For Users: Get my own requests
     getMyRequests: async (page = 1): Promise<PaginatedResponse<Request>> => {
         if (import.meta.env.VITE_USE_MOCK_API === 'true') {
-            return new Promise((resolve) => setTimeout(() => resolve({
+            return Promise.resolve({
                 data: [],
                 meta: { total_count: 0, page: 1, per_page: 20, total_pages: 0 }
-            }), 500));
+            });
         }
         const response = await api.get<PaginatedResponse<Request>>('/requests', { params: { page } });
         return response.data;
@@ -18,10 +18,10 @@ export const requestsService = {
     // For Approvers: Get requests pending my approval
     getPendingRequests: async (page = 1): Promise<PaginatedResponse<ApproverRequest>> => {
         if (import.meta.env.VITE_USE_MOCK_API === 'true') {
-            return new Promise((resolve) => setTimeout(() => resolve({
+            return Promise.resolve({
                 data: [],
                 meta: { total_count: 0, page: 1, per_page: 20, total_pages: 0 }
-            }), 500));
+            });
         }
         const response = await api.get<PaginatedResponse<ApproverRequest>>('/approver/requests', { params: { page } });
         return response.data;

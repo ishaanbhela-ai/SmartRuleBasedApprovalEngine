@@ -3,10 +3,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import axios from 'axios';
 import { type CreateUser, type CreateUserInput, CreateUserSchema } from '../../models/CreateUser';
-import { userService } from '../../services/users';
 import { Button } from '../ui/Button/Button';
 import { Input } from '../ui/Input/Input';
 import type { User } from '../../models/User';
+import { useCreateUser } from '../../hooks/useUsers';
 
 interface CreateUserFormProps {
     onSuccess: (user: User) => void;
@@ -17,7 +17,7 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors },
         setError
     } = useForm<CreateUserInput, any, CreateUser>({
         resolver: zodResolver(CreateUserSchema),
@@ -27,21 +27,25 @@ export function CreateUserForm({ onSuccess, onCancel }: CreateUserFormProps) {
         }
     });
 
-    const onSubmit = async (data: CreateUser) => {
-        try {
-            const newUser = await userService.createUser(data);
-            onSuccess(newUser);
-        } catch (error: unknown) {
-            console.error("Failed to create user", error);
-            let errorMessage = "Failed to create user";
+    const { mutate: createUser, isPending: isSubmitting } = useCreateUser();
 
-            if (axios.isAxiosError(error)) {
-                // Define the expected error structure from backend
-                const data = error.response?.data as { errors?: string[], message?: string } | undefined;
-                errorMessage = data?.errors?.join(', ') || data?.message || errorMessage;
+    const onSubmit = async (data: CreateUser) => {
+        createUser(data, {
+            onSuccess: (newUser) => {
+                onSuccess(newUser);
+            },
+            onError: (error: unknown) => {
+                console.error("Failed to create user", error);
+                let errorMessage = "Failed to create user";
+
+                if (axios.isAxiosError(error)) {
+                    // Define the expected error structure from backend
+                    const data = error.response?.data as { errors?: string[], message?: string } | undefined;
+                    errorMessage = data?.errors?.join(', ') || data?.message || errorMessage;
+                }
+                setError('root', { message: errorMessage });
             }
-            setError('root', { message: errorMessage });
-        }
+        });
     };
 
     return (

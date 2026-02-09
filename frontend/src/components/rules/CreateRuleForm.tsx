@@ -1,50 +1,54 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CreateRuleSchema, type CreateRuleFormValues } from '../../models/Rule';
+import { CreateRuleSchema, type CreateRuleFormValues, type Rule } from '../../models/Rule';
 import { Button } from '../ui/Button/Button';
-import { useEffect, useState } from 'react';
-import { requestTypesService } from '../../services/requestTypes';
-import type { RequestType } from '../../models/RequestType';
+import { useRequestTypes } from '../../hooks/useRequestTypes';
+import { useCreateRule } from '../../hooks/useRules';
 
 interface CreateRuleFormProps {
-    onSuccess: (data: any) => void;
+    onSuccess: (data: Rule) => void;
     onCancel: () => void;
 }
 
 export function CreateRuleForm({ onSuccess, onCancel }: CreateRuleFormProps) {
-    const [requestTypes, setRequestTypes] = useState<RequestType[]>([]);
-    const [isLoadingTypes, setIsLoadingTypes] = useState(false);
-
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<CreateRuleFormValues>({
+    const [submitError, setSubmitError] = useState<string | null>(null);
+    const { register, handleSubmit, formState: { errors } } = useForm<CreateRuleFormValues>({
         resolver: zodResolver(CreateRuleSchema),
     });
 
-    useEffect(() => {
-        const fetchTypes = async () => {
-            setIsLoadingTypes(true);
-            try {
-                const response = await requestTypesService.getRequestTypes();
-                setRequestTypes(response.data);
-            } catch (err) {
-                console.error("Failed to fetch request types", err);
-            } finally {
-                setIsLoadingTypes(false);
-            }
-        };
-        fetchTypes();
-    }, []);
+    const { data: requestTypesData, isLoading: isLoadingTypes } = useRequestTypes(1);
+    const requestTypes = requestTypesData?.data || [];
 
-    const onSubmit = async (data: CreateRuleFormValues) => {
-        try {
-            // Ensure definition is a number
-            const payload = {
-                ...data,
-                definition: Number(data.definition)
-            };
-            await onSuccess(payload);
-        } catch (error) {
-            console.error("Form submission error", error);
-        }
+    const { mutate: createRule, isPending: isSubmitting } = useCreateRule();
+
+    const onSubmit = (data: CreateRuleFormValues) => {
+        setSubmitError(null);
+        // Ensure definition is a number
+        const payload = {
+            ...data,
+            grade: Number(data.grade),
+            definition: Number(data.definition)
+        };
+
+        createRule(payload, {
+            onSuccess: (newRule: Rule) => {
+                onSuccess(newRule);
+            },
+            onError: (error: any) => { // Axios error or standard error
+                console.error("Form submission error", error);
+                const errorData = error.response?.data;
+                let errorMessage = "Failed to create rule. Please try again.";
+
+                if (errorData?.errors && Array.isArray(errorData.errors)) {
+                    errorMessage = errorData.errors.join(", ");
+                } else if (errorData?.error) {
+                    errorMessage = errorData.error;
+                }
+
+                setSubmitError(errorMessage);
+            }
+        });
     };
 
     return (
@@ -92,6 +96,12 @@ export function CreateRuleForm({ onSuccess, onCancel }: CreateRuleFormProps) {
                 />
                 {errors.definition && <p className="text-xs text-red-500">{errors.definition.message}</p>}
             </div>
+
+            {submitError && (
+                <div className="p-3 text-sm text-red-500 bg-red-50 border border-red-200 rounded-md">
+                    {submitError}
+                </div>
+            )}
 
             <div className="flex justify-end space-x-3 pt-4">
                 <Button type="button" variant="ghost" onClick={onCancel}>Cancel</Button>

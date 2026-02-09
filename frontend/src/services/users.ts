@@ -13,7 +13,7 @@ const mockUsers: User[] = [
 export const userService = {
     getUsers: async (page = 1): Promise<PaginatedResponse<User>> => {
         if (import.meta.env.VITE_USE_MOCK_API === 'true') {
-            return new Promise((resolve) => setTimeout(() => resolve({
+            return Promise.resolve({
                 data: mockUsers,
                 meta: {
                     total_count: 3,
@@ -21,7 +21,7 @@ export const userService = {
                     per_page: 20,
                     total_pages: 1
                 }
-            }), 500));
+            });
         }
         const response = await api.get<PaginatedResponse<User>>('/users', { params: { page } });
         return response.data;
@@ -41,7 +41,7 @@ export const userService = {
                     grade: validatedData.grade
                 };
                 mockUsers.push(newUser);
-                setTimeout(() => resolve(newUser), 800);
+                resolve(newUser);
             });
         }
 
@@ -55,7 +55,7 @@ export const userService = {
             return new Promise((resolve) => {
                 const index = mockUsers.findIndex(u => u.id === id);
                 if (index !== -1) mockUsers.splice(index, 1);
-                setTimeout(() => resolve(), 500);
+                resolve();
             });
         }
         await api.delete(`/users/${id}`);

@@ -1,80 +1,59 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { DashboardHeader } from '../../components/ui/Header/DashboardHeader';
 import { Card, CardContent } from '../../components/ui/Card/Card';
-import { rulesService } from '../../services/rules';
-import type { Rule, CreateRuleInput } from '../../models/Rule';
+// type imports removed as they are inferred
 import { CreateRuleForm } from '../../components/rules/CreateRuleForm';
 import { Modal } from '../../components/ui/Modal/Modal';
 import { Shield, Trash2 } from 'lucide-react';
 import { Pagination } from '../../components/ui/Pagination/Pagination';
-import type { PaginationMeta } from '../../models/common';
-
 import { useAuth } from '../../context/AuthContext';
+import { useRules, useDeleteRule } from '../../hooks/useRules';
 
 export default function RulesPage() {
     const { user } = useAuth();
-    const [rules, setRules] = useState<Rule[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [notification, setNotification] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
     // Pagination State
     const [currentPage, setCurrentPage] = useState(1);
-    const [paginationMeta, setPaginationMeta] = useState<PaginationMeta | null>(null);
 
-    const fetchRules = async (page: number) => {
-        try {
-            setIsLoading(true);
-            const response = await rulesService.getRules(page);
-            setRules(response.data);
-            setPaginationMeta(response.meta);
-        } catch (error) {
-            console.error("Failed to fetch rules", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    // Queries
+    const { data: rulesData, isLoading } = useRules(currentPage);
+    const rules = rulesData?.data || [];
+    const paginationMeta = rulesData?.meta;
 
-    useEffect(() => {
-        fetchRules(currentPage);
-    }, [currentPage]);
+    const { mutate: deleteRule } = useDeleteRule();
 
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage);
     };
 
-    const handleCreate = async (data: CreateRuleInput) => {
-        try {
-            const newRule = await rulesService.createRule(data);
-            setRules([...rules, newRule]);
-            setIsCreateModalOpen(false);
-            setNotification({ type: 'success', message: "Rule created successfully" });
-            setTimeout(() => setNotification(null), 3000);
-        } catch (error) {
-            console.error("Failed to create rule", error);
-            setNotification({ type: 'error', message: "Failed to create rule." });
-            setTimeout(() => setNotification(null), 3000);
-        }
+    const handleCreateSuccess = () => {
+        setIsCreateModalOpen(false);
+        setNotification({ type: 'success', message: "Rule created successfully" });
+        setTimeout(() => setNotification(null), 3000);
     };
 
-    const handleDelete = async (id: string) => {
+    const handleDelete = (id: string) => {
         if (!confirm("Are you sure you want to delete this rule?")) return;
-        try {
-            await rulesService.deleteRule(id);
-            setRules(rules.filter(r => r.id !== id));
-            setNotification({ type: 'success', message: "Rule deleted successfully" });
-            setTimeout(() => setNotification(null), 3000);
-        } catch (error) {
-            console.error("Failed to delete rule", error);
-            setNotification({ type: 'error', message: "Failed to delete rule." });
-            setTimeout(() => setNotification(null), 3000);
-        }
+
+        deleteRule(id, {
+            onSuccess: () => {
+                setNotification({ type: 'success', message: "Rule deleted successfully" });
+                setTimeout(() => setNotification(null), 3000);
+            },
+            onError: (error) => {
+                console.error("Failed to delete rule", error);
+                setNotification({ type: 'error', message: "Failed to delete rule." });
+                setTimeout(() => setNotification(null), 3000);
+            }
+        });
     };
 
     return (
         <div className="space-y-8 relative">
             {notification && (
-                <div className={`fixed top-4 right-4 p-4 rounded-md shadow-lg z-50 text-white animate-in slide-in-from-right-10 fade-in duration-300 ${notification.type === 'success' ? 'bg-emerald-500' : 'bg-red-500'}`}>
+                <div className={`fixed top-4 right-4 p-4 rounded-md shadow-lg z-[100] text-white animate-in slide-in-from-right-10 fade-in duration-300 ${notification.type === 'success' ? 'bg-emerald-500' : 'bg-red-500'}`}>
                     {notification.message}
                 </div>
             )}
@@ -162,7 +141,7 @@ export default function RulesPage() {
                 title="Configure Rule"
             >
                 <CreateRuleForm
-                    onSuccess={handleCreate}
+                    onSuccess={handleCreateSuccess}
                     onCancel={() => setIsCreateModalOpen(false)}
                 />
             </Modal>

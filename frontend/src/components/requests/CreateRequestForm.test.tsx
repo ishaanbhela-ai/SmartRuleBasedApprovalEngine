@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '../../test/utils';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { CreateRequestForm } from './CreateRequestForm';
 import { requestTypesService } from '../../services/requestTypes';
@@ -51,16 +51,19 @@ describe('CreateRequestForm Component', () => {
         // Wait for types to load
         await waitFor(() => {
             expect(screen.getByRole('combobox')).toBeInTheDocument();
+            expect(screen.getByText('Hardware')).toBeInTheDocument();
         });
 
         // Select a type
         fireEvent.change(screen.getByRole('combobox'), { target: { value: '123e4567-e89b-12d3-a456-426614174000' } });
 
+        // Wait for balance UI update first
         await waitFor(() => {
-            expect(requestsService.getBalance).toHaveBeenCalledWith('123e4567-e89b-12d3-a456-426614174000');
+            expect(screen.getByText('Quota Limit:')).toBeInTheDocument();
         });
 
-        expect(screen.getByText('Quota Limit:')).toBeInTheDocument();
+        expect(requestsService.getBalance).toHaveBeenCalledWith('123e4567-e89b-12d3-a456-426614174000');
+
         expect(screen.getByText('1,000')).toBeInTheDocument();
         expect(screen.getByText('800')).toBeInTheDocument(); // remaining
     });

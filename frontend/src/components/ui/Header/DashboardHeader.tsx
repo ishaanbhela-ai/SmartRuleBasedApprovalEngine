@@ -14,7 +14,9 @@ export function DashboardHeader({ title, description, actionLabel, onAction }: O
     const { logout } = useAuth()
 
     const handleLogout = () => {
-        logout()
+        if (window.confirm("Are you sure you want to logout?")) {
+            logout()
+        }
     }
 
     return (

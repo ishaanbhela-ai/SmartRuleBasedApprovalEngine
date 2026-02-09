@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { DashboardHeader } from '../../components/ui/Header/DashboardHeader';
 import { Card, CardContent } from '../../components/ui/Card/Card';
-import { requestsService } from '../../services/requests';
-import type { Request, ApproverRequest } from '../../models/Request';
-import type { PaginationMeta } from '../../models/common';
+import { useMyRequests, usePendingRequests, useAllRequests } from '../../hooks/useRequests';
+import type { ApproverRequest, Request } from '../../models/Request';
 import { Pagination } from '../../components/ui/Pagination/Pagination';
 import { useAuth } from '../../context/AuthContext';
 import { CheckCircle, Clock, ListFilter } from 'lucide-react';
@@ -18,15 +17,8 @@ export default function RequestsPage() {
     const { user } = useAuth();
     const userRole = user?.role || 'user';
 
-    // State
-    const [myRequests, setMyRequests] = useState<Request[]>([]);
-    const [pendingApprovals, setPendingApprovals] = useState<ApproverRequest[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-
     // Pagination State
     const [currentPage, setCurrentPage] = useState(1);
-    const [paginationMeta, setPaginationMeta] = useState<PaginationMeta | null>(null);
-    const [pendingCount, setPendingCount] = useState<number>(0);
 
     // UI State
     const [activeTab, setActiveTab] = useState<'pending' | 'my_requests' | 'all_requests'>(
@@ -35,56 +27,71 @@ export default function RequestsPage() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [selectedRequestToApprove, setSelectedRequestToApprove] = useState<ApproverRequest | null>(null);
 
+    // Queries
+    const {
+        data: pendingData,
+        isLoading: isPendingLoading
+    } = usePendingRequests(currentPage, { enabled: activeTab === 'pending' });
+
+    const {
+        data: myRequestsData,
+        isLoading: isMyRequestsLoading
+    } = useMyRequests(currentPage, { enabled: activeTab === 'my_requests' });
+
+    const {
+        data: allRequestsData,
+        isLoading: isAllRequestsLoading
+    } = useAllRequests(currentPage, { enabled: activeTab === 'all_requests' });
+
+    // Also fetch pending count always if approver/admin, to show badge
+    // We reuse the pending query for page 1 but ignore data if not active tab? 
+    // Or we create a separate query for count? 
+    // The previous code fetched pending count in background.
+    // Let's use a separate query for the badge if needed, or just rely on the fact that if we aren't on pending tab, we don't know the count unless we fetch it.
+    // The previous code did: if ((userRole === 'approver' || userRole === 'admin') && pendingCount === 0) calls fetchRequests(1)
+
+    // For now, let's just use a separate query for count if user is approver/admin and not on pending tab
+    const { data: pendingCountData } = usePendingRequests(1, {
+        enabled: (userRole === 'approver' || userRole === 'admin') && activeTab !== 'pending'
+    });
+
+    const pendingCount = activeTab === 'pending'
+        ? pendingData?.meta.total_count || 0
+        : pendingCountData?.meta.total_count || 0;
+
     const getPageTitle = () => {
         if (userRole === 'admin') return activeTab === 'pending' ? "Pending Approvals" : "All Requests";
         if (userRole === 'approver') return activeTab === 'pending' ? "Approvals Required" : "My Requests";
         return "My Requests";
     };
 
-    const fetchRequests = async () => {
-        setIsLoading(true);
-        try {
-            if (activeTab === 'pending') {
-                const response = await requestsService.getPendingRequests(currentPage);
-                setPendingApprovals(response.data);
-                setPaginationMeta(response.meta);
-                setPendingCount(response.meta.total_count);
-            } else if (activeTab === 'my_requests') {
-                const response = await requestsService.getMyRequests(currentPage);
-                setMyRequests(response.data);
-                setPaginationMeta(response.meta);
-
-                if ((userRole === 'approver' || userRole === 'admin') && pendingCount === 0) {
-                    requestsService.getPendingRequests(1).then(res => setPendingCount(res.meta.total_count)).catch(() => { });
-                }
-            } else if (activeTab === 'all_requests') {
-                const response = await requestsService.getAllRequests(currentPage);
-                setMyRequests(response.data);
-                setPaginationMeta(response.meta);
-                if (pendingCount === 0) {
-                    requestsService.getPendingRequests(1).then(res => setPendingCount(res.meta.total_count)).catch(() => { });
-                }
-            }
-        } catch (error) {
-            console.error("Failed to fetch requests", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchRequests();
-    }, [userRole, activeTab, currentPage]);
-
     const handleTabChange = (tab: 'pending' | 'my_requests' | 'all_requests') => {
         setActiveTab(tab);
         setCurrentPage(1);
-        setPaginationMeta(null);
     };
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
+
+    // Determine current data to display
+    let currentData: (Request | ApproverRequest)[] = [];
+    let currentMeta = null;
+    let currentLoading = false;
+
+    if (activeTab === 'pending') {
+        currentData = pendingData?.data || [];
+        currentMeta = pendingData?.meta;
+        currentLoading = isPendingLoading;
+    } else if (activeTab === 'my_requests') {
+        currentData = myRequestsData?.data || [];
+        currentMeta = myRequestsData?.meta;
+        currentLoading = isMyRequestsLoading;
+    } else if (activeTab === 'all_requests') {
+        currentData = allRequestsData?.data || [];
+        currentMeta = allRequestsData?.meta;
+        currentLoading = isAllRequestsLoading;
+    }
 
     return (
         <div className="space-y-8">
@@ -137,11 +144,11 @@ export default function RequestsPage() {
 
             <Card>
                 <CardContent className="p-0">
-                    {isLoading ? (
+                    {currentLoading ? (
                         <div className="p-8 text-center text-slate-500">Loading requests...</div>
                     ) : (
                         (userRole === 'approver' || userRole === 'admin') && activeTab === 'pending' ? (
-                            pendingApprovals.length === 0 ? (
+                            currentData.length === 0 ? (
                                 <div className="p-12 text-center">
                                     <div className="mx-auto h-12 w-12 text-slate-300 mb-3">
                                         <CheckCircle className="h-full w-full" />
@@ -151,25 +158,25 @@ export default function RequestsPage() {
                                 </div>
                             ) : (
                                 <ApprovalsTable
-                                    requests={pendingApprovals}
+                                    requests={currentData as ApproverRequest[]}
                                     onReview={setSelectedRequestToApprove}
                                 />
                             )
                         ) : (
                             <RequestsTable
-                                requests={myRequests}
+                                requests={currentData as Request[]}
                                 showRequester={userRole !== 'user'}
                             />
                         )
                     )}
 
-                    {paginationMeta && paginationMeta.total_pages > 1 && (
+                    {currentMeta && currentMeta.total_pages > 1 && (
                         <Pagination
                             currentPage={currentPage}
-                            totalPages={paginationMeta.total_pages}
+                            totalPages={currentMeta.total_pages}
                             onPageChange={handlePageChange}
-                            hasNext={paginationMeta.page < paginationMeta.total_pages}
-                            hasPrev={paginationMeta.page > 1}
+                            hasNext={currentMeta.page < currentMeta.total_pages}
+                            hasPrev={currentMeta.page > 1}
                         />
                     )}
                 </CardContent>
@@ -183,7 +190,7 @@ export default function RequestsPage() {
                 <CreateRequestForm
                     onSuccess={() => {
                         setIsCreateModalOpen(false);
-                        fetchRequests();
+                        // Queries automatically invalidated and refetched
                     }}
                     onCancel={() => setIsCreateModalOpen(false)}
                 />
@@ -196,7 +203,7 @@ export default function RequestsPage() {
                     onClose={() => setSelectedRequestToApprove(null)}
                     onSuccess={() => {
                         setSelectedRequestToApprove(null);
-                        fetchRequests();
+                        // Queries automatically invalidated and refetched
                     }}
                 />
             )}

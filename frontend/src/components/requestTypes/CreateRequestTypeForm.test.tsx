@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '../../test/utils';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { CreateRequestTypeForm } from './CreateRequestTypeForm';
 import { requestTypesService } from '../../services/requestTypes';
@@ -80,7 +80,8 @@ describe('CreateRequestTypeForm Component', () => {
         fireEvent.change(screen.getByLabelText('Type Name'), { target: { value: 'expense' } });
 
         // Add Approver
-        await waitFor(() => expect(userService.getUsers).toHaveBeenCalled());
+        await waitFor(() => screen.findByText(/Approver One/));
+
         const select = document.getElementById('approver-select') as HTMLSelectElement;
         fireEvent.change(select, { target: { value: 'u1' } });
         fireEvent.click(screen.getByText('Add'));

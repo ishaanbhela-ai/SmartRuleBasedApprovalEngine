@@ -12,7 +12,7 @@ module Api
                      current_user.tenant.requests.where(requester_id: current_user.id)
         end
 
-        requests = requests.includes(:requester, :request_type, :approval)
+        requests = requests.includes(:requester, :request_type, :approval).order(created_at: :desc)
         pagy, records = pagy(:offset, requests)
 
         render json: {

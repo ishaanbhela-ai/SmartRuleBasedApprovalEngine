@@ -1,63 +1,40 @@
-import { useEffect, useState } from 'react'
-import { FileText, Users, Shield, Clock } from 'lucide-react'
+import { FileText, Users, Shield, Clock, type LucideIcon } from 'lucide-react'
 import { StatsCard } from '../../components/ui/StatsCard/StatsCard'
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card/Card'
-import { Badge } from '../../components/ui/Badge/Badge'
+import { StatusBadge } from '../../components/ui/StatusBadge/StatusBadge'
 import { DashboardHeader } from '../../components/ui/Header/DashboardHeader'
-import { reportsService } from '../../services/reports'
-import { requestsService } from '../../services/requests'
 import { useAuth } from '../../context/AuthContext'
-import type { ReportSummary, UserReport, ApproverReport, ReportData } from '../../models/Report'
-import type { Request as RequestItem } from '../../models/Request'
+import type { ReportSummary, UserReport, ApproverReport } from '../../models/Report'
+import type { Request, ApproverRequest } from '../../models/Request'
+import { useReportSummary, useMyReport } from '../../hooks/useReports'
+import { useAllRequests, useMyRequests } from '../../hooks/useRequests'
 
 export default function DashboardPage() {
     const { user } = useAuth()
-    const [stats, setStats] = useState<ReportData | null>(null) // Updated type
-    const [requests, setRequests] = useState<RequestItem[]>([])
-    const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                let requestsData: RequestItem[] = []
-                let statsData: ReportData
+    // Role-based Conditional Queries
+    const { data: summaryStats } = useReportSummary({ enabled: user?.role === 'admin' });
+    const { data: myStats } = useMyReport({ enabled: user?.role !== 'admin' });
 
-                const userRole = user?.role || 'user'
+    const { data: allRequestsData, isLoading: isLoadingAll } = useAllRequests(1, { enabled: user?.role === 'admin' });
+    // const { data: pendingRequestsData, isLoading: isLoadingPending } = usePendingRequests(1, { enabled: user?.role === 'approver' });
+    const { data: myRequestsData, isLoading: isLoadingMy } = useMyRequests(1, { enabled: user?.role !== 'admin' });
 
-                if (userRole === 'admin') {
-                    // Admin fetches global summary
-                    statsData = await reportsService.getSummary();
-                    const response = await requestsService.getAllRequests();
-                    requestsData = response.data;
-                } else {
-                    // Everyone else fetches their own report
-                    statsData = await reportsService.getMyReport();
+    // Determine Loading State
+    const loading = (user?.role === 'admin' && isLoadingAll) ||
+        (user?.role !== 'admin' && isLoadingMy);
 
-                    if (userRole === 'approver') {
-                        const pendingRequestsResponse = await requestsService.getPendingRequests()
-                        requestsData = pendingRequestsResponse.data.map(req => ({
-                            ...req,
-                            type: req.request_type.name,
-                            approval: null,
-                            requester: { ...req.requester, email: '' }
-                        })) as unknown as RequestItem[]
-                    } else {
-                        const response = await requestsService.getMyRequests()
-                        requestsData = response.data;
-                    }
-                }
+    // Derived Data
+    const stats = user?.role === 'admin' ? summaryStats : myStats;
 
-                setStats(statsData)
-                setRequests(requestsData)
-            } catch (error) {
-                console.error("Failed to fetch dashboard data", error)
-            } finally {
-                setLoading(false)
-            }
-        }
+    type DashboardRequest = Request | (ApproverRequest & { type?: string });
 
-        fetchData()
-    }, [user])
+    let requests: DashboardRequest[] = [];
+    if (user?.role === 'admin') {
+        requests = allRequestsData?.data || [];
+    } else {
+        requests = myRequestsData?.data || [];
+    }
 
     if (loading) {
         return (
@@ -71,7 +48,14 @@ export default function DashboardPage() {
     }
 
     // Determine Stats Cards based on Role
-    let statCards: any[] = []; // Using any for flexibility in icon types, or define specific interface
+    interface StatCardData {
+        title: string;
+        value: string | number;
+        icon: LucideIcon;
+        description: string;
+    }
+
+    let statCards: StatCardData[] = [];
 
     if (user?.role === 'admin' && stats && !('role' in stats)) { // Check for ReportSummary structure (no role field)
         const s = stats as ReportSummary;
@@ -127,8 +111,6 @@ export default function DashboardPage() {
             <DashboardHeader
                 title="Dashboard"
                 description="Overview of your validation and approval system."
-                actionLabel="Download Report"
-                onAction={() => console.log("Download report")}
             />
 
             {/* Stats Overview */}
@@ -159,12 +141,7 @@ export default function DashboardPage() {
                                             <p className="text-xs text-slate-500">{item.request_type?.name || item.type} • {item.requested_value}</p>
                                         </div>
                                         <div className="ml-auto">
-                                            <Badge variant={
-                                                item.status === 'approved' || item.status === 'auto_approved' ? 'success' :
-                                                    item.status === 'rejected' ? 'destructive' : 'warning'
-                                            }>
-                                                {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
-                                            </Badge>
+                                            <StatusBadge status={item.status} />
                                         </div>
                                     </div>
                                 ))}

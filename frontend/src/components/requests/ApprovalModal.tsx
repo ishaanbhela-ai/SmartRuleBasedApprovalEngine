@@ -3,7 +3,7 @@ import { Modal } from '../ui/Modal/Modal';
 import { Button } from '../ui/Button/Button';
 import { CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import type { ApproverRequest, ApprovalAction } from '../../models/Request';
-import { requestsService } from '../../services/requests';
+import { useProcessRequest } from '../../hooks/useRequests';
 
 interface ApprovalModalProps {
     request: ApproverRequest;
@@ -14,33 +14,32 @@ interface ApprovalModalProps {
 
 export function ApprovalModal({ request, isOpen, onClose, onSuccess }: ApprovalModalProps) {
     const [reason, setReason] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    const { mutate: processRequest, isPending: isSubmitting } = useProcessRequest();
+
     const handleAction = async (action_type: 'approved' | 'rejected') => {
-        try {
-            setIsSubmitting(true);
-            setError(null);
+        setError(null);
 
-            if (action_type === 'rejected' && !reason.trim()) {
-                setError("A reason is required for rejection.");
-                setIsSubmitting(false);
-                return;
-            }
-
-            const action: ApprovalAction = {
-                action_type,
-                reason: reason.trim() || undefined
-            };
-
-            await requestsService.processRequest(request.id, action);
-            onSuccess();
-        } catch (err: any) {
-            console.error("Failed to process request", err);
-            setError(err.response?.data?.error || "Failed to process request. Please try again.");
-        } finally {
-            setIsSubmitting(false);
+        if (action_type === 'rejected' && !reason.trim()) {
+            setError("A reason is required for rejection.");
+            return;
         }
+
+        const action: ApprovalAction = {
+            action_type,
+            reason: reason.trim() || undefined
+        };
+
+        processRequest({ id: request.id, action }, {
+            onSuccess: () => {
+                onSuccess();
+            },
+            onError: (err: unknown) => {
+                console.error("Failed to process request", err);
+                setError((err as any).response?.data?.error || "Failed to process request. Please try again.");
+            }
+        });
     };
 
     const percentageUsed = request.quota && request.quota.limit > 0

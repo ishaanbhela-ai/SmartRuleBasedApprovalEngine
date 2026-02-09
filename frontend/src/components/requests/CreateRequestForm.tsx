@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateRequestSchema, type CreateRequestFormValues } from '../../models/Request';
-import { requestTypesService } from '../../services/requestTypes';
-import { requestsService } from '../../services/requests';
 import { Button } from '../ui/Button/Button';
 import { Input } from '../ui/Input/Input';
-import type { RequestType } from '../../models/RequestType';
+import { useRequestTypes } from '../../hooks/useRequestTypes';
+import { useRequestBalance, useCreateRequest } from '../../hooks/useRequests';
 
 interface CreateRequestFormProps {
     onSuccess: () => void;
@@ -14,68 +12,38 @@ interface CreateRequestFormProps {
 }
 
 export function CreateRequestForm({ onSuccess, onCancel }: CreateRequestFormProps) {
-    const [requestTypes, setRequestTypes] = useState<RequestType[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-
-    const { register, handleSubmit, watch, formState: { errors, isSubmitting }, setError } = useForm<CreateRequestFormValues>({
+    const { register, handleSubmit, watch, formState: { errors }, setError } = useForm<CreateRequestFormValues>({
         resolver: zodResolver(CreateRequestSchema)
     });
 
     const selectedTypeId = watch('request_type_id');
-    const [balance, setBalance] = useState<{ limit: number, used: number, remaining: number } | null>(null);
-    const [balanceLoading, setBalanceLoading] = useState(false);
 
-    useEffect(() => {
-        if (!selectedTypeId) {
-            setBalance(null);
-            return;
-        }
+    // Fetch Request Types
+    const { data: requestTypesData } = useRequestTypes(1);
+    const requestTypes = requestTypesData?.data || [];
 
-        const fetchBalance = async () => {
-            setBalanceLoading(true);
-            try {
-                const data = await requestsService.getBalance(selectedTypeId);
-                setBalance(data);
-            } catch (error) {
-                console.error("Failed to fetch balance", error);
-                setBalance(null);
-            } finally {
-                setBalanceLoading(false);
+    // Fetch Balance
+    const { data: balance, isLoading: balanceLoading } = useRequestBalance(selectedTypeId);
+
+    // Create Mutation
+    const { mutate: createRequest, isPending: isCreating } = useCreateRequest();
+
+    const onSubmit = (data: CreateRequestFormValues) => {
+        createRequest({
+            request_type_id: data.request_type_id,
+            requested_value: Number(data.requested_value)
+        }, {
+            onSuccess: () => {
+                onSuccess();
+            },
+            onError: (error: unknown) => {
+                console.error("Failed to create request", error);
+                setError('root', {
+                    type: 'manual',
+                    message: (error as any).response?.data?.error || "Failed to create request"
+                });
             }
-        };
-
-        fetchBalance();
-    }, [selectedTypeId]);
-
-    useEffect(() => {
-        const fetchTypes = async () => {
-            try {
-                const response = await requestTypesService.getRequestTypes();
-                setRequestTypes(response.data);
-            } catch (error) {
-                console.error("Failed to load request types", error);
-            }
-        };
-        fetchTypes();
-    }, []);
-
-    const onSubmit = async (data: CreateRequestFormValues) => {
-        setIsLoading(true);
-        try {
-            await requestsService.createRequest({
-                request_type_id: data.request_type_id,
-                requested_value: Number(data.requested_value)
-            });
-            onSuccess();
-        } catch (error: any) {
-            console.error("Failed to create request", error);
-            setError('root', {
-                type: 'manual',
-                message: error.response?.data?.error || "Failed to create request"
-            });
-        } finally {
-            setIsLoading(false);
-        }
+        });
     };
 
     return (
@@ -140,10 +108,10 @@ export function CreateRequestForm({ onSuccess, onCancel }: CreateRequestFormProp
             )}
 
             <div className="flex justify-end gap-3 pt-4">
-                <Button type="button" variant="ghost" onClick={onCancel} disabled={isSubmitting || isLoading}>
+                <Button type="button" variant="ghost" onClick={onCancel} disabled={isCreating}>
                     Cancel
                 </Button>
-                <Button type="submit" isLoading={isSubmitting || isLoading}>
+                <Button type="submit" isLoading={isCreating}>
                     Submit Request
                 </Button>
             </div>

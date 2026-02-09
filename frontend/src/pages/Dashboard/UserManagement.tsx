@@ -1,64 +1,49 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Trash2 } from 'lucide-react';
 import { DashboardHeader } from '../../components/ui/Header/DashboardHeader';
 import { Card, CardContent } from '../../components/ui/Card/Card';
 import { Button } from '../../components/ui/Button/Button';
 import { Badge } from '../../components/ui/Badge/Badge';
-import { userService } from '../../services/users';
-import type { User } from '../../models/User';
-import type { PaginationMeta } from '../../models/common';
+// unused import removed
 import { Pagination } from '../../components/ui/Pagination/Pagination';
 import { CreateUserForm } from '../../components/users/CreateUserForm';
 import { Modal } from '../../components/ui/Modal/Modal';
 import { UserAvatar } from '../../components/ui/UserAvatar/UserAvatar';
+import { useUsers, useDeleteUser } from '../../hooks/useUsers';
 
 export default function UserManagement() {
-    const [users, setUsers] = useState<User[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [notification, setNotification] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
     // Pagination State
     const [currentPage, setCurrentPage] = useState(1);
-    const [paginationMeta, setPaginationMeta] = useState<PaginationMeta | null>(null);
 
-    const fetchUsers = async () => {
-        try {
-            setIsLoading(true);
-            const response = await userService.getUsers(currentPage);
-            setUsers(response.data);
-            setPaginationMeta(response.meta);
-        } catch (error) {
-            console.error("Failed to fetch users", error);
-            showNotification('error', 'Failed to load users');
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    // Queries
+    const { data: usersData, isLoading } = useUsers(currentPage);
+    const users = usersData?.data || [];
+    const paginationMeta = usersData?.meta;
 
-    useEffect(() => {
-        fetchUsers();
-    }, [currentPage]);
+    const { mutate: deleteUser } = useDeleteUser();
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
 
-    const handleDeleteUser = async (id: string) => {
+    const handleDeleteUser = (id: string) => {
         if (!confirm('Are you sure you want to delete this user?')) return;
 
-        try {
-            await userService.deleteUser(id);
-            setUsers(users.filter(u => u.id !== id));
-            showNotification('success', 'User deleted successfully');
-        } catch (error) {
-            console.error("Failed to delete user", error);
-            showNotification('error', 'Failed to delete user');
-        }
+        deleteUser(id, {
+            onSuccess: () => {
+                showNotification('success', 'User deleted successfully');
+            },
+            onError: (error) => {
+                console.error("Failed to delete user", error);
+                showNotification('error', 'Failed to delete user');
+            }
+        });
     };
 
-    const handleUserCreated = (newUser: User) => {
-        setUsers([...users, newUser]);
+    const handleUserCreated = () => {
         setIsCreateModalOpen(false);
         showNotification('success', 'User created successfully');
     };
@@ -68,12 +53,10 @@ export default function UserManagement() {
         setTimeout(() => setNotification(null), 3000);
     };
 
-
-
     return (
         <div className="space-y-8 relative">
             {notification && (
-                <div className={`fixed top-4 right-4 p-4 rounded-md shadow-lg z-50 text-white animate-in slide-in-from-right-10 fade-in duration-300 ${notification.type === 'success' ? 'bg-emerald-500' : 'bg-red-500'}`}>
+                <div className={`fixed top-4 right-4 p-4 rounded-md shadow-lg z-[100] text-white animate-in slide-in-from-right-10 fade-in duration-300 ${notification.type === 'success' ? 'bg-emerald-500' : 'bg-red-500'}`}>
                     {notification.message}
                 </div>
             )}

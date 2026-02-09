@@ -77,17 +77,11 @@ export default function LoginPage() {
                                 <Input
                                     label="Password"
                                     type="password"
-                                    placeholder="••••••••"
+                                    placeholder="password"
                                     startIcon={<Lock className="h-4 w-4" />}
                                     {...register('password')}
                                     error={errors.password?.message}
                                 />
-                            </div>
-
-                            <div className="flex justify-end">
-                                <a href="#" className="text-sm font-medium text-primary-600 hover:text-primary-700 hover:underline">
-                                    Forgot Password?
-                                </a>
                             </div>
 
                             <Button type="submit" variant="secondary" fullWidth size="lg" isLoading={loading}>
@@ -107,7 +101,7 @@ export default function LoginPage() {
 
                 {/* Footer */}
                 <p className="text-center text-xs text-slate-400 uppercase tracking-wider">
-                    &copy; 2024 SmartRule Engine Enterprise v4.2.0
+                    &copy; 2026 SmartRule Engine Enterprise v4.2.0
                 </p>
             </div>
         </div>

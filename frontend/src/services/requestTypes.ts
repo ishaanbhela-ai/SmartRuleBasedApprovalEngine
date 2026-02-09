@@ -6,24 +6,20 @@ export const requestTypesService = {
     getRequestTypes: async (page = 1): Promise<PaginatedResponse<RequestType>> => {
         // Mock data fallback if env is set, or real API
         if (import.meta.env.VITE_USE_MOCK_API === 'true') {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve({
-                        data: [
-                            {
-                                id: "1",
-                                name: "expense",
-                                approvers: [{ id: "user-uuid-1", name: "John Approver", email: "john@example.com" }]
-                            }
-                        ],
-                        meta: {
-                            total_count: 1,
-                            page: 1,
-                            per_page: 20,
-                            total_pages: 1
-                        }
-                    });
-                }, 500);
+            return Promise.resolve({
+                data: [
+                    {
+                        id: "1",
+                        name: "expense",
+                        approvers: [{ id: "user-uuid-1", name: "John Approver", email: "john@example.com" }]
+                    }
+                ],
+                meta: {
+                    total_count: 1,
+                    page: 1,
+                    per_page: 20,
+                    total_pages: 1
+                }
             });
         }
 

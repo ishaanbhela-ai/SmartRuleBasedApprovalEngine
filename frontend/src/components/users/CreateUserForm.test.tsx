@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '../../test/utils';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { CreateUserForm } from './CreateUserForm';
 import { userService } from '../../services/users';
@@ -29,15 +29,25 @@ describe('CreateUserForm Component', () => {
 
         render(<CreateUserForm onSuccess={onSuccess} onCancel={() => { }} />);
 
+        // Wait for rendering
+        await screen.findByLabelText('Full Name');
+
         fireEvent.change(screen.getByLabelText('Full Name'), { target: { value: 'John Doe' } });
         fireEvent.change(screen.getByLabelText('Email Address'), { target: { value: 'john@example.com' } });
         fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } });
         fireEvent.change(screen.getByLabelText('Role'), { target: { value: 'user' } });
         fireEvent.change(screen.getByLabelText('Grade'), { target: { value: '2' } });
 
-        fireEvent.click(screen.getByRole('button', { name: 'Create User' }));
+        const submitButton = screen.getByRole('button', { name: 'Create User' });
+        expect(submitButton).not.toBeDisabled();
+
+        fireEvent.click(submitButton);
 
         await waitFor(() => {
+            // Check if validation errors appear instead (debugging hint)
+            const errors = screen.queryAllByText(/required|must be/i);
+            expect(errors).toHaveLength(0);
+
             expect(userService.createUser).toHaveBeenCalledWith({
                 name: 'John Doe',
                 email: 'john@example.com',
