@@ -8363,3 +8363,6 @@ Migrating to ChangeUsersEmailScope (20260206070041)
 [AutoReject] Found 0 requests to auto-reject
 [dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m, [36mSMTP_ADDRESS[0m, [36mSMTP_PORT[0m, [36mSMTP_DOMAIN[0m, [36mSMTP_USERNAME[0m, [36mSMTP_PASSWORD[0m, [36mSMTP_AUTHENTICATION[0m
 [dotenv] Loaded [33m.env[0m
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m, [36mSMTP_ADDRESS[0m, [36mSMTP_PORT[0m, [36mSMTP_DOMAIN[0m, [36mSMTP_USERNAME[0m, [36mSMTP_PASSWORD[0m, [36mSMTP_AUTHENTICATION[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
