@@ -1,0 +1,25 @@
+Request Status Update
+=============================
+
+<% if @request.status == 'auto_approved' %>
+Your request (ID: <%= @request.id %>) has been auto-approved.
+<% else %>
+Your request (ID: <%= @request.id %>) has been <%= @action %>.
+<% end %>
+
+Details:
+--------
+- Request Type: <%= @request.request_type.name rescue 'Unknown' %>
+- Requested Value: <%= @request.requested_value %>
+- Date Submitted: <%= @request.created_at.strftime("%B %d, %Y") %>
+
+<% if @approval.reason.present? %>
+Reason/Comments:
+<%= @approval.reason %>
+<% end %>
+
+<% if @approver %>
+Processed By: <%= @approver.name %>
+<% end %>
+
+Thank you.
