@@ -3,7 +3,7 @@ import { z } from 'zod';
 export type RequestStatus = 'submitted' | 'approved' | 'rejected' | 'pending_approval' | 'auto_approved';
 
 export const RequestSchema = z.object({
-    id: z.uuid(),
+    id: z.string().uuid(),
     type: z.string().optional(), // Backend serializer removed this, use request_type.name
     requested_value: z.number(),
     status: z.enum(['submitted', 'pending_approval', 'approved', 'rejected', 'auto_approved']),
@@ -14,7 +14,7 @@ export const RequestSchema = z.object({
     requester: z.object({
         id: z.string(),
         name: z.string(),
-        email: z.email(),
+        email: z.string().email(),
         grade: z.number().optional()
     }).optional(),
     approval: z.object({
@@ -29,7 +29,7 @@ export type Request = z.infer<typeof RequestSchema>;
 
 export const CreateRequestSchema = z.object({
     request_type_id: z.string().uuid("Invalid Request Type"),
-    requested_value: z.number("Amount must be a number").positive("Amount must be positive")
+    requested_value: z.number().positive("Amount must be positive")
 });
 
 export type CreateRequestInput = z.infer<typeof CreateRequestSchema>;
@@ -59,4 +59,11 @@ export interface ApproverRequest {
         remaining: number;
     };
     created_at: string;
+}
+
+export interface RequestFilters {
+    status?: string;
+    request_type_id?: string;
+    start_date?: string;
+    end_date?: string;
 }

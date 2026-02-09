@@ -12,7 +12,7 @@ module Api
             status_breakdown: status_breakdown(tenant),
             request_type_breakdown: request_type_breakdown(tenant),
             decision_breakdown: decision_breakdown(tenant),
-            rule_hit_counts: rule_hit_counts(tenant)
+            total_rules: total_rules(tenant)
           }
         end
 
@@ -37,11 +37,8 @@ module Api
           tenant.approvals.group(:action).count
         end
 
-        def rule_hit_counts(tenant)
-          tenant.approvals
-                .where.not(rule_id: nil)
-                .group(:rule_id)
-                .count
+        def total_rules(tenant)
+          tenant.rules.count
         end
       end
     end

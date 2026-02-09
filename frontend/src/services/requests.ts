@@ -1,35 +1,35 @@
 import api from '../lib/axios';
-import type { Request, CreateRequestInput, ApprovalAction, ApproverRequest } from '../models/Request';
+import type { Request, CreateRequestInput, ApprovalAction, ApproverRequest, RequestFilters } from '../models/Request';
 import type { PaginatedResponse } from '../models/common';
 
 export const requestsService = {
     // For Users: Get my own requests
-    getMyRequests: async (page = 1): Promise<PaginatedResponse<Request>> => {
+    getMyRequests: async (page = 1, filters?: RequestFilters): Promise<PaginatedResponse<Request>> => {
         if (import.meta.env.VITE_USE_MOCK_API === 'true') {
             return Promise.resolve({
                 data: [],
                 meta: { total_count: 0, page: 1, per_page: 20, total_pages: 0 }
             });
         }
-        const response = await api.get<PaginatedResponse<Request>>('/requests', { params: { page } });
+        const response = await api.get<PaginatedResponse<Request>>('/requests', { params: { page, ...filters } });
         return response.data;
     },
 
     // For Approvers: Get requests pending my approval
-    getPendingRequests: async (page = 1): Promise<PaginatedResponse<ApproverRequest>> => {
+    getPendingRequests: async (page = 1, filters?: RequestFilters): Promise<PaginatedResponse<ApproverRequest>> => {
         if (import.meta.env.VITE_USE_MOCK_API === 'true') {
             return Promise.resolve({
                 data: [],
                 meta: { total_count: 0, page: 1, per_page: 20, total_pages: 0 }
             });
         }
-        const response = await api.get<PaginatedResponse<ApproverRequest>>('/approver/requests', { params: { page } });
+        const response = await api.get<PaginatedResponse<ApproverRequest>>('/approver/requests', { params: { page, ...filters } });
         return response.data;
     },
 
     // For Admin: Get all requests (reusing /requests endpoint if admin has access)
-    getAllRequests: async (page = 1): Promise<PaginatedResponse<Request>> => {
-        const response = await api.get<PaginatedResponse<Request>>('/requests', { params: { page } });
+    getAllRequests: async (page = 1, filters?: RequestFilters): Promise<PaginatedResponse<Request>> => {
+        const response = await api.get<PaginatedResponse<Request>>('/requests', { params: { page, ...filters } });
         return response.data;
     },
 

@@ -33,9 +33,9 @@ export default function DashboardPage() {
     const { data: summaryStats } = useReportSummary({ enabled: user?.role === 'admin' });
     const { data: myStats } = useMyReport({ enabled: user?.role !== 'admin' });
 
-    const { data: allRequestsData, isLoading: isLoadingAll } = useAllRequests(1, { enabled: user?.role === 'admin' });
-    // const { data: pendingRequestsData, isLoading: isLoadingPending } = usePendingRequests(1, { enabled: user?.role === 'approver' });
-    const { data: myRequestsData, isLoading: isLoadingMy } = useMyRequests(1, { enabled: user?.role !== 'admin' });
+    const { data: allRequestsData, isLoading: isLoadingAll } = useAllRequests(1, undefined, { enabled: user?.role === 'admin' });
+    // const { data: pendingRequestsData, isLoading: isLoadingPending } = usePendingRequests(1, undefined, { enabled: user?.role === 'approver' });
+    const { data: myRequestsData, isLoading: isLoadingMy } = useMyRequests(1, undefined, { enabled: user?.role !== 'admin' });
 
     // Determine Loading State
     const loading = (user?.role === 'admin' && isLoadingAll) ||
@@ -85,7 +85,7 @@ export default function DashboardPage() {
             },
             {
                 title: "Active Rules",
-                value: Object.keys(s.rule_hit_counts || {}).length,
+                value: s.total_rules,
                 icon: Shield,
                 description: "Active in system"
             },

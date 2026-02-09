@@ -90,7 +90,7 @@ export default function RulesPage() {
                                                     <div className="h-8 w-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500">
                                                         <Shield className="h-4 w-4" />
                                                     </div>
-                                                    <span className="font-medium text-slate-900 capitalize">{rule.request_type.name}</span>
+                                                    <span className="font-medium text-slate-900 capitalize">{rule.request_type?.name ?? "N/A"}</span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 text-slate-600">

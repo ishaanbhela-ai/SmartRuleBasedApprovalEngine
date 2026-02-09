@@ -9,9 +9,11 @@ module SoftDeletable
   end
 
   def destroy
-    return if deleted?
+    run_callbacks(:destroy) do
+      return if deleted?
 
-    update_column(:deleted_at, Time.current)
+      update_column(:deleted_at, Time.current)
+    end
   end
 
   def deleted?

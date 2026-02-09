@@ -1,29 +1,29 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { requestsService } from '../services/requests';
-import type { CreateRequestInput, ApprovalAction } from '../models/Request';
+import type { CreateRequestInput, ApprovalAction, RequestFilters } from '../models/Request';
 
-export const useMyRequests = (page: number = 1, options?: { enabled?: boolean }) => {
+export const useMyRequests = (page: number = 1, filters?: RequestFilters, options?: { enabled?: boolean }) => {
     return useQuery({
-        queryKey: ['requests', 'my', page],
-        queryFn: () => requestsService.getMyRequests(page),
+        queryKey: ['requests', 'my', page, filters],
+        queryFn: () => requestsService.getMyRequests(page, filters),
         placeholderData: (previousData) => previousData,
         ...options
     });
 };
 
-export const usePendingRequests = (page: number = 1, options?: { enabled?: boolean }) => {
+export const usePendingRequests = (page: number = 1, filters?: RequestFilters, options?: { enabled?: boolean }) => {
     return useQuery({
-        queryKey: ['requests', 'pending', page],
-        queryFn: () => requestsService.getPendingRequests(page),
+        queryKey: ['requests', 'pending', page, filters],
+        queryFn: () => requestsService.getPendingRequests(page, filters),
         placeholderData: (previousData) => previousData,
         ...options
     });
 };
 
-export const useAllRequests = (page: number = 1, options?: { enabled?: boolean }) => {
+export const useAllRequests = (page: number = 1, filters?: RequestFilters, options?: { enabled?: boolean }) => {
     return useQuery({
-        queryKey: ['requests', 'all', page],
-        queryFn: () => requestsService.getAllRequests(page),
+        queryKey: ['requests', 'all', page, filters],
+        queryFn: () => requestsService.getAllRequests(page, filters),
         placeholderData: (previousData) => previousData,
         ...options
     });
