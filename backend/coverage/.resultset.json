@@ -1,14 +1,40 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/controllers/api/v1/admin/reports_controller.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/mailers/request_mailer.rb": {
         "lines": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
+          1,
+          1,
+          6,
+          6,
+          6,
+          6,
+          6,
+          null,
+          null,
+          6,
+          2,
+          null,
+          4,
+          null,
+          null,
+          6,
+          null,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/mailers/application_mailer.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/models/ability.rb": {
+        "lines": [
+          1,
+          1,
           null,
           0,
           null,
@@ -55,7 +81,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/controllers/api/v1/approver/requests_controller.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/services/my_report_calculator.rb": {
         "lines": [
           0,
           0,
@@ -403,7 +429,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/controllers/api/v1/rules_controller.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/services/quota_calculator.rb": {
         "lines": [
           0,
           0,
@@ -453,7 +479,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/controllers/api/v1/users_controller.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/services/rule_evaluator.rb": {
         "lines": [
           0,
           0,
@@ -518,7 +544,196 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/controllers/application_controller.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/models/tenant.rb": {
+        "lines": [
+          0,
+          0,
+          0,
+          0,
+          null,
+          1,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/models/application_record.rb": {
+        "lines": [
+          1,
+          1,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/models/concerns/soft_deletable.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          1,
+          1728,
+          null,
+          6,
+          4,
+          null,
+          null,
+          1,
+          5,
+          null,
+          5,
+          null,
+          null,
+          1,
+          7,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/models/user.rb": {
+        "lines": [
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          1,
+          null,
+          1,
+          null,
+          561,
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/models/request.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          1,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/models/request_type.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/models/approval.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/models/request_type_approver.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/models/rule.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          83,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/controllers/api/v1/admin/reports_controller.rb": {
+        "lines": [
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          0
+        ],
+        "branches": {}
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/controllers/application_controller.rb": {
         "lines": [
           0,
           0,
@@ -534,172 +749,6 @@
           0,
           0,
           0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {}
-      },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/controllers/concerns/authenticatable.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {}
-      },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/jobs/application_job.rb": {
-        "lines": [],
-        "branches": {}
-      },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/mailers/application_mailer.rb": {
-        "lines": [],
-        "branches": {}
-      },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/models/ability.rb": {
-        "lines": [
-          0,
-          0,
-          null,
-          0,
-          0,
-          null,
-          null,
-          0,
-          0,
-          0,
-          0,
-          null,
-          null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {}
-      },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/models/application_record.rb": {
-        "lines": [
-          0,
-          0,
-          0
-        ],
-        "branches": {}
-      },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/models/approval.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0
-        ],
-        "branches": {}
-      },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/models/concerns/soft_deletable.rb": {
-        "lines": [
-          0,
-          0,
-          null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
-          null,
-          null,
-          null,
-          0
-        ],
-        "branches": {}
-      },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/models/request.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
           null,
           0,
           0,
@@ -707,7 +756,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/models/request_type.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/controllers/concerns/authenticatable.rb": {
         "lines": [
           0,
           0,
@@ -723,7 +772,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/models/request_type_approver.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/controllers/api/v1/approver/requests_controller.rb": {
         "lines": [
           0,
           0,
@@ -732,7 +781,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/models/rule.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/serializers/approver_request_serializer.rb": {
         "lines": [
           0,
           0,
@@ -746,22 +795,24 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/models/tenant.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/serializers/user_serializer.rb": {
         "lines": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
+          1,
+          1,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/serializers/request_type_serializer.rb": {
+        "lines": [
+          1,
+          1,
           null,
           0,
           0
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/models/user.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/controllers/api/v1/requests_controller.rb": {
         "lines": [
           0,
           0,
@@ -801,7 +852,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/serializers/approver_request_serializer.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/serializers/request_serializer.rb": {
         "lines": [
           0,
           0,
@@ -830,7 +881,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/serializers/request_serializer.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/serializers/approval_serializer.rb": {
         "lines": [
           0,
           0,
@@ -845,7 +896,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/serializers/request_type_serializer.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/serializers/rule_serializer.rb": {
         "lines": [
           0,
           0,
@@ -855,7 +906,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/serializers/rule_serializer.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/controllers/api/v1/auth_controller.rb": {
         "lines": [
           0,
           0,
@@ -865,7 +916,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/serializers/user_serializer.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/controllers/api/v1/users_controller.rb": {
         "lines": [
           0,
           0,
@@ -873,7 +924,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/services/my_report_calculator.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/controllers/api/v1/reports_controller.rb": {
         "lines": [
           null,
           null,
@@ -902,6 +953,18 @@
           0,
           null,
           null,
+          null
+        ]
+      },
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/controllers/api/v1/request_types_controller.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
           null,
           null,
           0,
@@ -1029,7 +1092,7 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/services/quota_calculator.rb": {
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/controllers/api/v1/rules_controller.rb": {
         "lines": [
           0,
           0,
@@ -1075,59 +1138,11 @@
         ],
         "branches": {}
       },
-      "/home/ishaan/SmartRuleBasedApprovalEngine/backend/app/services/rule_evaluator.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0
-        ],
+      "/home/ameen-khan/new/SmartRuleBasedApprovalEngine/backend/app/jobs/application_job.rb": {
+        "lines": [],
         "branches": {}
       }
     },
-    "timestamp": 1770615426
+    "timestamp": 1770616372
   }
 }
