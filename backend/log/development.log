@@ -1,0 +1,297 @@
+[dotenv] Set [36mJWT_SECRET[0m, [36mJWT_EXPIRY[0m
+[dotenv] Loaded [33m.env[0m
+Started POST "/api/v1/login" for ::1 at 2026-02-09 11:45:51 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ApprovalEngine'*/[0m
+Processing by Api::V1::AuthController#login as HTML
+  Parameters: {"email" => "[FILTERED]", "password" => "[FILTERED]", "auth" => {"email" => "[FILTERED]", "password" => "[FILTERED]"}}
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."email" = 'admin@example.com' LIMIT 1 /*action='login',application='ApprovalEngine',controller='auth'*/[0m
+  ↳ app/controllers/api/v1/auth_controller.rb:7:in 'Api::V1::AuthController#login'
+Completed 200 OK in 246ms (Views: 0.1ms | ActiveRecord: 9.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/admin/reports/summary" for ::1 at 2026-02-09 11:45:52 +0530
+Started GET "/api/v1/requests?page=1" for ::1 at 2026-02-09 11:45:52 +0530
+Processing by Api::V1::Admin::ReportsController#summary as HTML
+Processing by Api::V1::RequestsController#index as HTML
+  Parameters: {"page" => "1"}
+  [1m[36mUser Load (2.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1 /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in 'Authenticatable#authenticate_user'
+  [1m[36mTenant Load (0.6ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' LIMIT 1 /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:8:in 'Api::V1::Admin::ReportsController#summary'
+  [1m[36mRequest Count (1.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:22:in 'Api::V1::Admin::ReportsController#total_requests'
+  [1m[36mRequest Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) AS "count_all", "requests"."status" AS "requests_status" FROM "requests" WHERE "requests"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' GROUP BY "requests"."status" /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:26:in 'Api::V1::Admin::ReportsController#status_breakdown'
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in 'Authenticatable#authenticate_user'
+  [1m[36mTenant Load (0.3ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:9:in 'Api::V1::RequestsController#index'
+  [1m[36mRequest Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) AS "count_all", "request_types"."name" AS "request_types_name" FROM "requests" INNER JOIN "request_types" ON "request_types"."deleted_at" IS NULL AND "request_types"."id" = "requests"."request_type_id" WHERE "requests"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' GROUP BY "request_types"."name" /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:33:in 'Api::V1::Admin::ReportsController#request_type_breakdown'
+  [1m[36mRequest Count (1.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:16:in 'Api::V1::RequestsController#index'
+  [1m[36mRequest Load (0.6ms)[0m  [1m[34mSELECT "requests".* FROM "requests" WHERE "requests"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' ORDER BY "requests"."created_at" DESC LIMIT 10 OFFSET 0 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mApproval Count (4.3ms)[0m  [1m[34mSELECT COUNT(*) AS "count_all", "approvals"."action" AS "approvals_action" FROM "approvals" WHERE "approvals"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' GROUP BY "approvals"."action" /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:37:in 'Api::V1::Admin::ReportsController#decision_breakdown'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" IN ('37ec41c9-c494-4128-bb94-07c2b87ad9e6', 'e3143983-a8ea-40e8-b2e5-399b41d73282', '24c0e984-3d03-44c6-bdb3-9e397ba9d8c2') /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mApproval Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) AS "count_all", "approvals"."rule_id" AS "approvals_rule_id" FROM "approvals" WHERE "approvals"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' AND "approvals"."rule_id" IS NOT NULL GROUP BY "approvals"."rule_id" /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:44:in 'Api::V1::Admin::ReportsController#rule_hit_counts'
+Completed 200 OK in 38ms (Views: 0.1ms | ActiveRecord: 16.3ms (7 queries, 0 cached) | GC: 0.0ms)
+
+
+  [1m[36mRequestType Load (1.1ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" IN ('dbc4ad97-8696-4a00-9423-3d4df65dbd59', '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8') /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mApproval Load (0.6ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" IN ('8749cef5-817e-4f15-9a5a-e21cce1ffc0b', '0b14874d-75a2-49ac-af54-7025e87f2935', 'c2684ab9-fafc-4bfa-9ee7-4b7c41662145', '475229ab-84b6-40bf-abb0-c6ce911f67be', '5baae476-eb1d-407f-9cf0-a4addb60c542', '337744f0-b2c2-4474-8a70-3c3e2a1e5cca', '40873ba3-35c3-4506-82e6-4f595ba5634c', '4953134c-7c5c-4a29-8132-50bd579fcec8', '174d6d3c-993e-47b4-a309-3e63cb94c137', '185afc40-3aa9-4a26-8177-8d7bca45870c') /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRule Load (1.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '6d9b88af-a02d-4d3c-8099-8cb7fb3a2d4a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRequestType Load (0.1ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRule Load (0.1ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '48a78e3e-3f71-41f5-a9b5-01ff3306a6d0' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '6d9b88af-a02d-4d3c-8099-8cb7fb3a2d4a' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '48a78e3e-3f71-41f5-a9b5-01ff3306a6d0' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRule Load (0.1ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = 'bf0d0cb8-758c-434f-beb1-e73dee813eec' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRequestType Load (0.1ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRule Load (0.2ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '1080d429-9d8c-4294-bf05-4b56efcf7824' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = 'bf0d0cb8-758c-434f-beb1-e73dee813eec' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = 'bf0d0cb8-758c-434f-beb1-e73dee813eec' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '48a78e3e-3f71-41f5-a9b5-01ff3306a6d0' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '48a78e3e-3f71-41f5-a9b5-01ff3306a6d0' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+Completed 200 OK in 98ms (Views: 0.7ms | ActiveRecord: 16.5ms (46 queries, 31 cached) | GC: 23.1ms)
+
+
+Started POST "/api/v1/login" for ::1 at 2026-02-09 11:46:31 +0530
+Processing by Api::V1::AuthController#login as HTML
+  Parameters: {"email" => "[FILTERED]", "password" => "[FILTERED]", "auth" => {"email" => "[FILTERED]", "password" => "[FILTERED]"}}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."email" = 'admin@example.com' LIMIT 1 /*action='login',application='ApprovalEngine',controller='auth'*/[0m
+  ↳ app/controllers/api/v1/auth_controller.rb:7:in 'Api::V1::AuthController#login'
+Completed 200 OK in 205ms (Views: 0.1ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 1.1ms)
+
+
+Started GET "/api/v1/admin/reports/summary" for ::1 at 2026-02-09 11:46:31 +0530
+Started GET "/api/v1/requests?page=1" for ::1 at 2026-02-09 11:46:31 +0530
+Processing by Api::V1::Admin::ReportsController#summary as HTML
+Processing by Api::V1::RequestsController#index as HTML
+  Parameters: {"page" => "1"}
+  [1m[36mUser Load (3.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1 /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in 'Authenticatable#authenticate_user'
+  [1m[36mUser Load (2.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in 'Authenticatable#authenticate_user'
+  [1m[36mTenant Load (3.8ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' LIMIT 1 /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:8:in 'Api::V1::Admin::ReportsController#summary'
+  [1m[36mTenant Load (1.5ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:9:in 'Api::V1::RequestsController#index'
+  [1m[36mRequest Count (3.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:22:in 'Api::V1::Admin::ReportsController#total_requests'
+  [1m[36mRequest Count (2.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:16:in 'Api::V1::RequestsController#index'
+  [1m[36mRequest Count (1.7ms)[0m  [1m[34mSELECT COUNT(*) AS "count_all", "requests"."status" AS "requests_status" FROM "requests" WHERE "requests"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' GROUP BY "requests"."status" /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:26:in 'Api::V1::Admin::ReportsController#status_breakdown'
+  [1m[36mRequest Load (2.5ms)[0m  [1m[34mSELECT "requests".* FROM "requests" WHERE "requests"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' ORDER BY "requests"."created_at" DESC LIMIT 10 OFFSET 0 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRequest Count (3.1ms)[0m  [1m[34mSELECT COUNT(*) AS "count_all", "request_types"."name" AS "request_types_name" FROM "requests" INNER JOIN "request_types" ON "request_types"."deleted_at" IS NULL AND "request_types"."id" = "requests"."request_type_id" WHERE "requests"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' GROUP BY "request_types"."name" /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:33:in 'Api::V1::Admin::ReportsController#request_type_breakdown'
+  [1m[36mUser Load (3.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" IN ('37ec41c9-c494-4128-bb94-07c2b87ad9e6', 'e3143983-a8ea-40e8-b2e5-399b41d73282', '24c0e984-3d03-44c6-bdb3-9e397ba9d8c2') /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mApproval Count (3.7ms)[0m  [1m[34mSELECT COUNT(*) AS "count_all", "approvals"."action" AS "approvals_action" FROM "approvals" WHERE "approvals"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' GROUP BY "approvals"."action" /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:37:in 'Api::V1::Admin::ReportsController#decision_breakdown'
+  [1m[36mRequestType Load (14.1ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" IN ('dbc4ad97-8696-4a00-9423-3d4df65dbd59', '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8') /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mApproval Count (1.2ms)[0m  [1m[34mSELECT COUNT(*) AS "count_all", "approvals"."rule_id" AS "approvals_rule_id" FROM "approvals" WHERE "approvals"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' AND "approvals"."rule_id" IS NOT NULL GROUP BY "approvals"."rule_id" /*action='summary',application='ApprovalEngine',controller='reports'*/[0m
+  ↳ app/controllers/api/v1/admin/reports_controller.rb:44:in 'Api::V1::Admin::ReportsController#rule_hit_counts'
+Completed 200 OK in 48ms (Views: 0.1ms | ActiveRecord: 20.5ms (7 queries, 0 cached) | GC: 32.8ms)
+
+
+  [1m[36mApproval Load (1.2ms)[0m  [1m[34mSELECT "approvals".* FROM "approvals" WHERE "approvals"."request_id" IN ('8749cef5-817e-4f15-9a5a-e21cce1ffc0b', '0b14874d-75a2-49ac-af54-7025e87f2935', 'c2684ab9-fafc-4bfa-9ee7-4b7c41662145', '475229ab-84b6-40bf-abb0-c6ce911f67be', '5baae476-eb1d-407f-9cf0-a4addb60c542', '337744f0-b2c2-4474-8a70-3c3e2a1e5cca', '40873ba3-35c3-4506-82e6-4f595ba5634c', '4953134c-7c5c-4a29-8132-50bd579fcec8', '174d6d3c-993e-47b4-a309-3e63cb94c137', '185afc40-3aa9-4a26-8177-8d7bca45870c') /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRule Load (0.2ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '6d9b88af-a02d-4d3c-8099-8cb7fb3a2d4a' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRequestType Load (0.2ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRule Load (0.2ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '48a78e3e-3f71-41f5-a9b5-01ff3306a6d0' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '6d9b88af-a02d-4d3c-8099-8cb7fb3a2d4a' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '48a78e3e-3f71-41f5-a9b5-01ff3306a6d0' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRule Load (0.2ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = 'bf0d0cb8-758c-434f-beb1-e73dee813eec' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRequestType Load (0.2ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mRule Load (0.2ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '1080d429-9d8c-4294-bf05-4b56efcf7824' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = 'bf0d0cb8-758c-434f-beb1-e73dee813eec' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = 'bf0d0cb8-758c-434f-beb1-e73dee813eec' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '48a78e3e-3f71-41f5-a9b5-01ff3306a6d0' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE Rule Load (0.0ms)[0m  [1m[34mSELECT "rules".* FROM "rules" WHERE "rules"."deleted_at" IS NULL AND "rules"."id" = '48a78e3e-3f71-41f5-a9b5-01ff3306a6d0' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE RequestType Load (0.0ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59' LIMIT 1[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "request_type_approvers" ON "users"."id" = "request_type_approvers"."user_id" WHERE "users"."deleted_at" IS NULL AND "request_type_approvers"."request_type_id" = 'dbc4ad97-8696-4a00-9423-3d4df65dbd59'[0m
+  ↳ app/controllers/api/v1/requests_controller.rb:22:in 'Api::V1::RequestsController#index'
+Completed 200 OK in 78ms (Views: 0.2ms | ActiveRecord: 28.7ms (46 queries, 31 cached) | GC: 32.3ms)
+
+
+Started GET "/api/v1/approver/requests?page=1" for ::1 at 2026-02-09 11:46:33 +0530
+Processing by Api::V1::Approver::RequestsController#index as HTML
+  Parameters: {"page" => "1"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in 'Authenticatable#authenticate_user'
+  [1m[36mRequest Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "requests" WHERE "requests"."status" = 'pending_approval' AND "requests"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:24:in 'Api::V1::Approver::RequestsController#index'
+  [1m[36mRequest Load (0.2ms)[0m  [1m[34mSELECT "requests".* FROM "requests" WHERE "requests"."status" = 'pending_approval' AND "requests"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' LIMIT 10 OFFSET 0 /*action='index',application='ApprovalEngine',controller='requests'*/[0m
+  ↳ app/controllers/api/v1/approver/requests_controller.rb:30:in 'Api::V1::Approver::RequestsController#index'
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 1.0ms (3 queries, 0 cached) | GC: 1.6ms)
+
+
+Started GET "/api/v1/request_types?page=1" for ::1 at 2026-02-09 11:46:36 +0530
+Processing by Api::V1::RequestTypesController#index as HTML
+  Parameters: {"page" => "1"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1 /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in 'Authenticatable#authenticate_user'
+  [1m[36mTenant Load (0.2ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' LIMIT 1 /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:6:in 'Api::V1::RequestTypesController#index'
+  [1m[36mRequestType Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:7:in 'Api::V1::RequestTypesController#index'
+  [1m[36mRequestType Load (0.2ms)[0m  [1m[34mSELECT "request_types".* FROM "request_types" WHERE "request_types"."deleted_at" IS NULL AND "request_types"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' LIMIT 10 OFFSET 0 /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:13:in 'Api::V1::RequestTypesController#index'
+  [1m[36mRequestTypeApprover Load (0.2ms)[0m  [1m[34mSELECT "request_type_approvers".* FROM "request_type_approvers" WHERE "request_type_approvers"."request_type_id" IN ('dbc4ad97-8696-4a00-9423-3d4df65dbd59', '1f5dd956-b4d1-456e-a5ea-d3c63ebde7b8') /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:13:in 'Api::V1::RequestTypesController#index'
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" IN ('24c0e984-3d03-44c6-bdb3-9e397ba9d8c2', '37ec41c9-c494-4128-bb94-07c2b87ad9e6') /*action='index',application='ApprovalEngine',controller='request_types'*/[0m
+  ↳ app/controllers/api/v1/request_types_controller.rb:13:in 'Api::V1::RequestTypesController#index'
+Completed 200 OK in 9ms (Views: 0.1ms | ActiveRecord: 1.6ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/users?page=1" for ::1 at 2026-02-09 11:46:37 +0530
+Processing by Api::V1::UsersController#index as HTML
+  Parameters: {"page" => "1"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."id" = 'a8b58455-32ed-4b42-af48-3bb969d2c5b8' LIMIT 1 /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/concerns/authenticatable.rb:20:in 'Authenticatable#authenticate_user'
+  [1m[36mTenant Load (0.2ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" WHERE "tenants"."deleted_at" IS NULL AND "tenants"."id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' LIMIT 1 /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:7:in 'Api::V1::UsersController#index'
+  [1m[36mUser Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:9:in 'Api::V1::UsersController#index'
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."tenant_id" = 'aa29ef8c-86bf-413d-9ea9-ed2c4360c3a5' LIMIT 10 OFFSET 0 /*action='index',application='ApprovalEngine',controller='users'*/[0m
+  ↳ app/controllers/api/v1/users_controller.rb:15:in 'Api::V1::UsersController#index'
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 1.0ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
