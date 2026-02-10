@@ -75,6 +75,7 @@ export default function RequestsPage() {
     const handleTabChange = (tab: 'pending' | 'my_requests' | 'all_requests') => {
         setActiveTab(tab);
         setCurrentPage(1);
+        setFilters({});
     };
 
     const handlePageChange = (page: number) => {
@@ -149,58 +150,60 @@ export default function RequestsPage() {
                 </div>
             )}
 
-            {/* Filters Section */}
-            <Card>
-                <CardContent className="p-4">
-                    <div className="flex flex-col md:flex-row gap-4">
-                        <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <select
-                                className="block w-full rounded-md border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm p-2 border"
-                                value={filters.status || ''}
-                                onChange={(e) => {
-                                    setFilters(prev => ({ ...prev, status: e.target.value || undefined }));
-                                    setCurrentPage(1);
-                                }}
-                            >
-                                <option value="">All Statuses</option>
-                                <option value="submitted">Submitted</option>
-                                <option value="pending_approval">Pending Approval</option>
-                                <option value="approved">Approved</option>
-                                <option value="rejected">Rejected</option>
-                                <option value="auto_approved">Auto Approved</option>
-                            </select>
+            {/* Filters Section - Only for All Requests / My Requests */}
+            {activeTab !== 'pending' && (
+                <Card>
+                    <CardContent className="p-4">
+                        <div className="flex flex-col md:flex-row gap-4">
+                            <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <select
+                                    className="block w-full rounded-md border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm p-2 border"
+                                    value={filters.status || ''}
+                                    onChange={(e) => {
+                                        setFilters(prev => ({ ...prev, status: e.target.value || undefined }));
+                                        setCurrentPage(1);
+                                    }}
+                                >
+                                    { }
+                                    <option value="">All Statuses</option>
+                                    <option value="pending_approval">Pending Approval</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                    <option value="auto_approved">Auto Approved</option>
+                                </select>
 
-                            <select
-                                className="block w-full rounded-md border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm p-2 border"
-                                value={filters.request_type_id || ''}
-                                onChange={(e) => {
-                                    setFilters(prev => ({ ...prev, request_type_id: e.target.value || undefined }));
-                                    setCurrentPage(1);
-                                }}
-                            >
-                                <option value="">All Request Types</option>
-                                {requestTypes.map((type) => (
-                                    <option key={type.id} value={type.id}>
-                                        {type.name}
-                                    </option>
-                                ))}
-                            </select>
+                                <select
+                                    className="block w-full rounded-md border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm p-2 border"
+                                    value={filters.request_type_id || ''}
+                                    onChange={(e) => {
+                                        setFilters(prev => ({ ...prev, request_type_id: e.target.value || undefined }));
+                                        setCurrentPage(1);
+                                    }}
+                                >
+                                    <option value="">All Request Types</option>
+                                    {requestTypes.map((type) => (
+                                        <option key={type.id} value={type.id}>
+                                            {type.name}
+                                        </option>
+                                    ))}
+                                </select>
 
+                            </div>
+                            {Object.keys(filters).length > 0 && (
+                                <button
+                                    onClick={() => {
+                                        setFilters({});
+                                        setCurrentPage(1);
+                                    }}
+                                    className="mt-2 md:mt-0 text-sm text-red-600 hover:text-red-800 whitespace-nowrap"
+                                >
+                                    Clear Filters
+                                </button>
+                            )}
                         </div>
-                        {Object.keys(filters).length > 0 && (
-                            <button
-                                onClick={() => {
-                                    setFilters({});
-                                    setCurrentPage(1);
-                                }}
-                                className="mt-2 md:mt-0 text-sm text-red-600 hover:text-red-800 whitespace-nowrap"
-                            >
-                                Clear Filters
-                            </button>
-                        )}
-                    </div>
-                </CardContent>
-            </Card>
+                    </CardContent>
+                </Card>
+            )}
 
             <Card>
                 <CardContent className="p-0">
