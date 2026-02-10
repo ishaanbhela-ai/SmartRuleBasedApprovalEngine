@@ -1,0 +1,48 @@
+
+An error occurred while loading ./spec/requests/mailer_integration_spec.rb. - Did you mean?
+                    rspec ./spec/requests/admin/reports_spec.rb
+
+Failure/Error: __send__(method, file)
+
+LoadError:
+  cannot load such file -- /home/ameen-khan/SmartRuleBasedApprovalEngine/backend/spec/requests/mailer_integration_spec.rb
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/rspec-core-3.13.6/lib/rspec/core/configuration.rb:2144:in `load'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/rspec-core-3.13.6/lib/rspec/core/configuration.rb:2144:in `load_file_handling_errors'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/rspec-core-3.13.6/lib/rspec/core/configuration.rb:1643:in `block in load_spec_files'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/rspec-core-3.13.6/lib/rspec/core/configuration.rb:1641:in `each'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/rspec-core-3.13.6/lib/rspec/core/configuration.rb:1641:in `load_spec_files'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/rspec-core-3.13.6/lib/rspec/core/runner.rb:102:in `setup'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/rspec-core-3.13.6/lib/rspec/core/runner.rb:86:in `run'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/rspec-core-3.13.6/lib/rspec/core/runner.rb:71:in `run'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/rspec-core-3.13.6/lib/rspec/core/runner.rb:45:in `invoke'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/rspec-core-3.13.6/exe/rspec:4:in `<top (required)>'
+# /home/ameen-khan/.rbenv/versions/3.2.4/bin/rspec:25:in `load'
+# /home/ameen-khan/.rbenv/versions/3.2.4/bin/rspec:25:in `<top (required)>'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/lib/bundler/cli/exec.rb:61:in `load'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/lib/bundler/cli/exec.rb:61:in `kernel_load'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/lib/bundler/cli/exec.rb:24:in `run'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/lib/bundler/cli.rb:500:in `exec'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/lib/bundler/vendor/thor/lib/thor/command.rb:28:in `run'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/lib/bundler/vendor/thor/lib/thor/invocation.rb:127:in `invoke_command'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/lib/bundler/vendor/thor/lib/thor.rb:538:in `dispatch'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/lib/bundler/cli.rb:35:in `dispatch'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/lib/bundler/vendor/thor/lib/thor/base.rb:584:in `start'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/lib/bundler/cli.rb:29:in `start'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/exe/bundle:28:in `block in <top (required)>'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/lib/bundler/friendly_errors.rb:118:in `with_friendly_errors'
+# /home/ameen-khan/.rbenv/versions/3.2.4/lib/ruby/gems/3.2.0/gems/bundler-4.0.4/exe/bundle:20:in `<top (required)>'
+# /home/ameen-khan/.rbenv/versions/3.2.4/bin/bundle:25:in `load'
+# /home/ameen-khan/.rbenv/versions/3.2.4/bin/bundle:25:in `<main>'
+# 
+#   Showing full backtrace because every line was filtered out.
+#   See docs for RSpec::Configuration#backtrace_exclusion_patterns and
+#   RSpec::Configuration#backtrace_inclusion_patterns for more information.
+No examples found.
+
+
+Finished in 0.00004 seconds (files took 0.36171 seconds to load)
+0 examples, 0 failures, 1 error occurred outside of examples
+
+Coverage report generated for RSpec to /home/ameen-khan/SmartRuleBasedApprovalEngine/backend/coverage.
+Line Coverage: 0.0% (0 / 805)
+Stopped processing SimpleCov as a previous error not related to SimpleCov has been detected
