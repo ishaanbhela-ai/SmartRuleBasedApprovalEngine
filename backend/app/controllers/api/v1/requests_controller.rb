@@ -26,7 +26,7 @@ module Api
       end
 
       def show
-        request = Request.find(params[:id])
+        request = Request.find_by(id: params[:id])
         authorize! :read, request
         render json: { data: RequestSerializer.new.serialize(request) }
       end

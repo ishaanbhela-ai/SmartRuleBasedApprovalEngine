@@ -1,5 +1,9 @@
 class User < ApplicationRecord
   include SoftDeletable
+  has_secure_password
+
+  ROLES = %w[admin approver user].freeze
+
   belongs_to :tenant
 
   has_many :submitted_requests,
@@ -12,10 +16,6 @@ class User < ApplicationRecord
   has_many :approved_requests,
            class_name: "Approval",
            foreign_key: :approver_id
-
-  has_secure_password
-
-  ROLES = %w[admin approver user].freeze
 
   validates :email, presence: true, uniqueness: { scope: :tenant_id, conditions: -> { where(deleted_at: nil) } }
   validates :name, presence: true

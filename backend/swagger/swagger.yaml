@@ -1,23 +1,91 @@
----
-openapi: 3.0.1
+openapi: 3.0.0
 info:
-  title: Smart Rule-Based Approval Engine API
-  version: v1
-  description: A comprehensive API for managing approval workflows with smart rule-based
-    evaluation. This API supports multi-tenant architecture, role-based access control,
-    and flexible approval routing.
+  title: Approval-Engine API
+  version: 1.0.0
+  description: |
+
+    The Approval-Engine API provides a comprehensive system for managing user authentication, user administration, request types, approval rules, and approval workflows. This API is designed to handle multi-level approval processes with role-based access control.
+
+    ## Base URL
+
+    ```
+    http://localhost:3000/api/v1
+    ```
+
+    ## Authentication
+
+    This API uses **Bearer Token Authentication** for protected endpoints. After logging in, you'll receive a JWT token that must be included in the Authorization header for subsequent requests.
+
+    ### Authentication Header Format
+
+    ```
+    Authorization: Bearer <your_jwt_token>
+    ```
+
+    ## User Roles
+
+    The system supports multiple user roles:
+    - **Admin**: Full system access, can manage users, request types, rules, and view all reports
+    - **Approver**: Can view and approve/reject requests assigned to them
+    - **User**: Can create requests and view their own request status and balance
+
+    ## Getting Started
+
+    1. **Authenticate**: Start by calling the `/login` endpoint with valid credentials to obtain a JWT token
+    2. **Store Token**: Save the returned JWT token for use in subsequent requests
+    3. **Make Authenticated Requests**: Include the token in the Authorization header as `Bearer <token>` for protected endpoints
+    4. **Admin Setup**: Use admin credentials to create users, request types, and approval rules
+    5. **User Workflow**: Users can create requests which are routed to appropriate approvers based on rules
+    6. **Approval Process**: Approvers can view assigned requests and approve or reject them
+
+    ## Error Handling
+
+    All endpoints return standard HTTP status codes. Error responses include a descriptive message:
+
+    ```json
+    {
+      "error": "Error description",
+      "message": "Detailed error message"
+    }
+    ```
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+  - url: "{{baseURL}}"
+    description: Variable base URL
+
 paths:
-  "/api/v1/auth/login":
+  /api/v1/login:
     post:
-      summary: User login
+      summary: User Login
+      description: Authenticate users and obtain a JWT token for accessing protected endpoints. No authentication required for this endpoint.
+      operationId: login
       tags:
-      - Authentication
-      description: Authenticate a user and receive a JWT token. The token should be
-        used in the Authorization header for subsequent requests.
-      parameters: []
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: User's email address
+                  example: admin@example.com
+                password:
+                  type: string
+                  format: password
+                  description: User's password
+                  example: password123
       responses:
         '200':
-          description: successful login
+          description: Login successful
           content:
             application/json:
               schema:
@@ -25,400 +93,189 @@ paths:
                 properties:
                   token:
                     type: string
-                    description: JWT authentication token
+                    description: JWT token for authentication
                     example: eyJhbGciOiJIUzI1NiJ9...
                   user:
                     type: object
                     properties:
                       id:
-                        type: integer
-                        example: 1
+                        type: string
+                        format: uuid
+                        description: User's unique identifier
+                        example: fe038de5-c81f-49dc-921a-88483ce0e58a
                       email:
                         type: string
+                        format: email
+                        description: User's email address
                         example: admin@example.com
-                      name:
-                        type: string
-                        example: John Doe
                       role:
                         type: string
-                        enum:
-                        - admin
-                        - approver
-                        - user
+                        description: User's role in the system
+                        enum: [admin, approver, user]
                         example: admin
-                      tenant_id:
-                        type: integer
-                        example: 1
-                required:
-                - token
+        '400':
+          description: Bad Request - Missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/users:
+    post:
+      summary: Create User by Admin
+      description: Create new users in the system. This endpoint is restricted to administrators only.
+      operationId: createUser
+      tags:
+        - User Management
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
                 - user
-        '401':
-          description: invalid credentials
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
-        '422':
-          description: missing parameters
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
               properties:
-                email:
-                  type: string
-                  format: email
-                  description: User email address
-                  example: admin@example.com
-                password:
-                  type: string
-                  format: password
-                  description: User password
-                  example: password123
-              required:
-              - email
-              - password
-  "/api/v1/auth/signup":
-    post:
-      summary: User registration
-      tags:
-      - Authentication
-      description: Register a new user account. Creates a new tenant for the user.
-      security: []
-      parameters: []
+                user:
+                  type: object
+                  required:
+                    - email
+                    - password
+                    - name
+                    - role
+                    - grade
+                  properties:
+                    email:
+                      type: string
+                      format: email
+                      description: New user's email address
+                      example: employee1@example.com
+                    password:
+                      type: string
+                      format: password
+                      description: New user's password
+                      example: password123
+                    name:
+                      type: string
+                      description: New user's full name
+                      example: Liam Wilson
+                    role:
+                      type: string
+                      description: User role
+                      enum: [admin, approver, user]
+                      example: user
+                    grade:
+                      type: integer
+                      description: User grade level (numeric value)
+                      example: 1
+                      minimum: 1
       responses:
         '201':
-          description: user created successfully
+          description: User successfully created
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  token:
+                  id:
                     type: string
-                  user:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      email:
-                        type: string
-                      name:
-                        type: string
-                      role:
-                        type: string
-                      tenant_id:
-                        type: integer
-        '422':
-          description: validation error
+                    format: uuid
+                    description: Created user's unique identifier
+                    example: 459f1029-30ab-4566-ba2a-692931cd47ef
+                  email:
+                    type: string
+                    format: email
+                    example: employee1@example.com
+                  role:
+                    type: string
+                    example: user
+                  grade:
+                    type: integer
+                    example: 1
+        '400':
+          description: Bad Request - Missing or invalid parameters
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  format: email
-                  description: User email address
-                  example: newuser@example.com
-                password:
-                  type: string
-                  format: password
-                  description: User password (minimum 6 characters)
-                  example: securepassword123
-                name:
-                  type: string
-                  description: User full name
-                  example: Jane Smith
-                organization_name:
-                  type: string
-                  description: Organization/tenant name
-                  example: Acme Corp
-              required:
-              - email
-              - password
-              - name
-              - organization_name
-  "/api/v1/users":
-    get:
-      summary: List all users
-      tags:
-      - Users
-      description: Retrieve all users in the current tenant. Available to all authenticated
-        users.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-      - name: page
-        in: query
-        required: false
-        description: Page number for pagination
-        schema:
-          type: integer
-      - name: items
-        in: query
-        required: false
-        description: 'Number of items per page (default: 20)'
-        schema:
-          type: integer
-      responses:
-        '200':
-          description: users found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                          example: 1
-                        email:
-                          type: string
-                          format: email
-                          example: user@example.com
-                        name:
-                          type: string
-                          example: John Doe
-                        role:
-                          type: string
-                          enum:
-                          - admin
-                          - approver
-                          - user
-                          example: user
-                        tenant_id:
-                          type: integer
-                          example: 1
-                        created_at:
-                          type: string
-                          format: datetime
-                        updated_at:
-                          type: string
-                          format: datetime
-                  meta:
-                    "$ref": "#/components/schemas/PaginationMeta"
+                $ref: '#/components/schemas/Error'
         '401':
-          description: unauthorized
+          description: Unauthorized - Missing or invalid authentication token
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-    post:
-      summary: Create a new user
-      tags:
-      - Users
-      description: Create a new user in the tenant. Only admins can create users.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-      responses:
-        '201':
-          description: user created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      email:
-                        type: string
-                      name:
-                        type: string
-                      role:
-                        type: string
-                      tenant_id:
-                        type: integer
-        '422':
-          description: validation error
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
         '403':
-          description: forbidden - non-admin user
+          description: Forbidden - Insufficient permissions (non-admin user)
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  format: email
-                  description: User email address
-                  example: newuser@example.com
-                password:
-                  type: string
-                  format: password
-                  description: User password (minimum 6 characters)
-                  example: securepassword123
-                name:
-                  type: string
-                  description: User full name
-                  example: Jane Smith
-                role:
-                  type: string
-                  enum:
-                  - admin
-                  - approver
-                  - user
-                  description: User role
-                  example: user
-              required:
-              - email
-              - password
-              - name
-              - role
-  "/api/v1/users/{id}":
-    parameters:
-    - name: id
-      in: path
-      description: User ID
-      required: true
-      schema:
-        type: integer
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict - User with email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
     get:
-      summary: Show a user
+      summary: List All Users by Admin
+      description: Retrieve a list of all users in the system. This endpoint is restricted to administrators only.
+      operationId: listUsers
       tags:
-      - Users
-      description: Retrieve details of a specific user
+        - User Management
       security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
+        - BearerAuth: []
       responses:
         '200':
-          description: user found
+          description: List of users retrieved successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      email:
-                        type: string
-                      name:
-                        type: string
-                      role:
-                        type: string
-                      tenant_id:
-                        type: integer
-        '404':
-          description: user not found
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-    put:
-      summary: Update a user
-      tags:
-      - Users
-      description: Update user details. Only admins can update users.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: user updated
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      email:
-                        type: string
-                      name:
-                        type: string
-                      role:
-                        type: string
+                $ref: '#/components/schemas/Error'
         '403':
-          description: forbidden - non-admin user
+          description: Forbidden - Insufficient permissions
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: Updated Name
-                role:
-                  type: string
-                  enum:
-                  - admin
-                  - approver
-                  - user
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/users/{userId}:
     delete:
-      summary: Delete a user
+      summary: Delete User by Admin
+      description: Delete a user from the system. This endpoint is restricted to administrators only.
+      operationId: deleteUser
       tags:
-      - Users
-      description: Soft delete a user. Only admins can delete users.
+        - User Management
       security:
-      - bearerAuth: []
+        - BearerAuth: []
       parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
+        - name: userId
+          in: path
+          required: true
+          description: The unique identifier of the user to delete
+          schema:
+            type: string
+            format: uuid
+          example: 459f1029-30ab-4566-ba2a-692931cd47ef
       responses:
         '200':
-          description: user deleted
+          description: User successfully deleted
           content:
             application/json:
               schema:
@@ -427,279 +284,195 @@ paths:
                   message:
                     type: string
                     example: User deleted successfully
-        '403':
-          description: forbidden - non-admin user
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
-  "/api/v1/request_types":
-    get:
-      summary: List all request types
-      tags:
-      - Request Types
-      description: Retrieve all request types for the current tenant. Available to
-        all authenticated users.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        description: Bearer token for authentication
-        schema:
-          type: string
-      responses:
-        '200':
-          description: request types found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                          example: 1
-                        name:
-                          type: string
-                          example: expense
-                        tenant_id:
-                          type: integer
-                          example: 1
-                        created_at:
-                          type: string
-                          format: datetime
-                        updated_at:
-                          type: string
-                          format: datetime
-                        approvers:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              id:
-                                type: integer
-                              name:
-                                type: string
-                              email:
-                                type: string
         '401':
-          description: unauthorized
+          description: Unauthorized - Missing or invalid authentication token
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-    post:
-      summary: Create a new request type
-      tags:
-      - Request Types
-      description: Create a new request type with assigned approvers. Only admins
-        can create request types.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-      responses:
-        '201':
-          description: request type created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      name:
-                        type: string
-                      tenant_id:
-                        type: integer
-                      approvers:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            name:
-                              type: string
-                            email:
-                              type: string
-        '409':
-          description: request type already exists
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
-        '422':
-          description: validation error - invalid approvers
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
         '403':
-          description: forbidden - non-admin user
+          description: Forbidden - Insufficient permissions
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - User does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/request_types:
+    post:
+      summary: Create Request Type by Admin
+      description: Create a new request type in the system. Request types define categories of requests that can be submitted for approval. This endpoint is restricted to administrators only.
+      operationId: createRequestType
+      tags:
+        - Request Types
+      security:
+        - BearerAuth: []
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
+              required:
+                - name
+                - approver_ids
               properties:
                 name:
                   type: string
                   description: Name of the request type
-                  example: discount
+                  example: expense
                 approver_ids:
-                  type: array
-                  items:
-                    type: integer
-                  description: Array of user IDs who will be approvers for this request
-                    type
-                  example:
-                  - 1
-                  - 2
-                  - 3
-              required:
-              - name
-              - approver_ids
-  "/api/v1/request_types/{id}":
-    parameters:
-    - name: id
-      in: path
-      description: Request Type ID
-      required: true
-      schema:
-        type: integer
-    get:
-      summary: Show a request type
-      tags:
-      - Request Types
-      description: Retrieve details of a specific request type
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
+                  type: string
+                  description: Comma-separated list of approver user IDs
+                  example: 75f36521-1c51-417c-9a15-b928634bd7a5
       responses:
-        '200':
-          description: request type found
+        '201':
+          description: Request type successfully created
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      name:
-                        type: string
-                      tenant_id:
-                        type: integer
-                      approvers:
-                        type: array
-        '404':
-          description: request type not found
+                $ref: '#/components/schemas/RequestType'
+        '400':
+          description: Bad Request - Missing or invalid parameters
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-    put:
-      summary: Update a request type
-      tags:
-      - Request Types
-      description: Update approvers for a request type. Only admins can update request
-        types.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: request type updated
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      name:
-                        type: string
-                      approvers:
-                        type: array
-        '422':
-          description: validation error
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
         '403':
-          description: forbidden - non-admin user
+          description: Forbidden - Insufficient permissions
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
+
+    get:
+      summary: List Request Types by Admin
+      description: Retrieve a list of all request types in the system. This endpoint is restricted to administrators only.
+      operationId: listRequestTypes
+      tags:
+        - Request Types
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of request types retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RequestType'
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/request_types/{requestTypeId}:
+    patch:
+      summary: Add/Update Approvers to Request Type
+      description: Add or update approvers for an existing request type. This endpoint is restricted to administrators only.
+      operationId: updateRequestTypeApprovers
+      tags:
+        - Request Types
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: requestTypeId
+          in: path
+          required: true
+          description: The unique identifier of the request type
+          schema:
+            type: string
+            format: uuid
+          example: 9f083360-28a1-4237-8e11-78bcfd0c0ac2
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
+              required:
+                - approver_ids
               properties:
                 approver_ids:
                   type: array
+                  description: Array of approver user IDs
                   items:
-                    type: integer
-                  description: Array of user IDs who will be approvers (replaces existing
-                    approvers)
+                    type: string
+                    format: uuid
                   example:
-                  - 1
-                  - 2
-                  - 3
-              required:
-              - approver_ids
-    delete:
-      summary: Delete a request type
-      tags:
-      - Request Types
-      description: Soft delete a request type. Only admins can delete request types.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
+                    - 75f36521-1c51-417c-9a15-b928634bd7a5
+                    - fe502c6c-44f0-48ce-b093-fcfdde5f37a8
       responses:
         '200':
-          description: request type deleted
+          description: Request type approvers updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestType'
+        '400':
+          description: Bad Request - Missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - Request type does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete Request Type by Admin
+      description: Delete a request type from the system. This endpoint is restricted to administrators only.
+      operationId: deleteRequestType
+      tags:
+        - Request Types
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: requestTypeId
+          in: path
+          required: true
+          description: The unique identifier of the request type to delete
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Request type successfully deleted
           content:
             application/json:
               schema:
@@ -708,585 +481,135 @@ paths:
                   message:
                     type: string
                     example: Request type deleted successfully
-        '403':
-          description: forbidden - non-admin user
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
-  "/api/v1/requests":
-    get:
-      summary: List user requests
-      tags:
-      - Requests
-      description: Retrieve all requests created by the current user. Admins see all
-        requests in their tenant.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-      - name: page
-        in: query
-        required: false
-        description: Page number for pagination
-        schema:
-          type: integer
-      - name: items
-        in: query
-        required: false
-        description: 'Number of items per page (default: 20)'
-        schema:
-          type: integer
-      responses:
-        '200':
-          description: requests found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                          example: 1
-                        request_type_id:
-                          type: integer
-                          example: 1
-                        requester_id:
-                          type: integer
-                          example: 1
-                        requested_value:
-                          type: number
-                          format: decimal
-                          example: 5000.0
-                        status:
-                          type: string
-                          enum:
-                          - submitted
-                          - pending
-                          - approved
-                          - rejected
-                          example: pending
-                        created_at:
-                          type: string
-                          format: datetime
-                        updated_at:
-                          type: string
-                          format: datetime
-                        requester:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            name:
-                              type: string
-                            email:
-                              type: string
-                        request_type:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            name:
-                              type: string
-                        approval:
-                          type: object
-                          nullable: true
-                          properties:
-                            id:
-                              type: integer
-                            status:
-                              type: string
-                            approver_id:
-                              type: integer
-                  meta:
-                    "$ref": "#/components/schemas/PaginationMeta"
         '401':
-          description: unauthorized
+          description: Unauthorized - Missing or invalid authentication token
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-    post:
-      summary: Create a new request
-      tags:
-      - Requests
-      description: Submit a new approval request. The request will be automatically
-        evaluated against configured rules.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-      responses:
-        '201':
-          description: request created and evaluated
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      request_type_id:
-                        type: integer
-                      requester_id:
-                        type: integer
-                      requested_value:
-                        type: number
-                      status:
-                        type: string
-                      created_at:
-                        type: string
-                        format: datetime
-                      updated_at:
-                        type: string
-                        format: datetime
-        '422':
-          description: validation error
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
         '403':
-          description: forbidden - insufficient permissions
+          description: Forbidden - Insufficient permissions
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - Request type does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/rules:
+    post:
+      summary: Create Approval Rule by Admin
+      description: Create a new approval rule that defines approval requirements based on user grade and request value. This endpoint is restricted to administrators only.
+      operationId: createRule
+      tags:
+        - Approval Rules
+      security:
+        - BearerAuth: []
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
+              required:
+                - request_type_id
+                - grade
+                - definition
               properties:
                 request_type_id:
+                  type: string
+                  format: uuid
+                  description: The request type this rule applies to
+                  example: 9f083360-28a1-4237-8e11-78bcfd0c0ac2
+                grade:
                   type: integer
-                  description: ID of the request type
-                  example: 1
-                requested_value:
-                  type: number
-                  format: decimal
-                  description: The value being requested (e.g., amount, days)
-                  example: 5000.0
-              required:
-              - request_type_id
-              - requested_value
-  "/api/v1/requests/{id}":
-    parameters:
-    - name: id
-      in: path
-      description: Request ID
-      required: true
-      schema:
-        type: integer
-    get:
-      summary: Show a request
-      tags:
-      - Requests
-      description: Retrieve details of a specific request. Users can only view their
-        own requests unless they are admins or assigned approvers.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: request found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      request_type_id:
-                        type: integer
-                      requester_id:
-                        type: integer
-                      requested_value:
-                        type: number
-                      status:
-                        type: string
-                      created_at:
-                        type: string
-                        format: datetime
-                      updated_at:
-                        type: string
-                        format: datetime
-                      requester:
-                        type: object
-                      request_type:
-                        type: object
-                      approval:
-                        type: object
-                        nullable: true
-        '404':
-          description: request not found
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
-        '403':
-          description: forbidden - cannot view other user requests
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
-  "/api/v1/requests/balance":
-    get:
-      summary: Check request balance/quota
-      tags:
-      - Requests
-      description: Check the remaining quota for a specific request type. Useful for
-        displaying available balance before submitting a request.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-      - name: request_type_id
-        in: query
-        required: true
-        description: ID of the request type to check balance for
-        schema:
-          type: integer
-      responses:
-        '200':
-          description: balance retrieved
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  request_type:
-                    type: string
-                    description: Name of the request type
-                    example: expense
-                  limit:
-                    type: number
-                    format: decimal
-                    description: Total limit/quota for this request type
-                    example: 10000.0
-                  used:
-                    type: number
-                    format: decimal
-                    description: Amount already used
-                    example: 3500.0
-                  remaining:
-                    type: number
-                    format: decimal
-                    description: Remaining available quota
-                    example: 6500.0
-        '404':
-          description: request type not found
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
-  "/api/v1/rules":
-    get:
-      summary: List all rules
-      tags:
-      - Rules
-      description: Retrieve all approval rules for the current tenant. Rules define
-        the logic for automatic approval routing.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: rules found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                          example: 1
-                        request_type_id:
-                          type: integer
-                          example: 1
-                        condition:
-                          type: object
-                          description: Rule condition in JSON format
-                          example:
-                            operator: AND
-                            conditions:
-                            - field: requested_value
-                              operator: ">"
-                              value: 1000
-                        action:
-                          type: object
-                          description: Action to take when rule matches
-                          example:
-                            type: assign_approver
-                            approver_id: 1
-                        priority:
-                          type: integer
-                          description: Rule priority (lower number = higher priority)
-                          example: 1
-                        active:
-                          type: boolean
-                          description: Whether the rule is active
-                          example: true
-                        created_at:
-                          type: string
-                          format: datetime
-                        updated_at:
-                          type: string
-                          format: datetime
-        '401':
-          description: unauthorized
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
-    post:
-      summary: Create a new rule
-      tags:
-      - Rules
-      description: Create a new approval rule. Only admins can create rules. Rules
-        are evaluated in priority order when a request is submitted.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
+                  description: User grade level this rule applies to
+                  example: 3
+                  minimum: 1
+                definition:
+                  type: integer
+                  description: Threshold value for this rule (e.g., maximum amount)
+                  example: 50000
       responses:
         '201':
-          description: rule created
+          description: Rule successfully created
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      request_type_id:
-                        type: integer
-                      condition:
-                        type: object
-                      action:
-                        type: object
-                      priority:
-                        type: integer
-                      active:
-                        type: boolean
-        '422':
-          description: validation error
+                $ref: '#/components/schemas/Rule'
+        '400':
+          description: Bad Request - Missing or invalid parameters
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '403':
-          description: forbidden - non-admin user
+          description: Forbidden - Insufficient permissions
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                request_type_id:
-                  type: integer
-                  description: ID of the request type this rule applies to
-                  example: 1
-                condition:
-                  type: object
-                  description: Rule condition in JSON format. Supports nested AND/OR
-                    operators.
-                  example:
-                    operator: AND
-                    conditions:
-                    - field: requested_value
-                      operator: ">"
-                      value: 5000
-                    - field: requester.role
-                      operator: "=="
-                      value: user
-                action:
-                  type: object
-                  description: Action to perform when rule matches
-                  example:
-                    type: assign_approver
-                    approver_id: 1
-                priority:
-                  type: integer
-                  description: 'Rule priority (lower = higher priority, default: 100)'
-                  example: 10
-                active:
-                  type: boolean
-                  description: 'Whether the rule is active (default: true)'
-                  example: true
-              required:
-              - request_type_id
-              - condition
-              - action
-  "/api/v1/rules/{id}":
-    parameters:
-    - name: id
-      in: path
-      description: Rule ID
-      required: true
-      schema:
-        type: integer
+                $ref: '#/components/schemas/Error'
+
     get:
-      summary: Show a rule
+      summary: List Approval Rules by Admin
+      description: Retrieve a list of all approval rules in the system. This endpoint is restricted to administrators only.
+      operationId: listRules
       tags:
-      - Rules
-      description: Retrieve details of a specific rule
+        - Approval Rules
       security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
+        - BearerAuth: []
       responses:
         '200':
-          description: rule found
+          description: List of rules retrieved successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      request_type_id:
-                        type: integer
-                      condition:
-                        type: object
-                      action:
-                        type: object
-                      priority:
-                        type: integer
-                      active:
-                        type: boolean
-        '404':
-          description: rule not found
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rule'
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-    put:
-      summary: Update a rule
-      tags:
-      - Rules
-      description: Update an existing rule. Only admins can update rules.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: rule updated
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      condition:
-                        type: object
-                      action:
-                        type: object
-                      priority:
-                        type: integer
-                      active:
-                        type: boolean
+                $ref: '#/components/schemas/Error'
         '403':
-          description: forbidden - non-admin user
+          description: Forbidden - Insufficient permissions
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                condition:
-                  type: object
-                action:
-                  type: object
-                priority:
-                  type: integer
-                active:
-                  type: boolean
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/rules/{ruleId}:
     delete:
-      summary: Delete a rule
+      summary: Delete Approval Rule by Admin
+      description: Delete an approval rule from the system. This endpoint is restricted to administrators only.
+      operationId: deleteRule
       tags:
-      - Rules
-      description: Delete a rule. Only admins can delete rules.
+        - Approval Rules
       security:
-      - bearerAuth: []
+        - BearerAuth: []
       parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
+        - name: ruleId
+          in: path
+          required: true
+          description: The unique identifier of the rule to delete
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: rule deleted
+          description: Rule successfully deleted
           content:
             application/json:
               schema:
@@ -1295,291 +618,529 @@ paths:
                   message:
                     type: string
                     example: Rule deleted successfully
-        '403':
-          description: forbidden - non-admin user
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
-  "/api/v1/approver/requests":
-    get:
-      summary: List pending approval requests
-      tags:
-      - Approver
-      description: Retrieve all requests pending approval by the current approver.
-        This is the approver inbox.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-      - name: page
-        in: query
-        required: false
-        description: Page number for pagination
-        schema:
-          type: integer
-      - name: items
-        in: query
-        required: false
-        description: 'Number of items per page (default: 20)'
-        schema:
-          type: integer
-      responses:
-        '200':
-          description: pending requests found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                          example: 1
-                        request_type_id:
-                          type: integer
-                        requester_id:
-                          type: integer
-                        requested_value:
-                          type: number
-                          format: decimal
-                        status:
-                          type: string
-                          example: pending
-                        created_at:
-                          type: string
-                          format: datetime
-                        requester:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            name:
-                              type: string
-                            email:
-                              type: string
-                        request_type:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            name:
-                              type: string
-                        approval:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            status:
-                              type: string
-                            approver_id:
-                              type: integer
-                  meta:
-                    "$ref": "#/components/schemas/PaginationMeta"
         '401':
-          description: unauthorized
+          description: Unauthorized - Missing or invalid authentication token
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-  "/api/v1/approver/requests/{id}/approve":
-    parameters:
-    - name: id
-      in: path
-      description: Request ID
-      required: true
-      schema:
-        type: integer
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - Rule does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/requests:
     post:
-      summary: Approve a request
+      summary: Create Request
+      description: Create a new approval request. Users can submit requests that will be routed to appropriate approvers based on the defined rules.
+      operationId: createRequest
       tags:
-      - Approver
-      description: Approve a pending request. Only the assigned approver can approve
-        their assigned requests.
+        - Requests
       security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
+        - BearerAuth: []
+      requestBody:
         required: true
-        schema:
-          type: string
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - request_type_id
+                - requested_value
+              properties:
+                request_type_id:
+                  type: string
+                  format: uuid
+                  description: The type of request being submitted
+                  example: 9f083360-28a1-4237-8e11-78bcfd0c0ac2
+                requested_value:
+                  type: integer
+                  description: The value/amount being requested
+                  example: 9000
+                  minimum: 0
+      responses:
+        '201':
+          description: Request successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '400':
+          description: Bad Request - Missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      summary: Get All Requests
+      description: Retrieve all requests in the system. Access level depends on user role.
+      operationId: getAllRequests
+      tags:
+        - Requests
+      security:
+        - BearerAuth: []
       responses:
         '200':
-          description: request approved
+          description: List of requests retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Request'
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/requests/balance:
+    get:
+      summary: Get Remaining Balance
+      description: Get the remaining balance for a specific request type. This shows how much of the allocated budget remains available.
+      operationId: getRemainingBalance
+      tags:
+        - Requests
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: request_type_id
+          in: query
+          required: true
+          description: The request type ID to check balance for
+          schema:
+            type: string
+            format: uuid
+          example: 9f083360-28a1-4237-8e11-78bcfd0c0ac2
+      responses:
+        '200':
+          description: Balance retrieved successfully
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      request_id:
-                        type: integer
-                      approver_id:
-                        type: integer
-                      status:
-                        type: string
-                        example: approved
-                      comments:
-                        type: string
-                        nullable: true
-                      approved_at:
-                        type: string
-                        format: datetime
-        '404':
-          description: request not found
+                  request_type_id:
+                    type: string
+                    format: uuid
+                    example: 9f083360-28a1-4237-8e11-78bcfd0c0ac2
+                  remaining_balance:
+                    type: integer
+                    description: Remaining available balance
+                    example: 41000
+                  total_allocated:
+                    type: integer
+                    description: Total allocated budget
+                    example: 50000
+                  used:
+                    type: integer
+                    description: Amount already used
+                    example: 9000
+        '400':
+          description: Bad Request - Missing or invalid parameters
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/approver/requests:
+    get:
+      summary: Get Requests Assigned to Approver
+      description: Retrieve all requests assigned to the authenticated approver. Only returns requests that require action from this specific approver.
+      operationId: getApproverRequests
+      tags:
+        - Approver Actions
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of assigned requests retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Request'
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '403':
-          description: forbidden - not assigned approver
+          description: Forbidden - User is not an approver
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/approver/requests/{requestId}:
+    patch:
+      summary: Approve or Reject Request
+      description: Approve or reject a request assigned to the authenticated approver. The approver can provide a reason for their decision.
+      operationId: approveRejectRequest
+      tags:
+        - Approver Actions
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          description: The unique identifier of the request to approve/reject
+          schema:
+            type: string
+            format: uuid
+          example: 2281c632-4e58-46f5-b599-c1bc196e1621
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
+              required:
+                - action_type
               properties:
-                comments:
+                action_type:
                   type: string
-                  description: Optional comments for the approval
-                  example: Approved based on budget availability
-  "/api/v1/approver/requests/{id}/reject":
-    parameters:
-    - name: id
-      in: path
-      description: Request ID
-      required: true
-      schema:
-        type: integer
-    post:
-      summary: Reject a request
-      tags:
-      - Approver
-      description: Reject a pending request. Only the assigned approver can reject
-        their assigned requests.
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
+                  description: The action to take on the request
+                  enum: [approved, rejected]
+                  example: approved
+                reason:
+                  type: string
+                  description: Reason for the approval or rejection
+                  example: Looks good
       responses:
         '200':
-          description: request rejected
+          description: Request action completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '400':
+          description: Bad Request - Missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - User is not authorized to act on this request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - Request does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/admin/reports/summary:
+    get:
+      summary: Get Admin Reports Summary
+      description: Retrieve comprehensive reports and analytics for the entire system. This endpoint is restricted to administrators only.
+      operationId: getAdminReports
+      tags:
+        - Reports
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Reports retrieved successfully
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      request_id:
-                        type: integer
-                      approver_id:
-                        type: integer
-                      status:
-                        type: string
-                        example: rejected
-                      comments:
-                        type: string
-                        nullable: true
-                      rejected_at:
-                        type: string
-                        format: datetime
-        '404':
-          description: request not found
+                  total_requests:
+                    type: integer
+                    description: Total number of requests in the system
+                    example: 150
+                  pending_requests:
+                    type: integer
+                    description: Number of requests pending approval
+                    example: 25
+                  approved_requests:
+                    type: integer
+                    description: Number of approved requests
+                    example: 100
+                  rejected_requests:
+                    type: integer
+                    description: Number of rejected requests
+                    example: 25
+                  total_users:
+                    type: integer
+                    description: Total number of users
+                    example: 50
+                  total_approvers:
+                    type: integer
+                    description: Total number of approvers
+                    example: 10
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
         '403':
-          description: forbidden - not assigned approver
+          description: Forbidden - Insufficient permissions
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                comments:
-                  type: string
-                  description: Optional comments for the rejection
-                  example: Insufficient budget for this request
-servers:
-- url: http://localhost:3000
-  description: Development server
-- url: https://api.approval-engine.com
-  description: Production server
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/reports/me:
+    get:
+      summary: Get Personal Report
+      description: Retrieve personal report showing the authenticated user's request history, approval statistics, and activity summary.
+      operationId: getPersonalReport
+      tags:
+        - Reports
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Personal report retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    format: uuid
+                    example: 459f1029-30ab-4566-ba2a-692931cd47ef
+                  total_requests_created:
+                    type: integer
+                    description: Total requests created by user
+                    example: 15
+                  pending_requests:
+                    type: integer
+                    description: User's pending requests
+                    example: 3
+                  approved_requests:
+                    type: integer
+                    description: User's approved requests
+                    example: 10
+                  rejected_requests:
+                    type: integer
+                    description: User's rejected requests
+                    example: 2
+        '401':
+          description: Unauthorized - Missing or invalid authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   securitySchemes:
-    bearerAuth:
+    BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: JWT token obtained from /api/v1/auth/login endpoint
+      description: JWT token obtained from the login endpoint
+
   schemas:
     Error:
       type: object
       properties:
         error:
           type: string
-          description: Error message
-    PaginationMeta:
+          description: Error type or category
+          example: Unauthorized
+        message:
+          type: string
+          description: Detailed error message
+          example: Invalid authentication token
+
+    User:
       type: object
       properties:
-        count:
+        id:
+          type: string
+          format: uuid
+          description: User's unique identifier
+          example: fe038de5-c81f-49dc-921a-88483ce0e58a
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: admin@example.com
+        name:
+          type: string
+          description: User's full name
+          example: John Doe
+        role:
+          type: string
+          description: User's role in the system
+          enum: [admin, approver, user]
+          example: user
+        grade:
           type: integer
-          description: Total number of items
-        page:
+          description: User's grade level
+          example: 1
+          minimum: 1
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when user was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when user was last updated
+
+    RequestType:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Request type's unique identifier
+          example: 9f083360-28a1-4237-8e11-78bcfd0c0ac2
+        name:
+          type: string
+          description: Name of the request type
+          example: expense
+        approver_ids:
+          type: array
+          description: List of approver user IDs
+          items:
+            type: string
+            format: uuid
+          example:
+            - 75f36521-1c51-417c-9a15-b928634bd7a5
+            - fe502c6c-44f0-48ce-b093-fcfdde5f37a8
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when request type was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when request type was last updated
+
+    Rule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Rule's unique identifier
+        request_type_id:
+          type: string
+          format: uuid
+          description: The request type this rule applies to
+          example: 9f083360-28a1-4237-8e11-78bcfd0c0ac2
+        grade:
           type: integer
-          description: Current page number
-        items:
+          description: User grade level this rule applies to
+          example: 3
+          minimum: 1
+        definition:
           type: integer
-          description: Items per page
-        pages:
+          description: Threshold value for this rule
+          example: 50000
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when rule was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when rule was last updated
+
+    Request:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Request's unique identifier
+          example: 2281c632-4e58-46f5-b599-c1bc196e1621
+        request_type_id:
+          type: string
+          format: uuid
+          description: The type of this request
+          example: 9f083360-28a1-4237-8e11-78bcfd0c0ac2
+        user_id:
+          type: string
+          format: uuid
+          description: ID of the user who created the request
+          example: 459f1029-30ab-4566-ba2a-692931cd47ef
+        requested_value:
           type: integer
-          description: Total number of pages
-        last:
-          type: boolean
-          description: Whether this is the last page
-        from:
-          type: integer
-          description: Starting item number
-        to:
-          type: integer
-          description: Ending item number
-        prev:
-          type: integer
-          nullable: true
-          description: Previous page number
-        next:
-          type: integer
-          nullable: true
-          description: Next page number
-security:
-- bearerAuth: []
+          description: The value/amount being requested
+          example: 9000
+        status:
+          type: string
+          description: Current status of the request
+          enum: [pending, approved, rejected]
+          example: pending
+        approver_id:
+          type: string
+          format: uuid
+          description: ID of the assigned approver
+          example: 75f36521-1c51-417c-9a15-b928634bd7a5
+        action_type:
+          type: string
+          description: Action taken by approver
+          enum: [approved, rejected]
+          example: approved
+        reason:
+          type: string
+          description: Reason provided by approver
+          example: Looks good
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when request was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when request was last updated
+
+tags:
+  - name: Authentication
+    description: User authentication and login operations
+  - name: User Management
+    description: User creation, listing, and deletion (Admin only)
+  - name: Request Types
+    description: Request type management (Admin only)
+  - name: Approval Rules
+    description: Approval rule configuration (Admin only)
+  - name: Requests
+    description: Request creation and management
+  - name: Approver Actions
+    description: Approval and rejection operations for approvers
+  - name: Reports
+    description: Reporting and analytics
