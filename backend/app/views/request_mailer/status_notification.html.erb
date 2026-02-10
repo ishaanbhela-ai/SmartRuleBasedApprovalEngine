@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Request Status Update</h1>
+    
+    <% if @request.status == 'auto_approved' %>
+      <p>Your request (ID: <%= @request.id %>) has been <strong>auto-approved</strong>.</p>
+    <% else %>
+      <p>Your request (ID: <%= @request.id %>) has been <strong><%= @action %></strong>.</p>
+    <% end %>
+
+    <p>
+      <strong>Details:</strong>
+      <ul>
+        <li>Request Type: <%= @request.request_type.name rescue 'Unknown' %></li>
+        <li>Requested Value: <%= @request.requested_value %></li>
+        <li>Date Submitted: <%= @request.created_at.strftime("%B %d, %Y") %></li>
+      </ul>
+    </p>
+
+    <% if @approval.reason.present? %>
+      <p>
+        <strong>Reason/Comments:</strong><br>
+        <%= @approval.reason %>
+      </p>
+    <% end %>
+
+    <% if @approver %>
+      <p>
+        <strong>Processed By:</strong> <%= @approver.name %>
+      </p>
+    <% end %>
+
+    <p>Thank you.</p>
+  </body>
+</html>

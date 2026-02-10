@@ -1,0 +1,63 @@
+import api from '../lib/axios';
+import { type CreateUser, CreateUserSchema } from '../models/CreateUser';
+import type { User } from '../models/User';
+import type { PaginatedResponse } from '../models/common';
+
+// Mock data for development
+const mockUsers: User[] = [
+    { id: '1', name: 'Admin User', email: 'admin@example.com', role: 'admin', grade: 3 },
+    { id: '2', name: 'Manager User', email: 'manager@example.com', role: 'approver', grade: 2 },
+    { id: '3', name: 'Employee User', email: 'employee@example.com', role: 'user', grade: 1 },
+];
+
+export const userService = {
+    getUsers: async (page = 1): Promise<PaginatedResponse<User>> => {
+        if (import.meta.env.VITE_USE_MOCK_API === 'true') {
+            return Promise.resolve({
+                data: mockUsers,
+                meta: {
+                    total_count: 3,
+                    page: 1,
+                    per_page: 20,
+                    total_pages: 1
+                }
+            });
+        }
+        const response = await api.get<PaginatedResponse<User>>('/users', { params: { page } });
+        return response.data;
+    },
+
+    createUser: async (data: CreateUser): Promise<User> => {
+        // Validate data before sending
+        const validatedData = CreateUserSchema.parse(data);
+
+        if (import.meta.env.VITE_USE_MOCK_API === 'true') {
+            return new Promise((resolve) => {
+                const newUser: User = {
+                    id: Math.random().toString(36).substr(2, 9),
+                    name: validatedData.name,
+                    email: validatedData.email,
+                    role: validatedData.role,
+                    grade: validatedData.grade
+                };
+                mockUsers.push(newUser);
+                resolve(newUser);
+            });
+        }
+
+        // Backend expects payload wrapped in { user: ... }
+        const response = await api.post<User>('/users', { user: validatedData });
+        return response.data;
+    },
+
+    deleteUser: async (id: string): Promise<void> => {
+        if (import.meta.env.VITE_USE_MOCK_API === 'true') {
+            return new Promise((resolve) => {
+                const index = mockUsers.findIndex(u => u.id === id);
+                if (index !== -1) mockUsers.splice(index, 1);
+                resolve();
+            });
+        }
+        await api.delete(`/users/${id}`);
+    }
+};
